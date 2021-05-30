@@ -3,6 +3,8 @@ import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,6 +40,30 @@ class CreatePatient extends StatelessWidget {
             children: <Widget>[
               _nameContainer(_lastName, 'Last name'),
               _nameContainer(_firstName, 'First name'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    DatePicker.showDatePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now().subtract(
+                          Duration(
+                            days: 115 * 365,
+                          ),
+                        ),
+                        maxTime: DateTime(2019, 6, 7), onChanged: (date) {
+                      print('change $date');
+                    }, onConfirm: (date) {
+                      print('confirm $date');
+                    }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  child: Text(
+                    'select birthday',
+                    style: TextStyle(color: Colors.blue),
+                  ))
             ],
           ),
           Row(
