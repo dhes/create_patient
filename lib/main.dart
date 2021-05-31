@@ -3,8 +3,6 @@ import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,25 +43,11 @@ class CreatePatient extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime.now().subtract(
-                          Duration(
-                            days: 115 * 365,
-                          ),
-                        ),
-                        maxTime: DateTime(2019, 6, 7), onChanged: (date) {
-                      print('change $date');
-                    }, onConfirm: (date) {
-                      print('confirm $date');
-                    }, currentTime: DateTime.now(), locale: LocaleType.en);
-                  },
-                  child: Text(
-                    'select birthday',
-                    style: TextStyle(color: Colors.blue),
-                  ))
+              Container(
+                height: MediaQuery.of(context).copyWith().size.height / 3,
+                width: MediaQuery.of(context).copyWith().size.width / 3,
+                child: DatePicker(),
+              ),
             ],
           ),
           Row(
@@ -152,6 +136,44 @@ class SmallActionButton extends StatelessWidget {
     return ButtonTheme.fromButtonThemeData(
       data: Get.theme.buttonTheme.copyWith(minWidth: Get.width / 3),
       child: ElevatedButton(child: Text(title), onPressed: onPressed),
+    );
+  }
+}
+
+class DatePicker extends StatefulWidget {
+  DatePicker({Key? key}) : super(key: key);
+
+  @override
+  _DatePickerState createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<DatePicker> {
+  final dateController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed
+    dateController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: Center(
+          child: TextField(
+        readOnly: true,
+        controller: dateController,
+        decoration: InputDecoration(hintText: 'Pick your Date'),
+        onTap: () async {
+          var date = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(1900),
+              lastDate: DateTime(2100));
+          dateController.text = date.toString().substring(0, 10);
+        },
+      )),
     );
   }
 }
