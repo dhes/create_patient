@@ -57,15 +57,16 @@ class CreatePatient extends StatelessWidget {
               SmallActionButton(
                   title: 'Hapi: Create',
                   onPressed: () => _hapiCreate(
-                        _lastName.text,
-                        _firstName.text,
-                        _birthDateController.text,
+                        lastName: _lastName.text,
+                        firstName: _firstName.text,
+                        birthDate: _birthDateController.text,
                       )),
               SmallActionButton(
                 title: 'Hapi: Search',
                 onPressed: () => _hapiSearch(
-                  _lastName.text,
-                  _firstName.text,
+                  lastName: _lastName.text,
+                  firstName: _firstName.text,
+                  birthDate: _birthDateController.text,
                 ),
               ),
             ],
@@ -85,8 +86,11 @@ class CreatePatient extends StatelessWidget {
         ),
       );
 
-  Future _hapiCreate(
-      String lastName, String firstName, String birthDate) async {
+  Future _hapiCreate({
+    String lastName = '',
+    String firstName = '',
+    String birthDate = '',
+  }) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
       name: [
@@ -115,14 +119,16 @@ class CreatePatient extends StatelessWidget {
     }
   }
 
-  Future _hapiSearch(
-    String lastName,
-    String firstName,
-  ) async {
+  Future _hapiSearch({
+    String lastName = '',
+    String firstName = '',
+    String birthDate = '',
+  }) async {
     await launch('http://hapi.fhir.org/baseR4/'
         'Patient?'
         'given=$firstName&'
         'family=$lastName&'
+        'birthdate=$birthDate&'
         '_pretty=true');
   }
 }
@@ -168,15 +174,17 @@ class _DatePickerState extends State<DatePicker> {
     return new Scaffold(
       body: Center(
           child: TextField(
-        readOnly: true,
+        readOnly: false,
         controller: widget.birthDateController,
         decoration: InputDecoration(hintText: 'Pick your Date'),
         onTap: () async {
           var date = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1900),
-              lastDate: DateTime(2100));
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1900),
+            lastDate: DateTime(2100),
+            initialDatePickerMode: DatePickerMode.year,
+          );
           widget.birthDateController.text = date.toString().substring(0, 10);
         },
       )),
