@@ -27,6 +27,7 @@ class CreatePatient extends StatelessWidget {
   Widget build(BuildContext context) {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
+    final _birthDateController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -46,7 +47,7 @@ class CreatePatient extends StatelessWidget {
               Container(
                 height: MediaQuery.of(context).copyWith().size.height / 3,
                 width: MediaQuery.of(context).copyWith().size.width / 3,
-                child: DatePicker(),
+                child: DatePicker(birthDateController: _birthDateController),
               ),
             ],
           ),
@@ -56,14 +57,15 @@ class CreatePatient extends StatelessWidget {
               SmallActionButton(
                   title: 'Hapi: Create',
                   onPressed: () => _hapiCreate(
-                        _firstName.text,
                         _lastName.text,
+                        _firstName.text,
+                        _birthDateController.text,
                       )),
               SmallActionButton(
                 title: 'Hapi: Search',
                 onPressed: () => _hapiSearch(
-                  _firstName.text,
                   _lastName.text,
+                  _firstName.text,
                 ),
               ),
             ],
@@ -83,7 +85,8 @@ class CreatePatient extends StatelessWidget {
         ),
       );
 
-  Future _hapiCreate(String lastName, String firstName) async {
+  Future _hapiCreate(
+      String lastName, String firstName, String birthDate) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
       name: [
@@ -92,6 +95,7 @@ class CreatePatient extends StatelessWidget {
           family: lastName,
         ),
       ],
+      birthDate: Date(birthDate),
     );
     var newRequest = FhirRequest.create(
       base: Uri.parse('https://hapi.fhir.org/baseR4'),
@@ -141,7 +145,9 @@ class SmallActionButton extends StatelessWidget {
 }
 
 class DatePicker extends StatefulWidget {
-  DatePicker({Key? key}) : super(key: key);
+  DatePicker({Key? key, required this.birthDateController}) : super(key: key);
+
+  final TextEditingController birthDateController;
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -163,7 +169,7 @@ class _DatePickerState extends State<DatePicker> {
       body: Center(
           child: TextField(
         readOnly: true,
-        controller: dateController,
+        controller: widget.birthDateController,
         decoration: InputDecoration(hintText: 'Pick your Date'),
         onTap: () async {
           var date = await showDatePicker(
@@ -171,7 +177,7 @@ class _DatePickerState extends State<DatePicker> {
               initialDate: DateTime.now(),
               firstDate: DateTime(1900),
               lastDate: DateTime(2100));
-          dateController.text = date.toString().substring(0, 10);
+          widget.birthDateController.text = date.toString().substring(0, 10);
         },
       )),
     );
