@@ -28,7 +28,7 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    //final _birthDateController = TextEditingController();
+    final _genderController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -50,7 +50,7 @@ class CreatePatient extends StatelessWidget {
                 width: MediaQuery.of(context).copyWith().size.width / 3,
                 child: DatePicker(birthDateController: _birthDateController),
               ),
-              GenderPicker(),
+              GenderPicker(genderController: _genderController),
             ],
           ),
           Row(
@@ -162,14 +162,14 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  final dateController = TextEditingController();
+  // final dateController = TextEditingController();
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed
-    dateController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // Clean up the controller when the widget is removed
+  //   dateController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -197,19 +197,22 @@ class _DatePickerState extends State<DatePicker> {
 /// Borrowed from:
 /// https://api.flutter.dev/flutter/material/DropdownButton-class.html
 class GenderPicker extends StatefulWidget {
-  const GenderPicker({Key? key}) : super(key: key);
+  const GenderPicker({Key? key, required this.genderController})
+      : super(key: key);
+
+  final TextEditingController genderController;
 
   @override
   State<GenderPicker> createState() => _GenderPickerState();
 }
 
 class _GenderPickerState extends State<GenderPicker> {
-  late String dropdownValue;
+  String? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      //value: dropdownValue,
+      value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
@@ -223,7 +226,7 @@ class _GenderPickerState extends State<GenderPicker> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Unknown', 'Female', 'Male', 'Other']
+      items: <String>['Female', 'Male', 'Other', 'Unknown']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
