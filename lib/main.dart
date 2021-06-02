@@ -28,6 +28,7 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
+    //final _birthDateController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -49,6 +50,7 @@ class CreatePatient extends StatelessWidget {
                 width: MediaQuery.of(context).copyWith().size.width / 3,
                 child: DatePicker(birthDateController: _birthDateController),
               ),
+              GenderPicker(),
             ],
           ),
           Row(
@@ -176,7 +178,7 @@ class _DatePickerState extends State<DatePicker> {
           child: TextField(
         readOnly: false,
         controller: widget.birthDateController,
-        decoration: InputDecoration(hintText: 'Pick your Date'),
+        decoration: InputDecoration(hintText: 'Date of Birth'),
         onTap: () async {
           var date = await showDatePicker(
             context: context,
@@ -188,6 +190,47 @@ class _DatePickerState extends State<DatePicker> {
           widget.birthDateController.text = date.toString().substring(0, 10);
         },
       )),
+    );
+  }
+}
+
+/// Borrowed from:
+/// https://api.flutter.dev/flutter/material/DropdownButton-class.html
+class GenderPicker extends StatefulWidget {
+  const GenderPicker({Key? key}) : super(key: key);
+
+  @override
+  State<GenderPicker> createState() => _GenderPickerState();
+}
+
+class _GenderPickerState extends State<GenderPicker> {
+  late String dropdownValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      //value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>['Unknown', 'Female', 'Male', 'Other']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      hint: Text('Birth Gender'),
     );
   }
 }
