@@ -92,6 +92,7 @@ class CreatePatient extends StatelessWidget {
     String lastName = '',
     String firstName = '',
     String birthDate = '',
+    String gender = 'unknown',
   }) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
@@ -102,6 +103,7 @@ class CreatePatient extends StatelessWidget {
         ),
       ],
       birthDate: Date(birthDate),
+      gender: gender,
     );
     var newRequest = FhirRequest.create(
       base: Uri.parse('https://hapi.fhir.org/baseR4'),
@@ -194,7 +196,7 @@ class _DatePickerState extends State<DatePicker> {
   }
 }
 
-/// Borrowed from:
+/// 2021-06-01 Borrowed from:
 /// https://api.flutter.dev/flutter/material/DropdownButton-class.html
 class GenderPicker extends StatefulWidget {
   const GenderPicker({Key? key, required this.genderController})
