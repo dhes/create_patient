@@ -92,7 +92,7 @@ class CreatePatient extends StatelessWidget {
     String lastName = '',
     String firstName = '',
     String birthDate = '',
-    String gender = 'unknown',
+    PatientGender gender = PatientGender.unknown,
   }) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
@@ -209,11 +209,11 @@ class GenderPicker extends StatefulWidget {
 }
 
 class _GenderPickerState extends State<GenderPicker> {
-  String? dropdownValue;
+  PatientGender? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton<PatientGender>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
@@ -223,16 +223,15 @@ class _GenderPickerState extends State<GenderPicker> {
         height: 2,
         color: Colors.deepPurpleAccent,
       ),
-      onChanged: (String? newValue) {
+      onChanged: (PatientGender? newValue) {
         setState(() {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Female', 'Male', 'Other', 'Unknown']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
+      items: PatientGender.values.map((PatientGender value) {
+        return DropdownMenuItem<PatientGender>(
           value: value,
-          child: Text(value),
+          child: Text(value.toString().split('.').last),
         );
       }).toList(),
       hint: Text('Birth Gender'),
