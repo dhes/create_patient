@@ -16,13 +16,13 @@ import '../controllers/patient_gender_controller.dart';
 
 // class _GenderPickerState extends State<GenderPicker> {
 class GenderPicker extends StatelessWidget {
-  PatientGender? _dropdownValue;
+  //PatientGender? _dropdownValue;
   final PatientGenderController controller = Get.put(PatientGenderController());
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<PatientGender>(
-      value: _dropdownValue,
+      value: controller.patientGender.value,
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,

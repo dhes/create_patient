@@ -66,6 +66,7 @@ class CreatePatient extends StatelessWidget {
                         lastName: _lastName.text,
                         firstName: _firstName.text,
                         birthDate: _birthDateController.text,
+                        gender: controller.patientGender.value,
                       )),
               SmallActionButton(
                 title: 'Hapi: Search',
@@ -92,12 +93,11 @@ class CreatePatient extends StatelessWidget {
         ),
       );
 
-  Future _hapiCreate({
-    String lastName = '',
-    String firstName = '',
-    String birthDate = '',
-    //patientGender
-  }) async {
+  Future _hapiCreate(
+      {String lastName = '',
+      String firstName = '',
+      String birthDate = '',
+      PatientGender? gender}) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
       name: [
@@ -107,7 +107,7 @@ class CreatePatient extends StatelessWidget {
         ),
       ],
       birthDate: Date(birthDate),
-      gender: controller.patientGender.value,
+      gender: gender,
     );
     var newRequest = FhirRequest.create(
       base: Uri.parse('https://hapi.fhir.org/baseR4'),
