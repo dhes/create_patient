@@ -35,7 +35,7 @@ class GenderPicker extends StatelessWidget {
         //   setState(() {
         //     _dropdownValue = newValue!;
         //   });
-        controller.setGender(_dropdownValue!);
+        controller.setGender(newValue!);
       },
       items: PatientGender.values.map((PatientGender value) {
         return DropdownMenuItem<PatientGender>(
