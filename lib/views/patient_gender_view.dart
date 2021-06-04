@@ -5,16 +5,6 @@ import '../controllers/patient_gender_controller.dart';
 
 /// 2021-06-01 Borrowed from:
 /// https://api.flutter.dev/flutter/material/DropdownButton-class.html
-// class GenderPicker extends StatefulWidget {
-//   GenderPicker({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   State<GenderPicker> createState() => _GenderPickerState();
-// }
-
-// class _GenderPickerState extends State<GenderPicker> {
 class GenderPicker extends StatelessWidget {
   //PatientGender? _dropdownValue;
   final PatientGenderController controller = Get.put(PatientGenderController());
@@ -32,9 +22,6 @@ class GenderPicker extends StatelessWidget {
             color: Colors.deepPurpleAccent,
           ),
           onChanged: (PatientGender? newValue) {
-            //   setState(() {
-            //     _dropdownValue = newValue!;
-            //   });
             controller.setGender(newValue!);
           },
           items: PatientGender.values.map((PatientGender value) {
