@@ -3,6 +3,8 @@ import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'controllers/patient_gender_controller.dart';
+import 'views/patient_gender_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,12 +25,14 @@ class MyApp extends StatelessWidget {
 }
 
 class CreatePatient extends StatelessWidget {
+  final PatientGenderController controller = Get.put(PatientGenderController());
+
   @override
   Widget build(BuildContext context) {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    final _genderController = TextEditingController();
+    var patientGender = PatientGender;
 
     return Scaffold(
       body: Column(
@@ -50,7 +54,7 @@ class CreatePatient extends StatelessWidget {
                 width: MediaQuery.of(context).copyWith().size.width / 3,
                 child: DatePicker(birthDateController: _birthDateController),
               ),
-              GenderPicker(genderController: _genderController),
+              GenderPicker(),
             ],
           ),
           Row(
@@ -92,7 +96,7 @@ class CreatePatient extends StatelessWidget {
     String lastName = '',
     String firstName = '',
     String birthDate = '',
-    PatientGender gender = PatientGender.unknown,
+    //patientGender
   }) async {
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
@@ -103,7 +107,7 @@ class CreatePatient extends StatelessWidget {
         ),
       ],
       birthDate: Date(birthDate),
-      gender: gender,
+      gender: controller.patientGender.value,
     );
     var newRequest = FhirRequest.create(
       base: Uri.parse('https://hapi.fhir.org/baseR4'),
@@ -192,49 +196,6 @@ class _DatePickerState extends State<DatePicker> {
           widget.birthDateController.text = date.toString().substring(0, 10);
         },
       )),
-    );
-  }
-}
-
-/// 2021-06-01 Borrowed from:
-/// https://api.flutter.dev/flutter/material/DropdownButton-class.html
-class GenderPicker extends StatefulWidget {
-  const GenderPicker({Key? key, required this.genderController})
-      : super(key: key);
-
-  final TextEditingController genderController;
-
-  @override
-  State<GenderPicker> createState() => _GenderPickerState();
-}
-
-class _GenderPickerState extends State<GenderPicker> {
-  PatientGender? dropdownValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<PatientGender>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (PatientGender? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: PatientGender.values.map((PatientGender value) {
-        return DropdownMenuItem<PatientGender>(
-          value: value,
-          child: Text(value.toString().split('.').last),
-        );
-      }).toList(),
-      hint: Text('Birth Gender'),
     );
   }
 }
