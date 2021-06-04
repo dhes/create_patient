@@ -17,7 +17,7 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    //var patientGender = PatientGender;
+    final _idController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -27,6 +27,7 @@ class CreatePatient extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              _nameContainer(_idController, 'id'),
               _nameContainer(_lastName, 'Last name'),
               _nameContainer(_firstName, 'First name'),
             ],
@@ -59,6 +60,7 @@ class CreatePatient extends StatelessWidget {
                   lastName: _lastName.text,
                   firstName: _firstName.text,
                   birthDate: _birthDateController.text,
+                  id: _idController.text,
                 ),
               ),
             ],
@@ -70,7 +72,7 @@ class CreatePatient extends StatelessWidget {
 
   Container _nameContainer(TextEditingController name, String text) =>
       Container(
-        width: Get.width / 3,
+        width: Get.width / 4,
         margin: EdgeInsets.symmetric(horizontal: 8),
         child: TextField(
           controller: name,
@@ -112,16 +114,17 @@ class CreatePatient extends StatelessWidget {
     }
   }
 
-  Future _hapiSearch({
-    String lastName = '',
-    String firstName = '',
-    String birthDate = '',
-  }) async {
+  Future _hapiSearch(
+      {String lastName = '',
+      String firstName = '',
+      String birthDate = '',
+      String id = ''}) async {
     await launch('http://hapi.fhir.org/baseR4/'
         'Patient?'
         'given=$firstName&'
         'family=$lastName&'
         'birthdate=$birthDate&'
+        '_id=$id&'
         '_pretty=true');
   }
 }
