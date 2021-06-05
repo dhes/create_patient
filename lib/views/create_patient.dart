@@ -7,6 +7,7 @@ import '../controllers/patient_gender_controller.dart';
 import 'patient_gender_view.dart';
 import 'date_picker.dart';
 import 'small_action_button.dart';
+import 'name_container.dart';
 // import 'create_patient.dart';
 
 class CreatePatient extends StatelessWidget {
@@ -27,9 +28,9 @@ class CreatePatient extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _nameContainer(_idController, 'id'),
-              _nameContainer(_lastName, 'Last name'),
-              _nameContainer(_firstName, 'First name'),
+              nameContainer(_idController, 'id'),
+              nameContainer(_lastName, 'Last name'),
+              nameContainer(_firstName, 'First name'),
             ],
           ),
           Row(
@@ -70,15 +71,15 @@ class CreatePatient extends StatelessWidget {
     );
   }
 
-  Container _nameContainer(TextEditingController name, String text) =>
-      Container(
-        width: Get.width / 4,
-        margin: EdgeInsets.symmetric(horizontal: 8),
-        child: TextField(
-          controller: name,
-          decoration: InputDecoration(hintText: text),
-        ),
-      );
+  // Container _nameContainer(TextEditingController name, String text) =>
+  //     Container(
+  //       width: Get.width / 4,
+  //       margin: EdgeInsets.symmetric(horizontal: 8),
+  //       child: TextField(
+  //         controller: name,
+  //         decoration: InputDecoration(hintText: text),
+  //       ),
+  //     );
 
   Future _hapiCreate(
       {String lastName = '',
