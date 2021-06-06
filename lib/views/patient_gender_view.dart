@@ -16,10 +16,12 @@ class GenderPicker extends StatelessWidget {
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
-          style: const TextStyle(color: Colors.deepPurple),
+          style: const TextStyle(color: Colors.black),
+          isDense: false,
           underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
+            //width: Get.width / 10,
+            height: .5,
+            color: Colors.black,
           ),
           onChanged: (PatientGender? newValue) {
             controller.setGender(newValue!);
@@ -34,3 +36,29 @@ class GenderPicker extends StatelessWidget {
         ));
   }
 }
+
+// @override
+//   Widget build(BuildContext context) {
+//     return Obx(() => DropdownButton<PatientGender>(
+//           value: controller.patientGender.value,
+//           icon: const Icon(Icons.arrow_downward),
+//           iconSize: 24,
+//           elevation: 16,
+//           style: const TextStyle(color: Colors.deepPurple),
+//           underline: Container(
+//             height: 2,
+//             color: Colors.deepPurpleAccent,
+//           ),
+//           onChanged: (PatientGender? newValue) {
+//             controller.setGender(newValue!);
+//           },
+//           items: PatientGender.values.map((PatientGender value) {
+//             return DropdownMenuItem<PatientGender>(
+//               value: value,
+//               child: Text(value.toString().split('.').last),
+//             );
+//           }).toList(),
+//           hint: Text('Birth Gender'),
+//         ));
+//   }
+// }

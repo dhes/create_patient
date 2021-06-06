@@ -37,11 +37,17 @@ class CreatePatient extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).copyWith().size.height / 3,
-                width: MediaQuery.of(context).copyWith().size.width / 3,
+                //height: MediaQuery.of(context).copyWith().size.height / 3,
+                height: Get.height / 15,
+                //width: MediaQuery.of(context).copyWith().size.width / 3,
+                width: Get.width / 6,
                 child: DatePicker(birthDateController: _birthDateController),
               ),
-              GenderPicker(),
+              Container(
+                //height: Get.height / 3,
+                width: Get.width / 6,
+                child: GenderPicker(),
+              ),
             ],
           ),
           Row(

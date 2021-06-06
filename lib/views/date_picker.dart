@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DatePicker extends StatelessWidget {
   DatePicker({Key? key, required this.birthDateController}) : super(key: key);
@@ -8,9 +9,11 @@ class DatePicker extends StatelessWidget {
     return new Scaffold(
       body: Center(
           child: TextField(
-        readOnly: false,
+        readOnly: true,
         controller: birthDateController,
-        decoration: InputDecoration(hintText: 'Date of Birth'),
+        decoration: InputDecoration(
+          hintText: 'Date of Birth',
+        ),
         onTap: () async {
           var date = await showDatePicker(
             context: context,
