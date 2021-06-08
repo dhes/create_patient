@@ -10,55 +10,58 @@ class GenderPicker extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() => DropdownButton<PatientGender>(
-          value: controller.patientGender.value,
-          icon: const Icon(Icons.arrow_downward),
-          iconSize: 24,
-          elevation: 16,
-          style: const TextStyle(color: Colors.black),
-          isDense: false,
-          underline: Container(
-            //width: Get.width / 10,
-            height: .5,
-            color: Colors.black,
-          ),
-          onChanged: (PatientGender? newValue) {
-            controller.setGender(newValue!);
-          },
-          items: PatientGender.values.map((PatientGender value) {
-            return DropdownMenuItem<PatientGender>(
-              value: value,
-              child: Text(value.toString().split('.').last),
-            );
-          }).toList(),
-          hint: Text('Birth Gender'),
-        ));
-  }
-}
-
-// @override
 //   Widget build(BuildContext context) {
-//     return Obx(() => DropdownButton<PatientGender>(
-//           value: controller.patientGender.value,
-//           icon: const Icon(Icons.arrow_downward),
-//           iconSize: 24,
-//           elevation: 16,
-//           style: const TextStyle(color: Colors.deepPurple),
-//           underline: Container(
-//             height: 2,
-//             color: Colors.deepPurpleAccent,
-//           ),
-//           onChanged: (PatientGender? newValue) {
-//             controller.setGender(newValue!);
-//           },
-//           items: PatientGender.values.map((PatientGender value) {
-//             return DropdownMenuItem<PatientGender>(
-//               value: value,
-//               child: Text(value.toString().split('.').last),
-//             );
-//           }).toList(),
-//           hint: Text('Birth Gender'),
-//         ));
+//     return /*Obx(() =>*/ DropdownButton<PatientGender>(
+//       //value: controller.patientGender.value,
+//       icon: const Icon(Icons.arrow_downward),
+//       iconSize: 24,
+//       elevation: 16,
+//       // itemHeight: 6,
+//       // style: const TextStyle(color: Colors.black),
+//       isDense: false,
+//       underline: Container(
+//         height: .5,
+//         color: Colors.black,
+//       ),
+//       onChanged: (PatientGender? newValue) {
+//         controller.setGender(newValue!);
+//       },
+//       items: PatientGender.values.map((PatientGender value) {
+//         return DropdownMenuItem<PatientGender>(
+//           value: value,
+//           child: Text(value.toString().split('.').last),
+//         );
+//       }).toList(),
+//       hint: Text('Birth Gender'),
+//     ) /*)*/;
 //   }
 // }
+
+// @override
+  Widget build(BuildContext context) {
+    return /*Obx(() => */ DropdownButtonFormField<PatientGender>(
+      //value: controller.patientGender.value,
+      decoration: InputDecoration.collapsed(hintText: 'birth gender'),
+      icon: const Icon(Icons.arrow_downward_sharp),
+      iconSize: 24,
+      elevation: 16,
+      // itemHeight: 450,
+      //isDense: false,
+      //style: const TextStyle(color: Colors.deepPurple),
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.deepPurpleAccent,
+      // ),
+      onChanged: (PatientGender? newValue) {
+        controller.setGender(newValue!);
+      },
+      items: PatientGender.values.map((PatientGender value) {
+        return DropdownMenuItem<PatientGender>(
+          value: value,
+          child: Text(value.toString().split('.').last),
+        );
+      }).toList(),
+      //hint: Text('Birth Gender'),
+    ) /*)*/;
+  }
+}

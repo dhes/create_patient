@@ -20,72 +20,64 @@ class CreatePatient extends StatelessWidget {
     final _birthDateController = TextEditingController();
     final _idController = TextEditingController();
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          //* Hapi FHIR calls
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              nameContainer(_idController, 'id'),
-              nameContainer(_lastName, 'Last name'),
-              nameContainer(_firstName, 'First name'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                //height: MediaQuery.of(context).copyWith().size.height / 3,
-                height: Get.height / 15,
-                //width: MediaQuery.of(context).copyWith().size.width / 3,
-                width: Get.width / 6,
-                child: DatePicker(birthDateController: _birthDateController),
-              ),
-              Container(
-                //height: Get.height / 3,
-                width: Get.width / 6,
-                child: GenderPicker(),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              SmallActionButton(
-                  title: 'Hapi: Create',
-                  onPressed: () => _hapiCreate(
-                        lastName: _lastName.text,
-                        firstName: _firstName.text,
-                        birthDate: _birthDateController.text,
-                        gender: controller.patientGender.value,
-                      )),
-              SmallActionButton(
-                title: 'Hapi: Search',
-                onPressed: () => _hapiSearch(
-                  lastName: _lastName.text,
-                  firstName: _firstName.text,
-                  birthDate: _birthDateController.text,
-                  id: _idController.text,
+    return Material(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            //* Hapi FHIR calls
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                nameContainer(_idController, 'id'),
+                nameContainer(_lastName, 'Last name'),
+                nameContainer(_firstName, 'First name'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  //height: MediaQuery.of(context).copyWith().size.height / 3,
+                  height: 35,
+                  //width: MediaQuery.of(context).copyWith().size.width / 3,
+                  width: 120,
+                  child: DatePicker(birthDateController: _birthDateController),
                 ),
-              ),
-            ],
-          )
-        ],
+                Container(
+                  height: 50,
+                  width: 120,
+                  child: GenderPicker(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SmallActionButton(
+                    title: 'Hapi: Create',
+                    onPressed: () => _hapiCreate(
+                          lastName: _lastName.text,
+                          firstName: _firstName.text,
+                          birthDate: _birthDateController.text,
+                          gender: controller.patientGender.value,
+                        )),
+                SmallActionButton(
+                  title: 'Hapi: Search',
+                  onPressed: () => _hapiSearch(
+                    lastName: _lastName.text,
+                    firstName: _firstName.text,
+                    birthDate: _birthDateController.text,
+                    id: _idController.text,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
-
-  // Container _nameContainer(TextEditingController name, String text) =>
-  //     Container(
-  //       width: Get.width / 4,
-  //       margin: EdgeInsets.symmetric(horizontal: 8),
-  //       child: TextField(
-  //         controller: name,
-  //         decoration: InputDecoration(hintText: text),
-  //       ),
-  //     );
 
   Future _hapiCreate(
       {String lastName = '',

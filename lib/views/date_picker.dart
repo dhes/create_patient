@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 
 class DatePicker extends StatelessWidget {
   DatePicker({Key? key, required this.birthDateController}) : super(key: key);
   final TextEditingController birthDateController;
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Center(
+    return new Material(
+      child: Center(
           child: TextField(
         readOnly: true,
         controller: birthDateController,
