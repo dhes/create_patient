@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'controllers/patient_gender_controller.dart';
 // import 'views/patient_gender_view.dart';
-import 'views/create_patient.dart';
+import 'pages/create_patient.dart';
+import 'pages/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CreatePatient(),
+      home: Home(),
+      getPages: [
+        GetPage(name: "/", page: () => Home()),
+        GetPage(name: "/newPatient", page: () => CreatePatient()),
+        // GetPage(name: "/searchPatients", page: () => SearchPatients()),
+      ],
     );
   }
 }

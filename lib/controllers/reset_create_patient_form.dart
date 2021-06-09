@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 //import 'package:fhir/r4.dart';
-import 'patient_gender_controller.dart';
+import 'patient_gender.dart';
 
 class ResetCreatePatientForm extends GetxController {
   //PatientGenderController controller;

@@ -3,11 +3,11 @@ import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../controllers/patient_gender_controller.dart';
-import 'patient_gender_view.dart';
-import 'date_picker.dart';
-import 'small_action_button.dart';
-import 'name_container.dart';
+import '../controllers/patient_gender.dart';
+import '../views/patient_gender.dart';
+import '../views/date_picker.dart';
+import '../views/small_action_button.dart';
+import '../views/name_container.dart';
 import '../controllers/reset_create_patient_form.dart';
 // import 'create_patient.dart';
 
@@ -22,8 +22,9 @@ class CreatePatient extends StatelessWidget {
     final _birthDateController = TextEditingController();
     final _idController = TextEditingController();
 
-    return Material(
-      child: Center(
+    return Scaffold(
+      appBar: AppBar(title: const Text('New Patient')),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
