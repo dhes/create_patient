@@ -2,8 +2,9 @@ import 'package:get/get.dart';
 import 'package:fhir/r4.dart';
 
 class PatientGenderController extends GetxController {
+  //final PatientGender! nullGender;
   final patientGender = PatientGender.unknown.obs;
-  PatientGender? nullGender;
+  //PatientGender? nullGender;
 
   setGender(PatientGender patientGender) {
     this.patientGender.value = patientGender;

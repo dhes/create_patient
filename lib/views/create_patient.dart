@@ -13,6 +13,7 @@ import '../controllers/reset_create_patient_form.dart';
 
 class CreatePatient extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
+  PatientGender? nullGender;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class CreatePatient extends StatelessWidget {
                       _lastName.text = '';
                       _firstName.text = '';
                       _birthDateController.text = '';
+                      controller.setGender(nullGender!);
                     }),
                 SmallActionButton(
                   title: 'Hapi: Search',
