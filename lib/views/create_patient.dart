@@ -8,6 +8,7 @@ import 'patient_gender_view.dart';
 import 'date_picker.dart';
 import 'small_action_button.dart';
 import 'name_container.dart';
+import '../controllers/reset_create_patient_form.dart';
 // import 'create_patient.dart';
 
 class CreatePatient extends StatelessWidget {
@@ -56,12 +57,17 @@ class CreatePatient extends StatelessWidget {
               children: <Widget>[
                 SmallActionButton(
                     title: 'Hapi: Create',
-                    onPressed: () => _hapiCreate(
-                          lastName: _lastName.text,
-                          firstName: _firstName.text,
-                          birthDate: _birthDateController.text,
-                          gender: controller.patientGender.value,
-                        )),
+                    onPressed: () {
+                      _hapiCreate(
+                        lastName: _lastName.text,
+                        firstName: _firstName.text,
+                        birthDate: _birthDateController.text,
+                        gender: controller.patientGender.value,
+                      );
+                      _lastName.text = '';
+                      _firstName.text = '';
+                      _birthDateController.text = '';
+                    }),
                 SmallActionButton(
                   title: 'Hapi: Search',
                   onPressed: () => _hapiSearch(

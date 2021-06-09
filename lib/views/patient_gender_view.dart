@@ -40,7 +40,7 @@ class GenderPicker extends StatelessWidget {
 // @override
   Widget build(BuildContext context) {
     return /*Obx(() => */ DropdownButtonFormField<PatientGender>(
-      //value: controller.patientGender.value,
+      value: controller.nullGender,
       decoration: InputDecoration.collapsed(hintText: 'birth gender'),
       icon: const Icon(Icons.arrow_downward_sharp),
       iconSize: 24,
