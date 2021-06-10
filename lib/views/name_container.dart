@@ -6,11 +6,12 @@ Container nameContainer(
   String text,
 ) =>
     Container(
-      width: 100,
-      height: 20,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.symmetric(horizontal: 3),
       child: TextField(
         controller: name,
-        decoration: InputDecoration(hintText: text),
+        decoration: InputDecoration(
+          labelText: text,
+          icon: Icon(Icons.perm_identity),
+        ),
       ),
     );

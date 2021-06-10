@@ -9,6 +9,9 @@ class GenderPicker extends StatelessWidget {
   //PatientGender? _dropdownValue;
   final PatientGenderController controller = Get.put(PatientGenderController());
 
+  List<String> genders = ['female', 'male', 'other', 'unknown', ''];
+  String? birthGender;
+
   @override
 //   Widget build(BuildContext context) {
 //     return /*Obx(() =>*/ DropdownButton<PatientGender>(
@@ -39,29 +42,32 @@ class GenderPicker extends StatelessWidget {
 
 // @override
   Widget build(BuildContext context) {
-    return /*Obx(() => */ DropdownButtonFormField<PatientGender>(
-      value: null,
-      decoration: InputDecoration.collapsed(hintText: 'birth gender'),
-      icon: const Icon(Icons.arrow_downward_sharp),
-      iconSize: 24,
-      elevation: 16,
-      // itemHeight: 450,
-      //isDense: false,
-      //style: const TextStyle(color: Colors.deepPurple),
-      // underline: Container(
-      //   height: 2,
-      //   color: Colors.deepPurpleAccent,
-      // ),
-      onChanged: (PatientGender? newValue) {
-        controller.setGender(newValue!);
+    return DropdownButtonFormField<String>(
+      //onSaved: (val) => _cardDetails.expiryMonth = val,
+      value: birthGender,
+      items: [
+        'female',
+        'male',
+        'other',
+        'unknown',
+      ].map<DropdownMenuItem<String>>(
+        (String val) {
+          return DropdownMenuItem(
+            child: Text(val),
+            value: val,
+          );
+        },
+      ).toList(),
+      onChanged: (val) {
+        //setState(() {
+        birthGender = val;
+        //   },
+        //);
       },
-      items: PatientGender.values.map((PatientGender value) {
-        return DropdownMenuItem<PatientGender>(
-          value: value,
-          child: Text(value.toString().split('.').last),
-        );
-      }).toList(),
-      //hint: Text('Birth Gender'),
-    ) /*)*/;
+      decoration: InputDecoration(
+        labelText: 'Birth Gender',
+        icon: Icon(Icons.female),
+      ),
+    );
   }
 }

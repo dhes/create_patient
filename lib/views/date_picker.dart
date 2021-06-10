@@ -12,7 +12,8 @@ class DatePicker extends StatelessWidget {
         readOnly: true,
         controller: birthDateController,
         decoration: InputDecoration(
-          hintText: 'Date of Birth',
+          labelText: 'Date of Birth',
+          icon: Icon(Icons.calendar_today),
         ),
         onTap: () async {
           var date = await showDatePicker(

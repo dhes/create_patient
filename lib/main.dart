@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'pages/create_patient.dart';
-import 'pages/search_patients.dart';
-import 'pages/home.dart';
+import 'screens/create_patient.dart';
+import 'screens/search_patients.dart';
+import 'screens/home.dart';
 
 void main() {
   runApp(MyApp());

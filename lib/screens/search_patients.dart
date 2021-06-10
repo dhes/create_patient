@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../views/patient_gender.dart';
+import '../views/gender_picker.dart';
 import '../views/date_picker.dart';
 import '../views/small_action_button.dart';
 import '../views/name_container.dart';
