@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:reference/create_patient.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -24,7 +23,9 @@ class Home extends StatelessWidget {
             //const SizedBox(height: 30),
             ElevatedButton(
               style: style,
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed("/searchPatients");
+              },
               child: const Text('Search Patients'),
             ),
           ],

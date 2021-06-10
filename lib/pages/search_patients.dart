@@ -1,14 +1,14 @@
-import 'package:fhir/r4.dart';
-import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/patient_gender.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../views/patient_gender.dart';
 import '../views/date_picker.dart';
 import '../views/small_action_button.dart';
 import '../views/name_container.dart';
+import 'package:get/get.dart';
+import '../controllers/patient_gender.dart';
+import 'package:fhir/r4.dart';
 
-class CreatePatient extends StatelessWidget {
+class SearchPatients extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
 
   @override
@@ -16,10 +16,10 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    //final _idController = TextEditingController();
+    final _idController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('New Patient')),
+      appBar: AppBar(title: const Text('Search for Patient')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,7 +28,7 @@ class CreatePatient extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                // nameContainer(_idController, 'id'),
+                nameContainer(_idController, 'id'),
                 nameContainer(_lastName, 'Last name'),
                 nameContainer(_firstName, 'First name'),
               ],
@@ -54,15 +54,19 @@ class CreatePatient extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 SmallActionButton(
-                    title: 'Hapi: Create',
+                    title: 'Hapi: Search',
                     onPressed: () {
-                      _hapiCreate(
+                      _hapiSearch(
                         lastName: _lastName.text,
                         firstName: _firstName.text,
                         birthDate: _birthDateController.text,
-                        gender: controller.patientGender.value,
+                        id: _idController.text,
+                        gender: controller.patientGender.value
+                            .toString()
+                            .split('.')
+                            .last,
                       );
-                      Get.toNamed("/");
+                      //Get.toNamed("/");
                     }),
               ],
             )
@@ -72,37 +76,20 @@ class CreatePatient extends StatelessWidget {
     );
   }
 
-  Future _hapiCreate(
-      {String lastName = '',
-      String firstName = '',
-      String birthDate = '',
-      PatientGender? gender}) async {
-    var newPatient = Patient(
-      resourceType: R4ResourceType.Patient,
-      name: [
-        HumanName(
-          given: [firstName],
-          family: lastName,
-        ),
-      ],
-      birthDate: Date(birthDate),
-      gender: gender,
-    );
-    var newRequest = FhirRequest.create(
-      base: Uri.parse('https://hapi.fhir.org/baseR4'),
-      resource: newPatient,
-    );
-    var response = await newRequest
-        .request(headers: {'Content-Type': 'application/fhir+json'});
-    if (response?.resourceType == R4ResourceType.Patient) {
-      Get.rawSnackbar(
-          title: 'Success',
-          message: 'Patient ${(response as Patient).name?[0].given?[0]}'
-              ' ${response.name?[0].family} created');
-    } else {
-      Get.snackbar('Failure', '${response?.toJson()}',
-          snackPosition: SnackPosition.BOTTOM);
-      print(response?.toJson());
-    }
+  Future _hapiSearch({
+    String lastName = '',
+    String firstName = '',
+    String birthDate = '',
+    String id = '',
+    String gender = '',
+  }) async {
+    await launch('http://hapi.fhir.org/baseR4/'
+        'Patient?'
+        'given=$firstName&'
+        'family=$lastName&'
+        'birthdate=$birthDate&'
+        '_id=$id&'
+        'gender=$gender&'
+        '_pretty=true');
   }
 }
