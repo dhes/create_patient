@@ -11,9 +11,20 @@ class SmallActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      primary: Colors.pinkAccent,
+      textStyle: const TextStyle(fontSize: 20),
+    );
     return ButtonTheme.fromButtonThemeData(
-      data: Get.theme.buttonTheme.copyWith(minWidth: Get.width / 3),
-      child: ElevatedButton(child: Text(title), onPressed: onPressed),
+      data: Get.theme.buttonTheme.copyWith(
+        minWidth: Get.width / 3,
+        //buttonColor: Colors.pinkAccent,  // no effect
+      ),
+      child: ElevatedButton(
+        child: Text(title),
+        style: style,
+        onPressed: onPressed,
+      ),
     );
   }
 }

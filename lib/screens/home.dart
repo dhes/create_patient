@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
-  final ButtonStyle style =
-      ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+  final ButtonStyle style = ElevatedButton.styleFrom(
+    textStyle: const TextStyle(fontSize: 20),
+    //primary: Colors.pinkAccent,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
