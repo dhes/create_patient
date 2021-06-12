@@ -65,21 +65,17 @@ class CreatePatient extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           flex: 2,
-                          child: Container(
-                            padding:
-                                EdgeInsets.fromLTRB(125.0, 30.0, 125.0, 0.0),
-                            child: SmallActionButton(
-                                title: 'Save',
-                                onPressed: () {
-                                  _hapiCreate(
-                                    lastName: _lastName.text,
-                                    firstName: _firstName.text,
-                                    birthDate: _birthDateController.text,
-                                    gender: controller.patientGender.value,
-                                  );
-                                  Get.toNamed("/");
-                                }),
-                          ),
+                          child: SmallActionButton(
+                              title: 'Save',
+                              onPressed: () {
+                                _hapiCreate(
+                                  lastName: _lastName.text,
+                                  firstName: _firstName.text,
+                                  birthDate: _birthDateController.text,
+                                  gender: controller.patientGender.value,
+                                );
+                                Get.toNamed("/");
+                              }),
                         ),
                       ],
                     )

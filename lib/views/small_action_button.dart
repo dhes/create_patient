@@ -20,10 +20,13 @@ class SmallActionButton extends StatelessWidget {
         minWidth: Get.width / 3,
         //buttonColor: Colors.pinkAccent,  // no effect
       ),
-      child: ElevatedButton(
-        child: Text(title),
-        style: style,
-        onPressed: onPressed,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(75.0, 30.0, 75.0, 30.0),
+        child: ElevatedButton(
+          child: Text(title),
+          style: style,
+          onPressed: onPressed,
+        ),
       ),
     );
   }
