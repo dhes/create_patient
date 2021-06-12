@@ -1,3 +1,4 @@
+import 'package:create_patient/screens/display_patient.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screens/create_patient.dart';
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
+      home: DisplayPatient(),
+//      home: Home(),
       getPages: [
         GetPage(name: "/", page: () => Home()),
         GetPage(name: "/newPatient", page: () => CreatePatient()),
