@@ -58,17 +58,10 @@ class SearchPatients extends StatelessWidget {
                       SmallActionButton(
                           title: 'Hapi: Search',
                           onPressed: () {
-                            _hapiSearch(
-                              lastName: _lastName.text,
-                              firstName: _firstName.text,
-                              // birthDate: _birthDateController.text,
-                              // id: _idController.text,
-                              // gender: controller.patientGender.value
-                              //     .toString()
-                              //     .split('.')
-                              //     .last,
-                            );
-                            //Get.toNamed("/");
+                            Get.toNamed("/displayPatient", arguments: [
+                              _lastName.text,
+                              _firstName.text,
+                            ]);
                           }),
                     ],
                   )

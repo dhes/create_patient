@@ -18,12 +18,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: DisplayPatient(),
-//      home: Home(),
+//      home: DisplayPatient(),
+      home: Home(),
       getPages: [
         GetPage(name: "/", page: () => Home()),
         GetPage(name: "/newPatient", page: () => CreatePatient()),
         GetPage(name: "/searchPatients", page: () => SearchPatients()),
+        GetPage(name: "/displayPatient", page: () => DisplayPatient()),
       ],
     );
   }
