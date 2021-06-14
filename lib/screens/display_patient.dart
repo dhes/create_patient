@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 //import 'dart:html';
 import 'package:fhir/r4.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class _DisplayPatient extends State<DisplayPatient> {
   @override
   Widget build(BuildContext context) {
     var nameController = TextEditingController();
+    var genderController = TextEditingController();
     return MaterialApp(
       title: 'Patient Information',
       theme: ThemeData(
@@ -78,6 +80,8 @@ class _DisplayPatient extends State<DisplayPatient> {
                   snapshot.data!.name!.first.given!.first.toString() +
                       ' ' +
                       snapshot.data!.name!.first.family.toString();
+              genderController.text =
+                  describeEnum(snapshot.data!.gender.toString());
               return ListView(children: <Widget>[
                 Container(
                     padding: EdgeInsets.all(10.0),
@@ -88,6 +92,20 @@ class _DisplayPatient extends State<DisplayPatient> {
                             labelText: 'Name',
                             icon: Icon(Icons.perm_identity),
                           )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 4,
+                            child: TextField(
+                                controller: genderController,
+                                decoration: InputDecoration(
+                                  labelText: 'Gender',
+                                  icon: Icon(Icons.female),
+                                )),
+                          ),
+                        ],
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
