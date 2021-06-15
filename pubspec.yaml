@@ -18,6 +18,9 @@ dependencies:
   # syncfusion_flutter_datepicker: ^19.1.65-beta
   flutter_datetime_picker: ^1.5.1
   http: ^0.13.3
+  intl: ^0.17.0
+  # age: ^0.0.1
+  age_calculator: ^1.0.0
 
 dev_dependencies:
   flutter_test:
