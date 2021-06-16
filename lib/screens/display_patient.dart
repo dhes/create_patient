@@ -15,6 +15,11 @@ enum Gender { F, M, O, U }
 Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
   final response = await http.get(
     Uri.parse('http://hapi.fhir.org/baseR4/Patient?'
+        // Uri.parse('http://test.fhir.org/r4/Patient?' //alternate if hapi is down
+        // Uri.parse('http://demo.oridashi.com.au:8304/Patient?',
+        // Uri.parse('http://demo.oridashi.com.au:8305/Patient?',
+        // Uri.parse('https://r4.test.pyrohealth.net/fhir/Patient?',
+        // Uri.parse('http://wildfhir4.aegis.net/fhir4-0-0/Patient?',
         'family=$lastName&'
         'given=$firstName&'
         '_format=json'),

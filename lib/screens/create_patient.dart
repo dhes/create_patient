@@ -105,6 +105,11 @@ class CreatePatient extends StatelessWidget {
     );
     var newRequest = FhirRequest.create(
       base: Uri.parse('https://hapi.fhir.org/baseR4'),
+      // base: Uri.parse('http://test.fhir.org/r4'), //alternate if hapi is down
+      // base: Uri.parse('http://demo.oridashi.com.au:8304/'),
+      // base: Uri.parse('http://demo.oridashi.com.au:8305/'),
+      // base: Uri.parse('https://r4.test.pyrohealth.net/fhir'),
+      // base: Uri.parse('http://wildfhir4.aegis.net/fhir4-0-0'),
       resource: newPatient,
     );
     var response = await newRequest
