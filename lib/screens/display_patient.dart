@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../views/small_action_button.dart';
@@ -108,7 +107,7 @@ class _DisplayPatient extends State<DisplayPatient> {
                     dob;
               } else {
                 genderController.text = 'age? gender: ' +
-                    _pickGender(snapshot.data!.gender) +
+                    snapshot.data!.gender.toString() +
                     ' birthday ?';
               }
               nameController.text =

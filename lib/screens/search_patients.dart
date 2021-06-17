@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 // import '../views/gender_picker.dart';
 // import '../views/date_picker.dart';
 import '../views/small_action_button.dart';
@@ -72,20 +72,20 @@ class SearchPatients extends StatelessWidget {
         ]));
   }
 
-  Future _hapiSearch({
-    String lastName = '',
-    String firstName = '',
-    // String birthDate = '',
-    // String id = '',
-    // String gender = '',
-  }) async {
-    await launch('http://hapi.fhir.org/baseR4/'
-        'Patient?'
-        'given=$firstName&'
-        'family=$lastName&'
-        // 'birthdate=$birthDate&'
-        // '_id=$id&'
-        // 'gender=$gender&'
-        '_pretty=true');
-  }
+  // Future _hapiSearch({
+  //   String lastName = '',
+  //   String firstName = '',
+  //   // String birthDate = '',
+  //   // String id = '',
+  //   // String gender = '',
+  // }) async {
+  //   await launch('http://hapi.fhir.org/baseR4/'
+  //       'Patient?'
+  //       'given=$firstName&'
+  //       'family=$lastName&'
+  //       // 'birthdate=$birthDate&'
+  //       // '_id=$id&'
+  //       // 'gender=$gender&'
+  //       '_pretty=true');
+  // }
 }

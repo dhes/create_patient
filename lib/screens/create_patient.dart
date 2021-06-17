@@ -3,8 +3,8 @@ import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
-import '../views/gender_picker.dart';
-import '../views/date_picker.dart';
+import '../widgets/gender_picker.dart';
+import '../widgets/date_picker.dart';
 import '../views/small_action_button.dart';
 import '../views/name_container.dart';
 

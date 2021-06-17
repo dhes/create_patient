@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-//import 'package:fhir/r4.dart';
+import 'package:flutter/foundation.dart' show describeEnum;
+import 'package:fhir/r4.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 
-/// 2021-06-01 Borrowed from:
-/// https://api.flutter.dev/flutter/material/DropdownButton-class.html
 class GenderPicker extends StatelessWidget {
-  //PatientGender? _dropdownValue;
   final PatientGenderController controller = Get.put(PatientGenderController());
 
   //final List<String> genders = ['female', 'male', 'other', 'unknown', ''];
-  final String birthGender = 'unknown';
+  final PatientGender birthGender = PatientGender.unknown;
 
   @override
 //   Widget build(BuildContext context) {
@@ -42,27 +40,18 @@ class GenderPicker extends StatelessWidget {
 
 // @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      //onSaved: (val) => _cardDetails.expiryMonth = val,
+    return DropdownButtonFormField<PatientGender>(
       value: birthGender,
-      items: [
-        'female',
-        'male',
-        'other',
-        'unknown',
-      ].map<DropdownMenuItem<String>>(
-        (String val) {
+      items: PatientGender.values.map(
+        (PatientGender val) {
           return DropdownMenuItem(
-            child: Text(val),
+            child: Text(describeEnum(val.toString())),
             value: val,
           );
         },
       ).toList(),
       onChanged: (val) {
-        //setState(() {
-        controller.setGender(val); //need to convert to PatientGender type
-        //   },
-        //);
+        controller.setGender(val!);
       },
       decoration: InputDecoration(
         labelText: 'Birth Gender',
