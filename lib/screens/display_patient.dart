@@ -9,20 +9,18 @@ import 'package:http/http.dart' as http;
 import '../views/small_action_button.dart';
 import 'package:intl/intl.dart';
 import 'package:age_calculator/age_calculator.dart';
+import '../controllers/main_controller.dart';
 
 enum Gender { F, M, O, U }
 
 Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
+  FhirServer controller = Get.put(FhirServer());
   final response = await http.get(
-    Uri.parse('http://hapi.fhir.org/baseR4/Patient?'
-        // Uri.parse('http://test.fhir.org/r4/Patient?' //alternate if hapi is down
-        // Uri.parse('http://demo.oridashi.com.au:8304/Patient?',
-        // Uri.parse('http://demo.oridashi.com.au:8305/Patient?',
-        // Uri.parse('https://r4.test.pyrohealth.net/fhir/Patient?',
-        // Uri.parse('http://wildfhir4.aegis.net/fhir4-0-0/Patient?',
-        'family=$lastName&'
-        'given=$firstName&'
-        '_format=json'),
+    Uri.parse(controller.fhirServer.value +
+        '/Patient?'
+            'family=$lastName&'
+            'given=$firstName&'
+            '_format=json'),
   );
 
   if (response.statusCode == 200) {
@@ -91,10 +89,13 @@ class _DisplayPatient extends State<DisplayPatient> {
           future: futurePatient,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print('birthday: ' + snapshot.data!.birthDate.toString());
+              // print('birthday: ' + snapshot.data!.birthDate.toString());
               if (snapshot.data!.birthDate != null) {
-                var birthday = (DateTime.parse(
-                    snapshot.data!.birthDate.toString() + ' 00:00'));
+                var birthday = (DateTime.parse(snapshot.data!.birthDate
+                        .toString()
+                        .substring(0,
+                            10) + // substring added because some HAPI server patients have times appended to birthDate e.g. 2020-10-20T21:48:01
+                    ' 00:00'));
                 int age = AgeCalculator.age(birthday).years;
                 String dob = DateFormat.yMd()
                     .format(DateTime.parse(

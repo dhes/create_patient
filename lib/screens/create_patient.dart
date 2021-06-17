@@ -2,7 +2,7 @@ import 'package:fhir/r4.dart';
 import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/patient_gender.dart';
+import '../controllers/main_controller.dart';
 import '../views/gender_picker.dart';
 import '../views/date_picker.dart';
 import '../views/small_action_button.dart';
@@ -92,6 +92,7 @@ class CreatePatient extends StatelessWidget {
       String firstName = '',
       String birthDate = '',
       PatientGender? gender}) async {
+    FhirServer controller = Get.put(FhirServer());
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
       name: [
@@ -104,12 +105,8 @@ class CreatePatient extends StatelessWidget {
       gender: gender,
     );
     var newRequest = FhirRequest.create(
-      base: Uri.parse('https://hapi.fhir.org/baseR4'),
-      // base: Uri.parse('http://test.fhir.org/r4'), //alternate if hapi is down
-      // base: Uri.parse('http://demo.oridashi.com.au:8304/'),
-      // base: Uri.parse('http://demo.oridashi.com.au:8305/'),
-      // base: Uri.parse('https://r4.test.pyrohealth.net/fhir'),
-      // base: Uri.parse('http://wildfhir4.aegis.net/fhir4-0-0'),
+      // base: Uri.parse('https://hapi.fhir.org/baseR4'),
+      base: Uri.parse(controller.fhirServer.value),
       resource: newPatient,
     );
     var response = await newRequest

@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../views/small_action_button.dart';
 import '../views/name_container.dart';
 import 'package:get/get.dart';
-import '../controllers/patient_gender.dart';
+import '../controllers/main_controller.dart';
 //import 'package:fhir/r4.dart';
 
 class SearchPatients extends StatelessWidget {
