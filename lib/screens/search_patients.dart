@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
-// import '../views/gender_picker.dart';
-// import '../views/date_picker.dart';
 import '../views/small_action_button.dart';
 import '../views/name_container.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
-//import 'package:fhir/r4.dart';
 
 class SearchPatients extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
@@ -56,7 +52,7 @@ class SearchPatients extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SmallActionButton(
-                          title: 'Hapi: Search',
+                          title: 'Search',
                           onPressed: () {
                             Get.toNamed("/displayPatient", arguments: [
                               _lastName.text,

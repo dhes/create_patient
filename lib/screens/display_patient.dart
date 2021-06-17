@@ -69,10 +69,10 @@ class _DisplayPatient extends State<DisplayPatient> {
   @override
   Widget build(BuildContext context) {
     var nameController = TextEditingController();
-    var genderController = TextEditingController();
+    var ageGenderDobController = TextEditingController();
     //DateTime? birthday;
     //DateTime? birthday;
-    int? age;
+    //int? age;
     return MaterialApp(
         //title: 'Patient Information',
         theme: ThemeData(
@@ -100,13 +100,13 @@ class _DisplayPatient extends State<DisplayPatient> {
                     .format(DateTime.parse(
                         snapshot.data!.birthDate.toString() + ' 00:00'))
                     .replaceAll('/', '-');
-                genderController.text = age.toString() +
+                ageGenderDobController.text = age.toString() +
                     'yo ' +
                     _shortGender(snapshot.data!.gender) +
                     ' ∙ DOB: ' +
                     dob;
               } else {
-                genderController.text = 'age? gender: ' +
+                ageGenderDobController.text = 'age? gender: ' +
                     snapshot.data!.gender.toString() +
                     ' birthday ?';
               }
@@ -139,7 +139,7 @@ class _DisplayPatient extends State<DisplayPatient> {
                             Expanded(
                               flex: 4,
                               child: TextField(
-                                controller: genderController,
+                                controller: ageGenderDobController,
                                 decoration: null,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

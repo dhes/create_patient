@@ -3,8 +3,8 @@ import 'package:fhir/r4.dart';
 
 List<String> fhirServers = [
   'http://hapi.fhir.org/baseR4',
-  'http://test.fhir.org/r4'
-      'https://server.fire.ly/R4/',
+  'http://test.fhir.org/r4',
+  'https://server.fire.ly/R4',
   'http://demo.oridashi.com.au:8304', //Best Practice CIS
   'http://demo.oridashi.com.au:8305', //Medical Director CIS
   'http://nprogram.azurewebsites.net',
@@ -22,7 +22,7 @@ class PatientGenderController extends GetxController {
 }
 
 class FhirServer extends GetxController {
-  final fhirServer = fhirServers[0].obs;
+  final fhirServer = fhirServers[2].obs;
 
   setServer(String server) {
     this.fhirServer.value = server;
