@@ -9,8 +9,8 @@ class GenderPicker extends StatelessWidget {
   //PatientGender? _dropdownValue;
   final PatientGenderController controller = Get.put(PatientGenderController());
 
-  List<String> genders = ['female', 'male', 'other', 'unknown', ''];
-  String? birthGender;
+  //final List<String> genders = ['female', 'male', 'other', 'unknown', ''];
+  final String birthGender = 'unknown';
 
   @override
 //   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class GenderPicker extends StatelessWidget {
       ).toList(),
       onChanged: (val) {
         //setState(() {
-        birthGender = val;
+        controller.setGender(val); //need to convert to PatientGender type
         //   },
         //);
       },

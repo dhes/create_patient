@@ -103,7 +103,7 @@ class _DisplayPatient extends State<DisplayPatient> {
                     .replaceAll('/', '-');
                 genderController.text = age.toString() +
                     'yo ' +
-                    _pickGender(snapshot.data!.gender) +
+                    _shortGender(snapshot.data!.gender) +
                     ' ∙ DOB: ' +
                     dob;
               } else {
@@ -176,7 +176,7 @@ class _DisplayPatient extends State<DisplayPatient> {
   }
 }
 
-String _pickGender(PatientGender? longGender) {
+String _shortGender(PatientGender? longGender) {
   switch (longGender) {
     case PatientGender.female:
       return describeEnum(Gender.F.toString());
