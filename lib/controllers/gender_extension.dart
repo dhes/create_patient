@@ -1,8 +1,8 @@
 import 'package:fhir/r4.dart';
-import 'package:flutter/foundation.dart' show describeEnum;
+//import 'package:flutter/foundation.dart' show describeEnum;
 
 extension PatientGenderExtension on PatientGender {
-  String get name => describeEnum(this);
+  //String get name => describeEnum(this);
   String get displayGender {
     switch (this) {
       case PatientGender.male:

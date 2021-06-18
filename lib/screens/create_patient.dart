@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/gender_picker.dart';
 import '../widgets/date_picker.dart';
-import '../views/small_action_button.dart';
-import '../views/name_container.dart';
+import '../widgets/small_action_button.dart';
+import '../widgets/name_container.dart';
 
 class CreatePatient extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());

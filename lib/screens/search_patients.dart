@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../views/small_action_button.dart';
-import '../views/name_container.dart';
+import '../widgets/small_action_button.dart';
+import '../widgets/name_container.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 

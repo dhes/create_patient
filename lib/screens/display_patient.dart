@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../views/small_action_button.dart';
+import '../widgets/small_action_button.dart';
 import 'package:intl/intl.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
