@@ -2,8 +2,11 @@ import 'package:get/get.dart';
 import 'package:fhir/r4.dart';
 
 // comments are results of testing 2020-06-17
+// see https://confluence.hl7.org/display/FHIR/Public+Test+Servers#PublicTestServers-Servers
+// ...accessed 2020-06-19
 
 List<Uri> uris = [
+  // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
   // HSPC Sandbox - requires login
   Uri(scheme: 'https', host: 'server.fire.ly', path: '/R4'),
@@ -51,6 +54,7 @@ List<Uri> uris = [
   // http://fhir.com.vn:8181/
   // https://jade.phast.fr/resources-server/api/FHIR/
   // https://lforms-fhir.nlm.nih.gov/baseR4
+  Uri(scheme: 'https', host: 'lforms-fhir.nlm.nih.gov', path: '/baseR4'),
   // http://r4.heliossoftware.com/fhir
   //
 ];

@@ -37,7 +37,10 @@ Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     // Are there any patients in the bundle?
-    if (jsonDecode(response.body)['total'] != 0) {
+    if (jsonDecode(response.body)['total'] !=
+            0 /*||
+        jsonDecode(response.body)['total'] == null*/
+        ) {
       // If yes pass the first patient in the list to the widget
       return Patient.fromJson(
           jsonDecode(response.body)['entry'][0]['resource']);
