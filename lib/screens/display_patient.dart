@@ -13,14 +13,33 @@ import '../controllers/main_controller.dart';
 enum Gender { F, M, O, U }
 
 Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
-  FhirServer controller = Get.put(FhirServer());
-  final response = await http.get(
-    Uri.parse(controller.fhirServer.value +
-        '/Patient?'
-            'family=$lastName&'
-            'given=$firstName&'
-            '_format=json'),
-  );
+  // FhirServer controller = Get.put(FhirServer());
+  ServerUri controller = Get.put(ServerUri());
+
+  // DH
+  // var uri = Uri(
+  //   scheme: 'http',
+  //   host: controller.fhirServer.value,
+  //   port: 80,
+  //   path: '/baseR4/Patient',
+  //   queryParameters: {
+  //     if (lastName != '') 'family': lastName,
+  //     if (firstName != '') 'given': firstName
+  //   },
+  // );
+  // DH end
+  var uri = controller.serverUri.value.replace(queryParameters: {
+    if (lastName != '') 'family': lastName,
+    if (firstName != '') 'given': firstName,
+  });
+
+  final response = await http.get(uri
+      //Uri.parse(controller.fhirServer.value +
+      // '/Patient?'
+      //     'family=$lastName&'
+      //     'given=$firstName&'
+      //     '_format=json'),
+      );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
