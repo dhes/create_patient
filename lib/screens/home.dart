@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
     final _serverTextFieldController = TextEditingController(
       text: '0',
     );
-    final fhirServerController = Get.put(FhirServer());
+    final serverController = Get.put(ServerUri());
     //final fhirServer = fhirServers[0];
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
@@ -33,8 +33,8 @@ class Home extends StatelessWidget {
             ElevatedButton(
               style: style,
               onPressed: () {
-                fhirServerController.setServer(
-                    fhirServers[int.parse(_serverTextFieldController.text)]);
+                serverController.setServer(
+                    uris[int.parse(_serverTextFieldController.text)]);
                 Get.toNamed("/searchPatients");
               },
               child: const Text('Search Patients'),

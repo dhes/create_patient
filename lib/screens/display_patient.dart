@@ -16,22 +16,14 @@ Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
   // FhirServer controller = Get.put(FhirServer());
   ServerUri controller = Get.put(ServerUri());
 
-  // DH
-  // var uri = Uri(
-  //   scheme: 'http',
-  //   host: controller.fhirServer.value,
-  //   port: 80,
-  //   path: '/baseR4/Patient',
-  //   queryParameters: {
-  //     if (lastName != '') 'family': lastName,
-  //     if (firstName != '') 'given': firstName
-  //   },
-  // );
-  // DH end
-  var uri = controller.serverUri.value.replace(queryParameters: {
-    if (lastName != '') 'family': lastName,
-    if (firstName != '') 'given': firstName,
-  });
+  var uri = controller.serverUri.value.replace(
+    path: controller.serverUri.value.path.toString() + '/Patient',
+    queryParameters: {
+      if (lastName != '') 'family': lastName,
+      if (firstName != '') 'given': firstName,
+      '_format': 'json',
+    },
+  );
 
   final response = await http.get(uri
       //Uri.parse(controller.fhirServer.value +

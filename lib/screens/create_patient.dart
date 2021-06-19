@@ -92,7 +92,8 @@ class CreatePatient extends StatelessWidget {
       String firstName = '',
       String birthDate = '',
       PatientGender? gender}) async {
-    FhirServer controller = Get.put(FhirServer());
+//  FhirServer controller = Get.put(FhirServer());
+    ServerUri controller = Get.put(ServerUri());
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
       name: [
@@ -106,7 +107,8 @@ class CreatePatient extends StatelessWidget {
     );
     var newRequest = FhirRequest.create(
       // base: Uri.parse('https://hapi.fhir.org/baseR4'),
-      base: Uri.parse(controller.fhirServer.value),
+      // base: Uri.parse(controller.fhirServer.value),
+      base: controller.serverUri.value,
       resource: newPatient,
     );
     var response = await newRequest
