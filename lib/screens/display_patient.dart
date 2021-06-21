@@ -12,7 +12,7 @@ import '../controllers/main_controller.dart';
 
 enum Gender { F, M, O, U }
 
-Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
+Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   // FhirServer controller = Get.put(FhirServer());
   ServerUri controller = Get.put(ServerUri());
 
@@ -36,24 +36,27 @@ Future<Patient?> fetchPatient({String? lastName, String? firstName}) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+//    return Bundle.fromJson(jsonDecode(response.body));
+    return Bundle.fromJson(jsonDecode(response.body));
     // Are there any patients in the bundle?
-    if (jsonDecode(response.body)['total'] !=
-            0 /*||
-        jsonDecode(response.body)['total'] == null*/
-        ) {
-      // If yes pass the first patient in the list to the widget
-      return Patient.fromJson(
-          jsonDecode(response.body)['entry'][0]['resource']);
-    } else {
-      Get.rawSnackbar(
-          title: 'Oops!',
-          message: 'I can\'t find any patients with that name. ');
-      await new Future.delayed(const Duration(seconds: 4));
-      Get.toNamed('/');
-    }
-    /*else {
-      throw Exception('No patients found');
-    }*/
+    // if (jsonDecode(response.body)['total'] !=
+    //         0 /*||
+    //     jsonDecode(response.body)['total'] == null*/
+    //     ) {
+    //   // If yes pass the first patient in the list to the widget
+    //   return Patient.fromJson(
+    //       jsonDecode(response.body)['entry'][0]['resource']);
+    // } else {
+    //   Get.rawSnackbar(
+    //       title: 'Oops!',
+    //       message: 'I can\'t find any patients with that name. ');
+    //   await new Future.delayed(const Duration(seconds: 4));
+    // Get.toNamed('/');
+    //}
+    // /*else {
+    //   throw Exception('No patients found');
+    // }*/
+    Get.toNamed('/');
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -69,15 +72,17 @@ class DisplayPatient extends StatefulWidget {
 }
 
 class _DisplayPatient extends State<DisplayPatient> {
-  late Future<Patient?> futurePatient;
+//  late Future<Patient?> futurePatient;
+  late Future<Bundle?> futureBundle;
+  var x=Bundle();
 
   @override
   void initState() {
     super.initState();
     // String lastName = '';
     // lastName = Get.arguments[0];
-    futurePatient =
-        fetchPatient(lastName: Get.arguments[0], firstName: Get.arguments[1]);
+    futureBundle =
+        fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
   }
 
   @override
@@ -98,10 +103,17 @@ class _DisplayPatient extends State<DisplayPatient> {
           title: Text('Patient Information'),
         ),
         body: */
-            FutureBuilder<Patient?>(
-          future: futurePatient,
+            FutureBuilder<Bundle?>(
+//          future: futureBundle,
+          future: futureBundle,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.total == 0) {
+                //
+                print('no patients with that name'); //
+              } //
+              //Patient patient = snapshot.data!.entry![0].resource;
+              snapshot.data!.entry![0].resource!.;
               // print('birthday: ' + snapshot.data!.birthDate.toString());
               if (snapshot.data!.birthDate != null) {
                 var birthday = (DateTime.parse(snapshot.data!.birthDate
