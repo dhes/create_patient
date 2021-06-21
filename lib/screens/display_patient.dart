@@ -74,7 +74,6 @@ class DisplayPatient extends StatefulWidget {
 class _DisplayPatient extends State<DisplayPatient> {
 //  late Future<Patient?> futurePatient;
   late Future<Bundle?> futureBundle;
-  var x=Bundle();
 
   @override
   void initState() {
@@ -108,39 +107,36 @@ class _DisplayPatient extends State<DisplayPatient> {
           future: futureBundle,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data!.total == 0) {
-                //
-                print('no patients with that name'); //
-              } //
-              //Patient patient = snapshot.data!.entry![0].resource;
-              snapshot.data!.entry![0].resource!.;
-              // print('birthday: ' + snapshot.data!.birthDate.toString());
-              if (snapshot.data!.birthDate != null) {
-                var birthday = (DateTime.parse(snapshot.data!.birthDate
+//              if (snapshot.data!.total == 0) {
+              //
+              print('no patients with that name'); //
+              //} //
+              Patient patient = snapshot.data!.entry![0].resource! as Patient;
+              if (patient.birthDate != null) {
+                var birthday = (DateTime.parse(patient.birthDate
                         .toString()
                         .substring(0,
                             10) + // substring added because some HAPI server patients have times appended to birthDate e.g. 2020-10-20T21:48:01
                     ' 00:00'));
                 int age = AgeCalculator.age(birthday).years;
                 String dob = DateFormat.yMd()
-                    .format(DateTime.parse(
-                        snapshot.data!.birthDate.toString() + ' 00:00'))
+                    .format(
+                        DateTime.parse(patient.birthDate.toString() + ' 00:00'))
                     .replaceAll('/', '-');
                 ageGenderDobController.text = age.toString() +
                     'yo ' +
-                    _shortGender(snapshot.data!.gender) +
+                    _shortGender(patient.gender) +
                     ' ∙ DOB: ' +
                     dob;
               } else {
-                ageGenderDobController.text = 'age? gender: ' +
-                    snapshot.data!.gender.toString() +
-                    ' birthday ?';
+                ageGenderDobController.text =
+                    'age? gender: ' + patient.gender.toString() + ' birthday ?';
               }
               nameController.text =
-                  snapshot.data!.name!.first.given!.first.toString() +
+                  patient.name!.first.given!.first.toString() +
                       ' ' +
-                      snapshot.data!.name!.first.family.toString();
-              // }
+                      patient.name!.first.family.toString();
+//              }
               return Material(
                 child: ListView(children: <Widget>[
                   Container(
