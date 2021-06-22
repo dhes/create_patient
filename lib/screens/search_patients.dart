@@ -11,6 +11,11 @@ class SearchPatients extends StatelessWidget {
   Widget build(BuildContext context) {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
+    final _serverTextFieldController = TextEditingController(
+      text: '0',
+    );
+    final serverController = Get.put(ServerUri());
+
     // final _birthDateController = TextEditingController();
     // final _idController = TextEditingController();
 
@@ -49,11 +54,29 @@ class SearchPatients extends StatelessWidget {
                   //   ],
                   // ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          margin: EdgeInsets.all(40.0),
+                          child: TextField(
+                            decoration: null,
+                            controller: _serverTextFieldController,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SmallActionButton(
                           title: 'Search',
                           onPressed: () {
+                            serverController.setServer(uris[
+                                int.parse(_serverTextFieldController.text)]);
                             Get.toNamed("/displayPatient", arguments: [
                               _lastName.text,
                               _firstName.text,

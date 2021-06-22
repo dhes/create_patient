@@ -16,6 +16,11 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
+    final _serverTextFieldController = TextEditingController(
+      text: '0',
+    );
+    final serverController = Get.put(ServerUri());
+
     //final _idController = TextEditingController();
 
     return Scaffold(
@@ -64,10 +69,27 @@ class CreatePatient extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
+                          flex: 10,
+                          child: Container(
+                            margin: EdgeInsets.all(40.0),
+                            child: TextField(
+                              decoration: null,
+                              controller: _serverTextFieldController,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
                           flex: 2,
                           child: SmallActionButton(
                               title: 'Save',
                               onPressed: () {
+                                serverController.setServer(uris[int.parse(
+                                    _serverTextFieldController.text)]);
                                 _hapiCreate(
                                   lastName: _lastName.text,
                                   firstName: _firstName.text,
