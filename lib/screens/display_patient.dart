@@ -141,7 +141,7 @@ class _DisplayPatient extends State<DisplayPatient> {
                 var birthday = FhirDateTime(patient.birthDate.toString());
                 int age = AgeCalculator.age(birthday.value!).years;
 
-                String? dob1 = _pickFhirDateFormat(birthday);
+                //String? dob1 = _pickFhirDateFormat(birthday);
                 // or...
                 // MayJuun wrote fromDateTime this in so programmers don't have to write their own switch:
                 var dob = FhirDateTime.fromDateTime(
@@ -248,17 +248,17 @@ String _shortGender(PatientGender? longGender) {
   }
 }
 
-String? _pickFhirDateFormat(dob) {
-  switch (dob.precision) {
-    case 'YYYY':
-      return dob.value.toString().substring(0, 4);
-    case 'YYYYMM':
-      return dob.value.toString().substring(0, 6);
-    case 'YYYYMMDD':
-      return dob.value.toString().substring(0, 10);
-    case 'FULL':
-      return dob.value.toString().substring(0, 10);
-    case 'INVALID':
-      return dob.value.toString().substring(0, 1);
-  }
-}
+// String? _pickFhirDateFormat(dob) {
+//   switch (dob.precision) {
+//     case 'YYYY':
+//       return dob.value.toString().substring(0, 4);
+//     case 'YYYYMM':
+//       return dob.value.toString().substring(0, 6);
+//     case 'YYYYMMDD':
+//       return dob.value.toString().substring(0, 10);
+//     case 'FULL':
+//       return dob.value.toString().substring(0, 10);
+//     case 'INVALID':
+//       return dob.value.toString().substring(0, 1);
+//   }
+// }
