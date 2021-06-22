@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
 import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,16 @@ import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
 enum Gender { F, M, O, U }
+// trying out this new class
+// // var fhirDateTime = FhirDateTime(DateTime.parse('2020-02-01'));
+// var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
+var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
+// var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
+// FhirDateTime fhirDateTime1 = FhirDateTime('2015');
+// var fhirDateTime2 = FhirDateTime('2020');
+// var dateTime1 = DateTime.parse('2020');
+// var x = fhirDateTime.precision;
+// trying out this new class, end
 
 Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   // FhirServer controller = Get.put(FhirServer());
@@ -88,6 +99,10 @@ class _DisplayPatient extends State<DisplayPatient> {
   Widget build(BuildContext context) {
     var nameController = TextEditingController();
     var ageGenderDobController = TextEditingController();
+    var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
+    var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
+    var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
+
     //DateTime? birthday;
     //DateTime? birthday;
     //int? age;
@@ -111,18 +126,36 @@ class _DisplayPatient extends State<DisplayPatient> {
               //
               print('no patients with that name'); //
               //} //
+              // if blank print ?yo
+              // if precision not full calculate age and print e.g. ~21yo
+              //
+              // FhirDateTime will accept string '2020' '2020-03' '2020-03-11'
+              // ... '2020-02-01 10:00:00.000' or '2020-02-01T10:00:00.000'
               Patient patient = snapshot.data!.entry![0].resource! as Patient;
               if (patient.birthDate != null) {
-                var birthday = (DateTime.parse(patient.birthDate
-                        .toString()
-                        .substring(0,
-                            10) + // substring added because some HAPI server patients have times appended to birthDate e.g. 2020-10-20T21:48:01
-                    ' 00:00'));
-                int age = AgeCalculator.age(birthday).years;
-                String dob = DateFormat.yMd()
-                    .format(
-                        DateTime.parse(patient.birthDate.toString() + ' 00:00'))
-                    .replaceAll('/', '-');
+                //var birthdayString = (FhirDateTime(patient.birthDate.toString()
+                // .toString()
+                // .substring(0,
+                //     10) + ' 00:00' // substring added because some HAPI server patients have times appended to birthDate e.g. 2020-10-20T21:48:01
+                //));
+                var birthday = FhirDateTime(patient.birthDate.toString());
+                int age = AgeCalculator.age(birthday.value!).years;
+
+                String? dob1 = _pickFhirDateFormat(birthday);
+                // or...
+                // MayJuun wrote fromDateTime this in so programmers don't have to write their own switch:
+                var dob = FhirDateTime.fromDateTime(
+                        DateTime(
+                          birthday.value!.year,
+                          birthday.value!.month,
+                          birthday.value!.day,
+                        ),
+                        birthday.precision)
+                    .toString();
+                // String dob = DateFormat.yMd()
+                //     .format(
+                //         DateTime.parse(patient.birthDate.toString() + ' 00:00'))
+                //     .replaceAll('/', '-');
                 ageGenderDobController.text = age.toString() +
                     'yo ' +
                     _shortGender(patient.gender) +
@@ -212,5 +245,20 @@ String _shortGender(PatientGender? longGender) {
       return describeEnum(Gender.U.toString());
     default:
       return describeEnum(Gender.U.toString());
+  }
+}
+
+String? _pickFhirDateFormat(dob) {
+  switch (dob.precision) {
+    case 'YYYY':
+      return dob.value.toString().substring(0, 4);
+    case 'YYYYMM':
+      return dob.value.toString().substring(0, 6);
+    case 'YYYYMMDD':
+      return dob.value.toString().substring(0, 10);
+    case 'FULL':
+      return dob.value.toString().substring(0, 10);
+    case 'INVALID':
+      return dob.value.toString().substring(0, 1);
   }
 }
