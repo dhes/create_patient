@@ -3,6 +3,7 @@ import '../widgets/small_action_button.dart';
 import '../widgets/name_container.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
+import '../widgets/server_picker.dart';
 
 class SearchPatients extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
@@ -68,7 +69,17 @@ class SearchPatients extends StatelessWidget {
                       )
                     ],
                   ),
-
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 10,
+                          child: Container(
+                            margin: EdgeInsets.all(40.0),
+                            child: ServerPicker(),
+                          ),
+                        ),
+                      ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
