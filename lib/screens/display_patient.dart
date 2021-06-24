@@ -44,14 +44,22 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
       );
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Bundle.fromJson(jsonDecode(response.body));
-    // Are there any patients in the bundle?
-    // /*else {
-    //   throw Exception('No patients found');
-    // }*/
+    if (Bundle.fromJson(jsonDecode(response.body)).total.toString() == '0') {
+      Get.rawSnackbar(
+          title: 'Oops!',
+          message: 'I can\'t find any patients with that name. ');
+      await new Future.delayed(const Duration(seconds: 3));
+      Get.toNamed('/');
+    } else {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Bundle.fromJson(jsonDecode(response.body));
+      // Are there any patients in the bundle?
+      // /*else {
+      //   throw Exception('No patients found');
+      // }*/
 //    Get.toNamed('/');
+    }
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -112,13 +120,14 @@ class _DisplayPatient extends State<DisplayPatient> {
               //UnsignedInt i =
               //   snapshot.data!.total!; // assuming total is always >= 0
               //int j = i as int;
-              if (snapshot.data!.total!.value == 0) {
-                Get.rawSnackbar(
-                    title: 'Oops!',
-                    message: 'I can\'t find any patients with that name. ');
-                new Future.delayed(const Duration(seconds: 4));
-                Get.toNamed('/');
-              }
+              print(snapshot.data!.total);
+              // if (snapshot.data!.total!.value == 0) {
+              //   // Get.rawSnackbar(
+              //   //     title: 'Oops!',
+              //   //     message: 'I can\'t find any patients with that name. ');
+              //   // new Future.delayed(const Duration(seconds: 4));
+              //   Get.toNamed('/');
+              // }
               Patient patient = snapshot.data!.entry![0].resource! as Patient;
               if (patient.birthDate != null) {
                 //var birthdayString = (FhirDateTime(patient.birthDate.toString()
