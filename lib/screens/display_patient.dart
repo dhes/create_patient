@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/small_action_button.dart';
-import 'package:intl/intl.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
@@ -15,7 +14,7 @@ enum Gender { F, M, O, U }
 // trying out this new class
 // // var fhirDateTime = FhirDateTime(DateTime.parse('2020-02-01'));
 // var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
-var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
+// var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
 // var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
 // FhirDateTime fhirDateTime1 = FhirDateTime('2015');
 // var fhirDateTime2 = FhirDateTime('2020');
@@ -67,7 +66,7 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
     // /*else {
     //   throw Exception('No patients found');
     // }*/
-    Get.toNamed('/');
+//    Get.toNamed('/');
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -99,9 +98,9 @@ class _DisplayPatient extends State<DisplayPatient> {
   Widget build(BuildContext context) {
     var nameController = TextEditingController();
     var ageGenderDobController = TextEditingController();
-    var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
-    var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
-    var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
+    // var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
+    // var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
+    // var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
 
     //DateTime? birthday;
     //DateTime? birthday;
@@ -165,10 +164,20 @@ class _DisplayPatient extends State<DisplayPatient> {
                 ageGenderDobController.text =
                     'age? gender: ' + patient.gender.toString() + ' birthday ?';
               }
+              // if the 'given' attribute of the first entry in the list of HumanNames is not present then assign it a value of list entry '?'
+              var _givenName = patient.name!.first.given ?? ['?'];
+              var _familyName = patient.name!.first.family ?? ['?'];
+
+              //var _givenName = '?';
+              // if (patient.name!.first.given!.length != 0) {
+              //   _givenName = patient.name!.first.given!.first.toString();
+              // }
+              // var _familyName = '?';
+              // if (patient.name!.first.family!.isNotEmpty) {
+              //   _familyName = patient.name!.first.given!.first.toString();
+              // }
               nameController.text =
-                  patient.name!.first.given!.first.toString() +
-                      ' ' +
-                      patient.name!.first.family.toString();
+                  _givenName[0] + ' ' + _familyName.toString();
 //              }
               return Material(
                 child: ListView(children: <Widget>[

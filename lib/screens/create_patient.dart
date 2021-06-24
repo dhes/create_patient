@@ -17,9 +17,9 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    final _serverTextFieldController = TextEditingController(
-      text: '0',
-    );
+    // final _serverTextFieldController = TextEditingController(
+    //   text: '0',
+    // );
     final serverController = Get.put(ServerUri());
 
     //final _idController = TextEditingController();

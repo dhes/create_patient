@@ -9,6 +9,7 @@ List<Uri> serverUris = [
   // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
   // HSPC Sandbox - requires login
+  // https://server.fire.ly/R4
   Uri(scheme: 'https', host: 'server.fire.ly', path: '/R4'),
   Uri(scheme: 'http', host: 'hapi.fhir.org', path: '/baseR4'),
   // Bulk Data Reference Server - it's... well, bulk
