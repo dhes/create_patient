@@ -46,23 +46,8 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-//    return Bundle.fromJson(jsonDecode(response.body));
     return Bundle.fromJson(jsonDecode(response.body));
     // Are there any patients in the bundle?
-    // if (jsonDecode(response.body)['total'] !=
-    //         0 /*||
-    //     jsonDecode(response.body)['total'] == null*/
-    //     ) {
-    //   // If yes pass the first patient in the list to the widget
-    //   return Patient.fromJson(
-    //       jsonDecode(response.body)['entry'][0]['resource']);
-    // } else {
-    //   Get.rawSnackbar(
-    //       title: 'Oops!',
-    //       message: 'I can\'t find any patients with that name. ');
-    //   await new Future.delayed(const Duration(seconds: 4));
-    // Get.toNamed('/');
-    //}
     // /*else {
     //   throw Exception('No patients found');
     // }*/
@@ -121,15 +106,19 @@ class _DisplayPatient extends State<DisplayPatient> {
           future: futureBundle,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-//              if (snapshot.data!.total == 0) {
-              //
-              print('no patients with that name'); //
-              //} //
-              // if blank print ?yo
-              // if precision not full calculate age and print e.g. ~21yo
-              //
-              // FhirDateTime will accept string '2020' '2020-03' '2020-03-11'
-              // ... '2020-02-01 10:00:00.000' or '2020-02-01T10:00:00.000'
+              // if zero there are no matches
+              // total can be null (not present() unless total=0 (e.g. Cerner)
+              // in come cases (e.g. Cerner) you get an "resourceType": "OperationOutcome" if you do not provide enough search information (e.g. blank search)
+              //UnsignedInt i =
+              //   snapshot.data!.total!; // assuming total is always >= 0
+              //int j = i as int;
+              if (snapshot.data!.total!.value == 0) {
+                Get.rawSnackbar(
+                    title: 'Oops!',
+                    message: 'I can\'t find any patients with that name. ');
+                new Future.delayed(const Duration(seconds: 4));
+                Get.toNamed('/');
+              }
               Patient patient = snapshot.data!.entry![0].resource! as Patient;
               if (patient.birthDate != null) {
                 //var birthdayString = (FhirDateTime(patient.birthDate.toString()
