@@ -12,9 +12,9 @@ class SearchPatients extends StatelessWidget {
   Widget build(BuildContext context) {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
-    final _serverTextFieldController = TextEditingController(
-      text: '0',
-    );
+    // final _serverTextFieldController = TextEditingController(
+    //   text: '0',
+    // );
     final serverController = Get.put(ServerUri());
 
     // final _birthDateController = TextEditingController();
@@ -54,28 +54,29 @@ class SearchPatients extends StatelessWidget {
                   //     ),
                   //   ],
                   // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 10,
-                        child: Container(
-                          margin: EdgeInsets.all(40.0),
-                          child: TextField(
-                            decoration: null,
-                            controller: _serverTextFieldController,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     Expanded(
+                  //       flex: 10,
+                  //       child: Container(
+                  //         margin: EdgeInsets.all(40.0),
+                  //         child: TextField(
+                  //           decoration: null,
+                  //           controller: _serverTextFieldController,
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
                           flex: 10,
                           child: Container(
-                            margin: EdgeInsets.all(40.0),
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            //margin: EdgeInsets.all(10.0),
                             child: ServerPicker(),
                           ),
                         ),
@@ -86,8 +87,10 @@ class SearchPatients extends StatelessWidget {
                       SmallActionButton(
                           title: 'Search',
                           onPressed: () {
-                            serverController.setServer(uris[
-                                int.parse(_serverTextFieldController.text)]);
+                            // serverController.setServer(serverUris[
+                            //     int.parse(_serverTextFieldController.text)]);
+                            serverController
+                                .setServer(serverController.serverUri.value);
                             Get.toNamed("/displayPatient", arguments: [
                               _lastName.text,
                               _firstName.text,

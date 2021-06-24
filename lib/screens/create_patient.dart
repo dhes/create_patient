@@ -1,3 +1,4 @@
+import '../widgets/server_picker.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_at_rest/r4.dart';
 import 'package:flutter/material.dart';
@@ -65,21 +66,33 @@ class CreatePatient extends StatelessWidget {
                         )
                       ],
                     ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     Expanded(
+                    //       flex: 10,
+                    //       child: Container(
+                    //         margin: EdgeInsets.all(40.0),
+                    //         child: TextField(
+                    //           decoration: null,
+                    //           controller: _serverTextFieldController,
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 10,
-                          child: Container(
-                            margin: EdgeInsets.all(40.0),
-                            child: TextField(
-                              decoration: null,
-                              controller: _serverTextFieldController,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 10,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 3),
+                              //margin: EdgeInsets.all(10.0),
+                              child: ServerPicker(),
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                        ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -88,8 +101,10 @@ class CreatePatient extends StatelessWidget {
                           child: SmallActionButton(
                               title: 'Save',
                               onPressed: () {
-                                serverController.setServer(uris[int.parse(
-                                    _serverTextFieldController.text)]);
+                                // serverController.setServer(serverUris[int.parse(
+                                //     _serverTextFieldController.text)]);
+                                serverController.setServer(
+                                    serverController.serverUri.value);
                                 _hapiCreate(
                                   lastName: _lastName.text,
                                   firstName: _firstName.text,

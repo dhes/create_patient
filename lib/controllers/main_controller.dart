@@ -5,7 +5,7 @@ import 'package:fhir/r4.dart';
 // see https://confluence.hl7.org/display/FHIR/Public+Test+Servers#PublicTestServers-Servers
 // ...accessed 2020-06-19
 
-List<Uri> uris = [
+List<Uri> serverUris = [
   // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
   // HSPC Sandbox - requires login
@@ -76,7 +76,7 @@ class PatientGenderController extends GetxController {
 // }
 
 class ServerUri extends GetxController {
-  final serverUri = uris[0].obs;
+  final serverUri = serverUris[0].obs;
 
   setServer(Uri serverUri) {
     this.serverUri.value = serverUri;

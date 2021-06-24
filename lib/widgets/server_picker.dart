@@ -9,16 +9,16 @@ class ServerPicker extends StatelessWidget {
   final serverController = Get.put(ServerUri());
 
   // final PatientGender birthGender = PatientGender.unknown;
-  final Uri _serverUri = uris[0];
+  //final Uri _serverUri = serverUris[0];
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<Uri>(
-      value: _serverUri,
-      items: uris.map(
+      value: serverController.serverUri.value,
+      items: serverUris.map(
         (Uri val) {
           return DropdownMenuItem(
-            child: Text(val.toString()),
+            child: Text(val.host),
             value: val,
           );
         },
