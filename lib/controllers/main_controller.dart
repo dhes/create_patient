@@ -1,22 +1,27 @@
 import 'package:get/get.dart';
 import 'package:fhir/r4.dart';
 
-// comments are results of testing 2020-06-17
 // see https://confluence.hl7.org/display/FHIR/Public+Test+Servers#PublicTestServers-Servers
 // ...accessed 2020-06-19
 
 List<Uri> serverUris = [
   // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
-  // HSPC Sandbox - requires login
   // https://server.fire.ly/R4
+  // http://sandbox.hspconsortium.org/ // HSPC Sandbox - requires login - not set up
   Uri(scheme: 'https', host: 'server.fire.ly', path: '/R4'),
+  //  http://hapi.fhir.org/baseR4,
   Uri(scheme: 'http', host: 'hapi.fhir.org', path: '/baseR4'),
   // Bulk Data Reference Server - it's... well, bulk
+  // https://spark.incendi.no/fhir
   Uri(scheme: 'https', host: 'spark.incendi.no', path: '/fhir'),
+  // http://nprogram.azurewebsites.net
   Uri(scheme: 'http', host: 'nprogram.azurewebsites.net', path: ''),
+  // http://demo.oridashi.com.au:8304
   Uri(scheme: 'http', host: 'demo.oridashi.com.au', path: '', port: 8304),
+  // http://demo.oridashi.com.au:8305
   Uri(scheme: 'http', host: 'demo.oridashi.com.au', path: '', port: 8305),
+  // Uri(scheme: https://r4.test.pyrohealth.net/fhir
   Uri(scheme: 'https', host: 'r4.test.pyrohealth.net', path: '/fhir'),
   //https://launch.smarthealthit.org/v/r4/fhir
   Uri(scheme: 'https', host: 'launch.smarthealthit.org', path: '/v/r4/fhir'),
@@ -24,8 +29,7 @@ List<Uri> serverUris = [
   //  not live on 2020-06-19
   // https://www.health-samurai.io/aidbox
   //  no endpoint, local dropbox installation
-  // https://fhir-open.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d
-  //  requires at least one parameter; read only
+  // https://fhir-open.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583 // requires at least one parameter; read only
   Uri(
       scheme: 'https',
       host: 'fhir-open.cerner.com',
@@ -33,7 +37,7 @@ List<Uri> serverUris = [
   // https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/
   //  Queen's and HPH DSTU2 endpoints are listed at https://open.epic.com/MyApps/Endpoints
   //  open endpoint at https://open-ic.epic.com/argonaut/api/FHIR/Argonaut/
-  //  I can't get open queries to run on any of the public endpoints
+  //  I haven't been able to get open queries to run on any of these public endpoints
   // http://wildfhir4.aegis.net/fhir4-0-1
   Uri(scheme: 'http', host: 'wildfhir4.aegis.net', path: '/fhir4-0-1'),
   // http://sqlonfhir-r4.azurewebsites.net/fhir
