@@ -140,7 +140,7 @@ class _DisplayPatient extends State<DisplayPatient> {
 
                 //String? dob1 = _pickFhirDateFormat(birthday);
                 // or...
-                // MayJuun wrote fromDateTime this in so programmers don't have to write their own switch:
+                // MayJuun wrote fromDateTime so programmers don't have to write their own switch:
                 var dob = FhirDateTime.fromDateTime(
                         DateTime(
                           birthday.value!.year,
@@ -153,18 +153,27 @@ class _DisplayPatient extends State<DisplayPatient> {
                 //     .format(
                 //         DateTime.parse(patient.birthDate.toString() + ' 00:00'))
                 //     .replaceAll('/', '-');
-                ageGenderDobController.text = age.toString() +
+                var agePrefix = '';
+                if (birthday.precision == DateTimePrecision.YYYYMM ||
+                    birthday.precision == DateTimePrecision.YYYY) {
+                  agePrefix = '~';
+                }
+                ageGenderDobController.text = agePrefix +
+                    age.toString() +
                     'yo ' +
                     _shortGender(patient.gender) +
                     ' ∙ DOB: ' +
                     dob;
               } else {
-                ageGenderDobController.text =
-                    'age? gender: ' + patient.gender.toString() + ' birthday ?';
+                ageGenderDobController.text = '?? yo ' +
+                    _shortGender(patient.gender) +
+                    ' ∙ DOB: ????-??-??';
               }
-              // if the 'given' attribute of the first entry in the list of HumanNames is not present then assign it a value of list entry '?'
+              // if the 'given' attribute of the first entry in the list of HumanNames
+              // ... is not present then assign it a value of list entry '?' to
+              // ... indicate that it is not known.
               var _givenName = patient.name!.first.given ?? ['?'];
-              var _familyName = patient.name!.first.family ?? ['?'];
+              var _familyName = patient.name!.first.family ?? '?';
 
               //var _givenName = '?';
               // if (patient.name!.first.given!.length != 0) {
