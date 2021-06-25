@@ -54,16 +54,18 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return Bundle.fromJson(jsonDecode(response.body));
-      // Are there any patients in the bundle?
-      // /*else {
-      //   throw Exception('No patients found');
-      // }*/
-//    Get.toNamed('/');
     }
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load patient information');
+    // ... or notify the user
+    // throw Exception('Failed to load patient information')
+    Get.rawSnackbar(
+        title: 'Error',
+        message: 'The server responded with error code ' +
+            response.statusCode.toString());
+    await new Future.delayed(const Duration(seconds: 3));
+    Get.toNamed('/');
   }
 }
 
