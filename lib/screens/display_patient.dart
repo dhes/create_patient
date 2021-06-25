@@ -11,16 +11,6 @@ import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
 enum Gender { F, M, O, U }
-// trying out this new class
-// // var fhirDateTime = FhirDateTime(DateTime.parse('2020-02-01'));
-// var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
-// var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
-// var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
-// FhirDateTime fhirDateTime1 = FhirDateTime('2015');
-// var fhirDateTime2 = FhirDateTime('2020');
-// var dateTime1 = DateTime.parse('2020');
-// var x = fhirDateTime.precision;
-// trying out this new class, end
 
 Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   // FhirServer controller = Get.put(FhirServer());
@@ -35,13 +25,7 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
     },
   );
 
-  final response = await http.get(uri
-      //Uri.parse(controller.fhirServer.value +
-      // '/Patient?'
-      //     'family=$lastName&'
-      //     'given=$firstName&'
-      //     '_format=json'),
-      );
+  final response = await http.get(uri);
 
   if (response.statusCode == 200) {
     if (Bundle.fromJson(jsonDecode(response.body)).total.toString() == '0') {
@@ -57,9 +41,9 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
     }
   } else {
     // If the server did not return a 200 OK response,
-    // then throw an exception.
-    // ... or notify the user
-    // throw Exception('Failed to load patient information')
+    // // then throw an exception.
+    // //throw Exception('Failed to load patient information')
+    // then notify the user
     Get.rawSnackbar(
         title: 'Error',
         message: 'The server responded with error code ' +
