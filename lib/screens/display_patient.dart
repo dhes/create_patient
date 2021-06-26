@@ -197,7 +197,10 @@ class _DisplayPatient extends State<DisplayPatient> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            DisplayConditions(patient.id.toString()),
+                            Expanded(
+                                flex: 4,
+                                child:
+                                    DisplayConditions(patient.id.toString())),
                           ],
                         ),
                         Row(

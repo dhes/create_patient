@@ -34,27 +34,36 @@ class _DisplayConditions extends State<DisplayConditions> {
   @override
   Widget build(BuildContext context) {
     var conditionsController = TextEditingController();
-    return MaterialApp(
+    return /*MaterialApp(
       //title: 'Patient Information',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder<r4.Bundle?>(
-          future: futureBundle,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              String _total = snapshot.data!.total.toString();
-              var j = int.parse(_total);
-              List<r4.Condition> conditionList = [];
-              if (_total != '0') {
-                for (var i = 0; i < j; i++) {
-                  conditionList[i] = snapshot.data!.entry![i] as r4.Condition;
-                }
-                // conditionsController.text = conditionList.join('\n');
-                conditionsController.text = 'Hello';
-                return Material(
-                  child: ListView(children: <Widget>[
-                    Container(
+      home:*/
+        FutureBuilder<r4.Bundle?>(
+            future: futureBundle,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                String _total = snapshot.data!.total.toString();
+                var j = int.parse(_total);
+                // ignore: deprecated_member_use
+                if (_total != '0') {
+                  // List<r4.Condition> conditionList = List<r4.Condition>.filled(
+                  //   j,
+                  // );
+                  // for (var i = 0; i < j - 1; i++) {
+                  //   conditionList[i] =
+                  //       snapshot.data!.entry![i].resource as r4.Condition;
+                  // }
+                  List<r4.Condition> _conditionList;
+                  _conditionList = [
+                    for (var i = 0; i < j - 1; i++)
+                      snapshot.data!.entry![i].resource as r4.Condition
+                  ];
+                  conditionsController.text = _conditionList.join('\n');
+                  // conditionsController.text = 'Hello';
+                  return Material(
+                    child: Container(
                         // padding: EdgeInsets.all(10.0),
                         child: Column(children: <Widget>[
                       TextField(
@@ -66,23 +75,22 @@ class _DisplayConditions extends State<DisplayConditions> {
                           fontWeight: FontWeight.bold,
                         ),
                         /*decoration: InputDecoration(
-                              labelText: 'Name',
-                              icon: Icon(Icons.perm_identity),
-                            )*/
+                            labelText: 'Name',
+                            icon: Icon(Icons.perm_identity),
+                          )*/
                       ),
-                    ]))
-                  ]),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                    ])),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                // By default, show a loading spinner.
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Text('Nothing to show');
               }
-              // By default, show a loading spinner.
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return Text('Nothing to show');
-            }
-          }),
-    );
+            });
+    // ;
   }
 }
 
