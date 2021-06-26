@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'package:create_patient/widgets/display_conditions.dart';
 import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -193,6 +194,12 @@ class _DisplayPatient extends State<DisplayPatient> {
                           ],
                         ),
                         // Placeholder for new widget
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            DisplayConditions(patient.id.toString()),
+                          ],
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
