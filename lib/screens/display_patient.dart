@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -25,30 +26,40 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
     },
   );
 
-  final response = await http.get(uri);
+  try {
+    final response = await http.get(uri);
 
-  if (response.statusCode == 200) {
-    if (Bundle.fromJson(jsonDecode(response.body)).total.toString() == '0') {
+    if (response.statusCode == 200) {
+      if (Bundle.fromJson(jsonDecode(response.body)).total.toString() == '0') {
+        Get.rawSnackbar(
+            title: 'Oops!',
+            message: 'I can\'t find any patients with that name. ');
+        await new Future.delayed(const Duration(seconds: 3));
+        Get.toNamed('/');
+      } else {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return Bundle.fromJson(jsonDecode(response.body));
+      }
+    } else {
+      // If the server did not return a 200 OK response,
+      // // then throw an exception.
+      // //throw Exception('Failed to load patient information')
+      // then notify the user
       Get.rawSnackbar(
-          title: 'Oops!',
-          message: 'I can\'t find any patients with that name. ');
+          title: 'Error',
+          message: 'The server responded with error code ' +
+              response.statusCode.toString());
       await new Future.delayed(const Duration(seconds: 3));
       Get.toNamed('/');
-    } else {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Bundle.fromJson(jsonDecode(response.body));
     }
-  } else {
-    // If the server did not return a 200 OK response,
-    // // then throw an exception.
-    // //throw Exception('Failed to load patient information')
-    // then notify the user
+    // or if the darn server just isn't responding:
+  } on SocketException catch (e) {
     Get.rawSnackbar(
-        title: 'Error',
-        message: 'The server responded with error code ' +
-            response.statusCode.toString());
-    await new Future.delayed(const Duration(seconds: 3));
+      title: 'Host not available',
+      message: e.toString(),
+    );
+    await new Future.delayed(const Duration(seconds: 4));
     Get.toNamed('/');
   }
 }
@@ -77,43 +88,16 @@ class _DisplayPatient extends State<DisplayPatient> {
   Widget build(BuildContext context) {
     var nameController = TextEditingController();
     var ageGenderDobController = TextEditingController();
-    // var fhirDateTime3 = FhirDateTime(DateTime.parse('2020-02-01 10:00:00.000'));
-    // var fhirDateTime4 = FhirDateTime('2020-02-01 10:00:00.000');
-    // var fhirDateTime5 = FhirDateTime('2020-02-01T10:00:00.000');
-
-    //DateTime? birthday;
-    //DateTime? birthday;
-    //int? age;
     return MaterialApp(
         //title: 'Patient Information',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:
-            /*Scaffold(
-        appBar: AppBar(
-          title: Text('Patient Information'),
-        ),
-        body: */
-            FutureBuilder<Bundle?>(
+        home: FutureBuilder<Bundle?>(
 //          future: futureBundle,
           future: futureBundle,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // if zero there are no matches
-              // total can be null (not present() unless total=0 (e.g. Cerner)
-              // in come cases (e.g. Cerner) you get an "resourceType": "OperationOutcome" if you do not provide enough search information (e.g. blank search)
-              //UnsignedInt i =
-              //   snapshot.data!.total!; // assuming total is always >= 0
-              //int j = i as int;
-              print(snapshot.data!.total);
-              // if (snapshot.data!.total!.value == 0) {
-              //   // Get.rawSnackbar(
-              //   //     title: 'Oops!',
-              //   //     message: 'I can\'t find any patients with that name. ');
-              //   // new Future.delayed(const Duration(seconds: 4));
-              //   Get.toNamed('/');
-              // }
               Patient patient = snapshot.data!.entry![0].resource! as Patient;
               if (patient.birthDate != null) {
                 //var birthdayString = (FhirDateTime(patient.birthDate.toString()
@@ -149,7 +133,9 @@ class _DisplayPatient extends State<DisplayPatient> {
                     'yo ' +
                     _shortGender(patient.gender) +
                     ' ∙ DOB: ' +
-                    dob;
+                    dob +
+                    ' id: ' +
+                    patient.id.toString();
               } else {
                 ageGenderDobController.text = '?? yo ' +
                     _shortGender(patient.gender) +
@@ -206,6 +192,7 @@ class _DisplayPatient extends State<DisplayPatient> {
                             ),
                           ],
                         ),
+                        // Placeholder for new widget
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

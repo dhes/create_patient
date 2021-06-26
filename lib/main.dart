@@ -5,6 +5,11 @@ import 'screens/create_patient.dart';
 import 'screens/search_patients.dart';
 import 'screens/home.dart';
 
+// to do: with patient Lily Clarke id 1626759
+// in on hapi open test server
+// search for list of Conditions
+// and display them on the summary page
+
 void main() {
   runApp(MyApp());
 }
