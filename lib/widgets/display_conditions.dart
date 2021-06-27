@@ -55,31 +55,40 @@ class _DisplayConditions extends State<DisplayConditions> {
                   //   conditionList[i] =
                   //       snapshot.data!.entry![i].resource as r4.Condition;
                   // }
-                  List<r4.Condition> _conditionList;
-                  _conditionList = [
+                  List<r4.Condition> _conditionsList;
+                  _conditionsList = [
                     for (var i = 0; i < j - 1; i++)
                       snapshot.data!.entry![i].resource as r4.Condition
                   ];
-                  conditionsController.text = _conditionList.join('\n');
+                  var _diagnosisText = [
+                    for (var _condition in _conditionsList)
+                      _condition.code!.text
+                  ];
+                  conditionsController.text = _diagnosisText.join('\n');
+                  // conditionsController.text = _conditionsList.join('\n');
                   // conditionsController.text = 'Hello';
                   return Material(
                     child: Container(
-                        // padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(20.0),
                         child: Column(children: <Widget>[
-                      TextField(
-                        textAlign: TextAlign.center,
-                        controller: conditionsController,
-                        readOnly: true,
-                        decoration: null,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        /*decoration: InputDecoration(
-                            labelText: 'Name',
-                            icon: Icon(Icons.perm_identity),
-                          )*/
-                      ),
-                    ])),
+                          TextField(
+                            textAlign: TextAlign.left,
+                            controller: conditionsController,
+                            readOnly: true,
+                            decoration: null,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Raleway',
+                              fontSize: 14,
+                            ),
+
+                            // strutStyle: StrutStyle.f,
+                            // decoration: InputDecoration(
+                            //     labelText: 'Name',
+                            //     icon: Icon(Icons.perm_identity),
+                            //   )
+                          ),
+                        ])),
                   );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");

@@ -18,7 +18,6 @@ class SmallActionButton extends StatelessWidget {
     return ButtonTheme.fromButtonThemeData(
       data: Get.theme.buttonTheme.copyWith(
         minWidth: Get.width / 3,
-        //buttonColor: Colors.pinkAccent,  // no effect
       ),
       child: Container(
         padding: EdgeInsets.fromLTRB(75.0, 30.0, 75.0, 30.0),
