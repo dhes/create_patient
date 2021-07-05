@@ -68,28 +68,31 @@ class _DisplayConditions extends State<DisplayConditions> {
                   // conditionsController.text = _conditionsList.join('\n');
                   // conditionsController.text = 'Hello';
                   return Material(
-                    child: Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Column(children: <Widget>[
-                          TextField(
-                            textAlign: TextAlign.left,
-                            controller: conditionsController,
-                            readOnly: true,
-                            decoration: null,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Raleway',
-                              fontSize: 14,
-                            ),
-
-                            // strutStyle: StrutStyle.f,
-                            // decoration: InputDecoration(
-                            //     labelText: 'Name',
-                            //     icon: Icon(Icons.perm_identity),
-                            //   )
-                          ),
-                        ])),
-                  );
+                      child: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: ListView.builder(
+                              itemCount: _diagnosisText.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // access element from list using index
+                                // you can create and return a widget of your choice
+                                return Text('${_diagnosisText[index]}');
+                              }))
+                      // child: Column(
+                      //   children: <Widget>[
+                      //     TextField(
+                      //       textAlign: TextAlign.left,
+                      //       controller: conditionsController,
+                      //       readOnly: true,
+                      //       decoration: null,
+                      //       style: TextStyle(
+                      //         fontWeight: FontWeight.normal,
+                      //         fontFamily: 'Raleway',
+                      //         fontSize: 14,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
