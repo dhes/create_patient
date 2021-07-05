@@ -7,29 +7,28 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import '../widgets/small_action_button.dart';
-// import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
-class DisplayConditions extends StatefulWidget {
+//class DisplayConditions extends StatefulWidget {
+class DisplayConditions extends StatelessWidget {
   final String? id;
   DisplayConditions(this.id, {Key? key}) : super(key: key);
 
-  @override
-  _DisplayConditions createState() => _DisplayConditions();
-}
+//   @override
+//   _DisplayConditions createState() => _DisplayConditions();
+// }
 
-class _DisplayConditions extends State<DisplayConditions> {
+// class _DisplayConditions extends State<DisplayConditions> {
 //  late Future<Patient?> futurePatient;
-  late Future<r4.Bundle?> futureBundle;
+  late Future<r4.Bundle?> futureBundle = fetchBundle(id!);
 
-  @override
-  void initState() {
-    super.initState();
-    // String lastName = '';
-    // lastName = Get.arguments[0];
-    futureBundle = fetchBundle(widget.id!);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // String lastName = '';
+  //   // lastName = Get.arguments[0];
+  // futureBundle = fetchBundle(widget.id!);
+  // }
 
   @override
   Widget build(BuildContext context) {

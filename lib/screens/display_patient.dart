@@ -12,25 +12,28 @@ import '../widgets/small_action_button.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
-class DisplayPatient extends StatefulWidget {
-  DisplayPatient({Key? key}) : super(key: key);
+class DisplayPatient extends StatelessWidget {
+// class DisplayPatient extends StatefulWidget {
+//   DisplayPatient({Key? key}) : super(key: key);
 
-  @override
-  _DisplayPatient createState() => _DisplayPatient();
-}
+//   @override
+//   _DisplayPatient createState() => _DisplayPatient();
+// }
 
-class _DisplayPatient extends State<DisplayPatient> {
-//  late Future<Patient?> futurePatient;
-  late Future<Bundle?> futureBundle;
+// class _DisplayPatient extends State<DisplayPatient> {
+// //  late Future<Patient?> futurePatient;
+//  late Future<Bundle?> futureBundle;
+  late Future<Bundle?> futureBundle =
+      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
 
-  @override
-  void initState() {
-    super.initState();
-    // String lastName = '';
-    // lastName = Get.arguments[0];
-    futureBundle =
-        fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // String lastName = '';
+  //   // lastName = Get.arguments[0];
+  //   futureBundle =
+  //       fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +66,15 @@ class _DisplayPatient extends State<DisplayPatient> {
                   agePrefix = '~';
                 }
                 ageGenderDobController.text = agePrefix +
-                    age.toString() +
-                    'yo ' +
-                    _shortGender(patient.gender) +
-                    ' ∙ DOB: ' +
-                    dob +
-                    ' id: ' +
-                    patient.id.toString();
+                        age.toString() +
+                        'yo ' +
+                        _shortGender(patient.gender) +
+                        ' ∙ DOB: ' +
+                        dob
+                    // +
+                    // ' id: ' +
+                    // patient.id.toString()
+                    ;
               } else {
                 ageGenderDobController.text = '?? yo ' +
                     _shortGender(patient.gender) +
