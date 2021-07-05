@@ -33,7 +33,7 @@ class _DisplayConditions extends State<DisplayConditions> {
 
   @override
   Widget build(BuildContext context) {
-    var conditionsController = TextEditingController();
+    //var conditionsController = TextEditingController();
     return /*MaterialApp(
       //title: 'Patient Information',
       theme: ThemeData(
@@ -57,42 +57,56 @@ class _DisplayConditions extends State<DisplayConditions> {
                   // }
                   List<r4.Condition> _conditionsList;
                   _conditionsList = [
-                    for (var i = 0; i < j - 1; i++)
+                    for (var i = 0; i < j; i++)
                       snapshot.data!.entry![i].resource as r4.Condition
                   ];
                   var _diagnosisText = [
                     for (var _condition in _conditionsList)
                       _condition.code!.text
                   ];
-                  conditionsController.text = _diagnosisText.join('\n');
+                  //conditionsController.text = _diagnosisText.join('\n');
                   // conditionsController.text = _conditionsList.join('\n');
                   // conditionsController.text = 'Hello';
-                  return Material(
-                      child: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: ListView.builder(
-                              itemCount: _diagnosisText.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                // access element from list using index
-                                // you can create and return a widget of your choice
-                                return Text('${_diagnosisText[index]}');
-                              }))
-                      // child: Column(
-                      //   children: <Widget>[
-                      //     TextField(
-                      //       textAlign: TextAlign.left,
-                      //       controller: conditionsController,
-                      //       readOnly: true,
-                      //       decoration: null,
-                      //       style: TextStyle(
-                      //         fontWeight: FontWeight.normal,
-                      //         fontFamily: 'Raleway',
-                      //         fontSize: 14,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      );
+                  return Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        height: 30,
+                        padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                        child: Text(
+                          "Conditions:",
+                          textScaleFactor: 1.5,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          // Text("Medical Conditions  "),
+                          Expanded(
+                            child: SizedBox(
+                              // height: 500.0,
+                              height: _diagnosisText.length * 20.0 + 10.0,
+                              child: Scrollbar(
+                                child: ListView.builder(
+                                    //scrollDirection: Axis.vertical,
+                                    itemExtent: 20.0,
+                                    itemCount: _diagnosisText.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      // access element from list using index
+                                      // you can create and return a widget of your choice
+                                      return ListTile(
+                                          leading: Icon(
+                                              Icons.medical_services_outlined),
+                                          title:
+                                              Text('${_diagnosisText[index]}'));
+                                    }),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
