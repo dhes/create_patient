@@ -112,7 +112,18 @@ class DisplayConditions extends StatelessWidget {
                 // By default, show a loading spinner.
                 return Center(child: CircularProgressIndicator());
               } else {
-                return Text('Nothing to show');
+                // return Text('Nothing to show');
+                return Column(children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    height: 30,
+                    padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                    child: Text(
+                      "Conditions: None",
+                      textScaleFactor: 1.5,
+                    ),
+                  ),
+                ]);
               }
             });
     // ;
@@ -136,10 +147,10 @@ Future<r4.Bundle?> fetchBundle(String _id) async {
     if (response.statusCode == 200) {
       if (r4.Bundle.fromJson(jsonDecode(response.body)).total.toString() ==
           '0') {
-        Get.rawSnackbar(
-            //title: 'Oops!',
-            message: 'No medical conditions. ');
-        await new Future.delayed(const Duration(seconds: 3));
+        // Get.rawSnackbar(
+        //     //title: 'Oops!',
+        //     message: 'No medical conditions. ');
+        // await new Future.delayed(const Duration(seconds: 3));
         //Get.toNamed('/');
       } else {
         // If the server did return a 200 OK response,

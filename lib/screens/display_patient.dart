@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
-import 'package:create_patient/widgets/display_conditions.dart';
 import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,8 @@ import 'package:http/http.dart' as http;
 import '../widgets/small_action_button.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
+import '../widgets/display_conditions.dart';
+import '../widgets/display_medication_statement.dart';
 
 class DisplayPatient extends StatelessWidget {
 // class DisplayPatient extends StatefulWidget {
@@ -48,7 +49,10 @@ class DisplayPatient extends StatelessWidget {
           future: futureBundle,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              Patient patient = snapshot.data!.entry![0].resource! as Patient;
+              // Patient patient = snapshot.data!.entry![0].resource!
+              //     as Patient; // 0 picks the first patient in the list
+              Patient patient = snapshot.data!.entry![1].resource!
+                  as Patient; // 1 picks the second Grace Jackson at hapi, who happens to have a medication list and problem list...
               if (patient.birthDate != null) {
                 var birthday = FhirDateTime(patient.birthDate.toString());
                 int age = AgeCalculator.age(birthday.value!).years;
@@ -66,15 +70,13 @@ class DisplayPatient extends StatelessWidget {
                   agePrefix = '~';
                 }
                 ageGenderDobController.text = agePrefix +
-                        age.toString() +
-                        'yo ' +
-                        _shortGender(patient.gender) +
-                        ' ∙ DOB: ' +
-                        dob
-                    // +
-                    // ' id: ' +
-                    // patient.id.toString()
-                    ;
+                    age.toString() +
+                    'yo ' +
+                    _shortGender(patient.gender) +
+                    ' ∙ DOB: ' +
+                    dob +
+                    ' id: ' +
+                    patient.id.toString();
               } else {
                 ageGenderDobController.text = '?? yo ' +
                     _shortGender(patient.gender) +
@@ -129,11 +131,7 @@ class DisplayPatient extends StatelessWidget {
                                 //flex: 10,
                                 child:*/
                     DisplayConditions(patient.id.toString()),
-                    //   ],
-                    // ),
-                    /*Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[*/
+                    DisplayMedicationStatments(patient.id.toString()),
                     SmallActionButton(
                         title: 'Done',
                         onPressed: () {
