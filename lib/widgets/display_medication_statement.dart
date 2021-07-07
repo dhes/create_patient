@@ -29,20 +29,20 @@ class DisplayMedicationStatments extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           String _total = snapshot.data!.total.toString();
-          var j = int.parse(_total);
+          var _listLength = int.parse(_total);
           // ignore: deprecated_member_use
           if (_total != '0') {
             List<r4.MedicationStatement> _medicationStatementList;
             _medicationStatementList = [
-              for (var i = 0; i < j; i++)
+              for (var i = 0; i < _listLength; i++)
                 snapshot.data!.entry![i].resource as r4.MedicationStatement
             ];
-            var _medicationStatementDisplay = [
-              for (var _medicationStatement in _medicationStatementList)
-                _medicationStatement.medicationCodeableConcept!.coding![0]
-                    .display // have to deal with a coding list but for starters
-              // will assume there is only one entry
-            ];
+            // var _medicationStatementDisplay = [
+            //   for (var _medicationStatement in _medicationStatementList)
+            //     _medicationStatement.medicationCodeableConcept!.coding![0]
+            //         .display // have to deal with a coding list but for starters
+            //   // will assume there is only one entry
+            // ];
             return Column(
               children: [
                 Container(
@@ -58,18 +58,19 @@ class DisplayMedicationStatments extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SizedBox(
-                        height:
-                            _medicationStatementDisplay.length * 20.0 + 10.0,
+                        height: _listLength * 20.0 + 10.0,
                         child: Scrollbar(
                           child: ListView.builder(
                               itemExtent: 20.0,
-                              itemCount: _medicationStatementDisplay.length,
+                              itemCount: _listLength,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
-                                    leading:
-                                        Icon(Icons.medical_services_outlined),
-                                    title: Text(
-                                        '${_medicationStatementDisplay[index]}'));
+                                  leading:
+                                      Icon(Icons.medical_services_outlined),
+                                  title: Text(
+                                      // '${_medicationStatementDisplay[index]}'));
+                                      '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'),
+                                );
                               }),
                         ),
                       ),
