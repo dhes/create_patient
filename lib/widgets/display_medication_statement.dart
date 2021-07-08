@@ -1,10 +1,3 @@
-////////////////////////////////////////////
-///                                       //
-///  This is a copy of display_medicationStatement  //
-///  Work in progress                     //
-///                                       //
-////////////////////////////////////////////
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
@@ -47,11 +40,12 @@ class DisplayMedicationStatments extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  height: 30,
-                  padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                  height: 29,
+                  padding: EdgeInsets.fromLTRB(14, 14, 10, 0),
                   child: Text(
-                    "Medications:",
-                    textScaleFactor: 1.5,
+                    "Medications",
+                    textScaleFactor: 1.1,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Row(
@@ -59,20 +53,19 @@ class DisplayMedicationStatments extends StatelessWidget {
                     Expanded(
                       child: SizedBox(
                         height: _listLength * 20.0 + 10.0,
-                        child: Scrollbar(
-                          child: ListView.builder(
-                              itemExtent: 20.0,
-                              itemCount: _listLength,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  leading:
-                                      Icon(Icons.medical_services_outlined),
-                                  title: Text(
-                                      // '${_medicationStatementDisplay[index]}'));
-                                      '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'),
-                                );
-                              }),
-                        ),
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemExtent: 20.0,
+                            itemCount: _listLength,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                // leading:
+                                // Icon(Icons.medical_services_outlined),
+                                title: Text(
+                                    // '${_medicationStatementDisplay[index]}'));
+                                    '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'),
+                              );
+                            }),
                       ),
                     ),
                   ],
@@ -93,7 +86,8 @@ class DisplayMedicationStatments extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                 child: Text(
                   "Medication: None",
-                  textScaleFactor: 1.5,
+                  textScaleFactor: 1.2,
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],

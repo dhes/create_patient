@@ -70,11 +70,12 @@ class DisplayConditions extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        height: 30,
-                        padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                        height: 29,
+                        padding: EdgeInsets.fromLTRB(14, 14, 10, 0),
                         child: Text(
-                          "Conditions:",
-                          textScaleFactor: 1.5,
+                          "Conditions",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          textScaleFactor: 1.1,
                         ),
                       ),
                       Row(
@@ -83,23 +84,22 @@ class DisplayConditions extends StatelessWidget {
                           Expanded(
                             child: SizedBox(
                               // height: 500.0,
-                              height: _diagnosisText.length * 20.0 + 10.0,
-                              child: Scrollbar(
-                                child: ListView.builder(
-                                    //scrollDirection: Axis.vertical,
-                                    itemExtent: 20.0,
-                                    itemCount: _diagnosisText.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      // access element from list using index
-                                      // you can create and return a widget of your choice
-                                      return ListTile(
-                                          leading: Icon(
-                                              Icons.medical_services_outlined),
-                                          title:
-                                              Text('${_diagnosisText[index]}'));
-                                    }),
-                              ),
+                              height: _diagnosisText.length * 20.0 + 15.0,
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  //scrollDirection: Axis.vertical,
+                                  itemExtent: 20.0,
+                                  itemCount: _diagnosisText.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    // access element from list using index
+                                    // you can create and return a widget of your choice
+                                    return ListTile(
+                                        // leading: Icon(
+                                        //     Icons.medical_services_outlined),
+                                        title:
+                                            Text('${_diagnosisText[index]}'));
+                                  }),
                             ),
                           ),
                         ],
@@ -120,7 +120,8 @@ class DisplayConditions extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                     child: Text(
                       "Conditions: None",
-                      textScaleFactor: 1.5,
+                      textScaleFactor: 1.2,
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ]);

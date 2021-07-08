@@ -22,87 +22,89 @@ class SearchPatients extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(title: const Text('Search for Patient')),
-        body: ListView(children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: Form(
-              child: Column(
-                children: <Widget>[
-                  nameContainer(_lastName, 'Last Name'),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 4,
-                          child: nameContainer(_firstName, 'First Name'),
-                        ),
-                      ]),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Container(
-                  //       //height: MediaQuery.of(context).copyWith().size.height / 3,
-                  //       height: 35,
-                  //       //width: MediaQuery.of(context).copyWith().size.width / 3,
-                  //       width: 120,
-                  //       child: DatePicker(birthDateController: _birthDateController),
-                  //     ),
-                  //     Container(
-                  //       height: 50,
-                  //       width: 120,
-                  //       child: GenderPicker(),
-                  //     ),
-                  //   ],
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Expanded(
-                  //       flex: 10,
-                  //       child: Container(
-                  //         margin: EdgeInsets.all(40.0),
-                  //         child: TextField(
-                  //           decoration: null,
-                  //           controller: _serverTextFieldController,
-                  //         ),
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 10,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 3),
-                            //margin: EdgeInsets.all(10.0),
-                            child: ServerPicker(),
-                          ),
-                        ),
-                      ]),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10.0),
+                child: Form(
+                  child: Column(
                     children: <Widget>[
-                      SmallActionButton(
-                          title: 'Search',
-                          onPressed: () {
-                            // serverController.setServer(serverUris[
-                            //     int.parse(_serverTextFieldController.text)]);
-                            serverController
-                                .setServer(serverController.serverUri.value);
-                            Get.toNamed("/displayPatient", arguments: [
-                              _lastName.text,
-                              _firstName.text,
-                            ]);
-                          }),
+                      nameContainer(_lastName, 'Last Name'),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: nameContainer(_firstName, 'First Name'),
+                            ),
+                          ]),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     Container(
+                      //       //height: MediaQuery.of(context).copyWith().size.height / 3,
+                      //       height: 35,
+                      //       //width: MediaQuery.of(context).copyWith().size.width / 3,
+                      //       width: 120,
+                      //       child: DatePicker(birthDateController: _birthDateController),
+                      //     ),
+                      //     Container(
+                      //       height: 50,
+                      //       width: 120,
+                      //       child: GenderPicker(),
+                      //     ),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     Expanded(
+                      //       flex: 10,
+                      //       child: Container(
+                      //         margin: EdgeInsets.all(40.0),
+                      //         child: TextField(
+                      //           decoration: null,
+                      //           controller: _serverTextFieldController,
+                      //         ),
+                      //       ),
+                      //     )
+                      //   ],
+                      // ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 10,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 3),
+                                //margin: EdgeInsets.all(10.0),
+                                child: ServerPicker(),
+                              ),
+                            ),
+                          ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SmallActionButton(
+                              title: 'Search',
+                              onPressed: () {
+                                // serverController.setServer(serverUris[
+                                //     int.parse(_serverTextFieldController.text)]);
+                                serverController.setServer(
+                                    serverController.serverUri.value);
+                                Get.toNamed("/displayPatient", arguments: [
+                                  _lastName.text,
+                                  _firstName.text,
+                                ]);
+                              }),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
-          )
-        ]));
+                  ),
+                ),
+              )
+            ]));
   }
 
   // Future _hapiSearch({

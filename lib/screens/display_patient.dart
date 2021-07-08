@@ -51,7 +51,7 @@ class DisplayPatient extends StatelessWidget {
             if (snapshot.hasData) {
               // Patient patient = snapshot.data!.entry![0].resource!
               //     as Patient; // 0 picks the first patient in the list
-              Patient patient = snapshot.data!.entry![1].resource!
+              Patient patient = snapshot.data!.entry![0].resource!
                   as Patient; // 1 picks the second Grace Jackson at hapi, who happens to have a medication list and problem list...
               if (patient.birthDate != null) {
                 var birthday = FhirDateTime(patient.birthDate.toString());
@@ -102,9 +102,17 @@ class DisplayPatient extends StatelessWidget {
                       textAlign: TextAlign.center,
                       controller: nameController,
                       readOnly: true,
-                      decoration: null,
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 7,
+                        ),
+                      ),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        // height: 2.0,
                       ),
                     ),
                     /*Row(
@@ -115,10 +123,13 @@ class DisplayPatient extends StatelessWidget {
                               child: */
                     TextField(
                       controller: ageGenderDobController,
-                      decoration: null,
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        border: InputBorder.none,
+                      ),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.black.withOpacity(0.5), fontSize: 14.0),
+                          color: Colors.black.withOpacity(0.5), fontSize: 15.0),
                     ),
                     /*
                             ),
