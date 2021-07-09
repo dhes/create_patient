@@ -54,7 +54,7 @@ class DisplayMedicationStatments extends StatelessWidget {
                       child: SizedBox(
                         height: _listLength * 20.0 + 10.0,
                         child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            //physics: NeverScrollableScrollPhysics(),
                             itemExtent: 20.0,
                             itemCount: _listLength,
                             itemBuilder: (BuildContext context, int index) {

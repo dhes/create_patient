@@ -88,7 +88,7 @@ class DisplayConditions extends StatelessWidget {
                               height: _diagnosisText.length * 20.0,
                               child: ListView.builder(
                                   padding: EdgeInsets.all(0),
-                                  physics: NeverScrollableScrollPhysics(),
+                                  //: NeverScrollableScrollPhysics(),
                                   //scrollDirection: Axis.vertical,
                                   itemExtent: 20.0,
                                   //shrinkWrap: true,
