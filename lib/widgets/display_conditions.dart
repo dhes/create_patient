@@ -70,12 +70,13 @@ class DisplayConditions extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
+                        color: Colors.grey[300],
                         height: 29,
-                        padding: EdgeInsets.fromLTRB(14, 14, 10, 0),
+                        padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
                         child: Text(
                           "Conditions",
                           style: TextStyle(fontWeight: FontWeight.bold),
-                          textScaleFactor: 1.1,
+                          textScaleFactor: 1.05,
                         ),
                       ),
                       Row(
@@ -84,11 +85,13 @@ class DisplayConditions extends StatelessWidget {
                           Expanded(
                             child: SizedBox(
                               // height: 500.0,
-                              height: _diagnosisText.length * 20.0 + 15.0,
+                              height: _diagnosisText.length * 20.0,
                               child: ListView.builder(
+                                  padding: EdgeInsets.all(0),
                                   physics: NeverScrollableScrollPhysics(),
                                   //scrollDirection: Axis.vertical,
                                   itemExtent: 20.0,
+                                  //shrinkWrap: true,
                                   itemCount: _diagnosisText.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -97,8 +100,8 @@ class DisplayConditions extends StatelessWidget {
                                     return ListTile(
                                         // leading: Icon(
                                         //     Icons.medical_services_outlined),
-                                        title:
-                                            Text('${_diagnosisText[index]}'));
+                                        title: Text(
+                                            '${_diagnosisText[index]}'.trim()));
                                   }),
                             ),
                           ),
@@ -120,7 +123,7 @@ class DisplayConditions extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                     child: Text(
                       "Conditions: None",
-                      textScaleFactor: 1.2,
+                      textScaleFactor: 1.1,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

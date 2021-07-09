@@ -63,7 +63,8 @@ class DisplayMedicationStatments extends StatelessWidget {
                                 // Icon(Icons.medical_services_outlined),
                                 title: Text(
                                     // '${_medicationStatementDisplay[index]}'));
-                                    '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'),
+                                    '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'
+                                        .trim()),
                               );
                             }),
                       ),
