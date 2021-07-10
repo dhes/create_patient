@@ -23,7 +23,7 @@ List<Uri> serverUris = [
   Uri(scheme: 'http', host: 'demo.oridashi.com.au', path: '', port: 8305),
   // Uri(scheme: https://r4.test.pyrohealth.net/fhir
   Uri(scheme: 'https', host: 'r4.test.pyrohealth.net', path: '/fhir'),
-  //https://launch.smarthealthit.org/v/r4/fhir
+  // https://launch.smarthealthit.org/v/r4/fhir
   Uri(scheme: 'https', host: 'launch.smarthealthit.org', path: '/v/r4/fhir'),
   // http://worden.globalgold.co.uk:8080/FHIR_a/hosted_demo.html
   //  not live on 2020-06-19
