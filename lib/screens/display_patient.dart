@@ -24,7 +24,7 @@ class DisplayPatient extends StatelessWidget {
 // class _DisplayPatient extends State<DisplayPatient> {
 // //  late Future<Patient?> futurePatient;
 //  late Future<Bundle?> futureBundle;
-  late Future<Bundle?> futureBundle =
+  late final Future<Bundle?> futureBundle =
       fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
 
   // @override
