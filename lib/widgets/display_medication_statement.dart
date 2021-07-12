@@ -13,7 +13,7 @@ class DisplayMedicationStatments extends StatelessWidget {
   final String? id;
   DisplayMedicationStatments(this.id, {Key? key}) : super(key: key);
 
-  late Future<r4.Bundle?> futureBundle = fetchBundle(id!);
+  late final Future<r4.Bundle?> futureBundle = fetchBundle(id!);
 
   @override
   Widget build(BuildContext context) {

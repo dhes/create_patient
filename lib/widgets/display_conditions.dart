@@ -20,7 +20,7 @@ class DisplayConditions extends StatelessWidget {
 
 // class _DisplayConditions extends State<DisplayConditions> {
 //  late Future<Patient?> futurePatient;
-  late Future<r4.Bundle?> futureBundle = fetchBundle(id!);
+  late final Future<r4.Bundle?> futureBundle = fetchBundle(id!);
 
   // @override
   // void initState() {
