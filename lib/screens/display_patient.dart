@@ -93,26 +93,29 @@ class DisplayPatient extends StatelessWidget {
                   _givenName[0] + ' ' + _familyName.toString();
               return Material(
                 // clipBehavior: Clip.values,
-                child: ListView(
+                child: Column(
                   children: <Widget>[
                     /*Container(
                       padding: EdgeInsets.all(10.0),
                       child: Column(children: <Widget>[*/
-                    TextField(
-                      textAlign: TextAlign.center,
-                      controller: nameController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 7,
+                    Container(
+                      height: 50,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: nameController,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 7,
+                          ),
                         ),
-                      ),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        // height: 2.0,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          // height: 2.0,
+                        ),
                       ),
                     ),
                     /*Row(
@@ -121,15 +124,19 @@ class DisplayPatient extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: */
-                    TextField(
-                      controller: ageGenderDobController,
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        border: InputBorder.none,
+                    Container(
+                      height: 20,
+                      child: TextField(
+                        controller: ageGenderDobController,
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          border: InputBorder.none,
+                        ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontSize: 15.0),
                       ),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5), fontSize: 15.0),
                     ),
                     /*
                             ),
