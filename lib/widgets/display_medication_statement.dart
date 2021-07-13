@@ -30,46 +30,41 @@ class DisplayMedicationStatments extends StatelessWidget {
               for (var i = 0; i < _listLength; i++)
                 snapshot.data!.entry![i].resource as r4.MedicationStatement
             ];
-            // var _medicationStatementDisplay = [
-            //   for (var _medicationStatement in _medicationStatementList)
-            //     _medicationStatement.medicationCodeableConcept!.coding![0]
-            //         .display // have to deal with a coding list but for starters
-            //   // will assume there is only one entry
-            // ];
             return Column(
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
+                  color: Colors.grey[300],
                   height: 29,
-                  padding: EdgeInsets.fromLTRB(14, 14, 10, 0),
+                  padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
                   child: Text(
                     "Medications",
-                    textScaleFactor: 1.1,
+                    textScaleFactor: 1.05,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: _listLength * 20.0 + 10.0,
-                        child: ListView.builder(
-                            //physics: NeverScrollableScrollPhysics(),
-                            itemExtent: 20.0,
-                            itemCount: _listLength,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                // leading:
-                                // Icon(Icons.medical_services_outlined),
-                                title: Text(
-                                    // '${_medicationStatementDisplay[index]}'));
-                                    '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'
-                                        .trim()),
-                              );
-                            }),
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: _listLength * 20.0,
+                  child: ListView.builder(
+//                      padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
+//                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemExtent: 20.0,
+                      itemCount: _listLength,
+                      itemBuilder: (BuildContext context, int index) {
+                        return /*ListTile(
+                          // leading:
+                          // Icon(Icons.medical_services_outlined),
+                          title: */
+                            Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            '${_medicationStatementList[index].medicationCodeableConcept?.coding?[0].display ?? _medicationStatementList[index].medicationReference?.display ?? 'Unable to get name'}'
+                                .trim() /*)*/,
+                          ),
+                        );
+                      }),
                 ),
               ],
             );
@@ -116,11 +111,6 @@ Future<r4.Bundle?> fetchBundle(String _id) async {
     if (response.statusCode == 200) {
       if (r4.Bundle.fromJson(jsonDecode(response.body)).total.toString() ==
           '0') {
-        // Get.rawSnackbar(
-        //     //title: 'Oops!',
-        //     message: 'No medical conditions. ');
-        // await new Future.delayed(const Duration(seconds: 3));
-        //Get.toNamed('/');
       } else {
         // If the server did return a 200 OK response,
         // then parse the JSON.

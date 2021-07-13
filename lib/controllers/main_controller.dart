@@ -7,15 +7,15 @@ import 'package:fhir/r4.dart';
 List<Uri> serverUris = [
   // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
-  // https://server.fire.ly/R4
   // http://sandbox.hspconsortium.org/ // HSPC Sandbox - requires login - not set up
+  // https://server.fire.ly/R4
   Uri(scheme: 'https', host: 'server.fire.ly', path: '/R4'),
   //  http://hapi.fhir.org/baseR4,
   Uri(scheme: 'http', host: 'hapi.fhir.org', path: '/baseR4'),
   // Bulk Data Reference Server - it's... well, bulk
   // https://spark.incendi.no/fhir
   Uri(scheme: 'https', host: 'spark.incendi.no', path: '/fhir'),
-  // http://nprogram.azurewebsites.net
+  //
   Uri(scheme: 'http', host: 'nprogram.azurewebsites.net', path: ''),
   // http://demo.oridashi.com.au:8304
   Uri(scheme: 'http', host: 'demo.oridashi.com.au', path: '', port: 8304),
