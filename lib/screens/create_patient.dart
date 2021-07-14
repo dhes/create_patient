@@ -17,12 +17,7 @@ class CreatePatient extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final _birthDateController = TextEditingController();
-    // final _serverTextFieldController = TextEditingController(
-    //   text: '0',
-    // );
     final serverController = Get.put(ServerUri());
-
-    //final _idController = TextEditingController();
 
     return Scaffold(
         appBar: AppBar(title: const Text('New Patient')),
@@ -59,28 +54,11 @@ class CreatePatient extends StatelessWidget {
                           flex: 2,
                           child: Container(
                             margin: EdgeInsets.all(5.0),
-                            //height: 50,
-                            //width: 120,
                             child: GenderPicker(),
                           ),
                         )
                       ],
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: <Widget>[
-                    //     Expanded(
-                    //       flex: 10,
-                    //       child: Container(
-                    //         margin: EdgeInsets.all(40.0),
-                    //         child: TextField(
-                    //           decoration: null,
-                    //           controller: _serverTextFieldController,
-                    //         ),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -88,7 +66,6 @@ class CreatePatient extends StatelessWidget {
                             flex: 10,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 3),
-                              //margin: EdgeInsets.all(10.0),
                               child: ServerPicker(),
                             ),
                           ),
@@ -101,8 +78,6 @@ class CreatePatient extends StatelessWidget {
                           child: SmallActionButton(
                               title: 'Save',
                               onPressed: () {
-                                // serverController.setServer(serverUris[int.parse(
-                                //     _serverTextFieldController.text)]);
                                 serverController.setServer(
                                     serverController.serverUri.value);
                                 _hapiCreate(
@@ -129,7 +104,6 @@ class CreatePatient extends StatelessWidget {
       String firstName = '',
       String birthDate = '',
       PatientGender? gender}) async {
-//  FhirServer controller = Get.put(FhirServer());
     ServerUri controller = Get.put(ServerUri());
     var newPatient = Patient(
       resourceType: R4ResourceType.Patient,
@@ -143,8 +117,6 @@ class CreatePatient extends StatelessWidget {
       gender: gender,
     );
     var newRequest = FhirRequest.create(
-      // base: Uri.parse('https://hapi.fhir.org/baseR4'),
-      // base: Uri.parse(controller.fhirServer.value),
       base: controller.serverUri.value,
       resource: newPatient,
     );
