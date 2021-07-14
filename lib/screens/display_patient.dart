@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../widgets/small_action_button.dart';
+// import '../widgets/small_action_button.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/display_conditions.dart';
@@ -159,7 +159,6 @@ String _shortGender(PatientGender? longGender) {
 enum Gender { F, M, O, U }
 
 Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
-  // FhirServer controller = Get.put(FhirServer());
   ServerUri controller = Get.put(ServerUri());
 
   var uri = controller.serverUri.value.replace(
@@ -196,7 +195,7 @@ Future<Bundle?> fetchBundle({String? lastName, String? firstName}) async {
       await new Future.delayed(const Duration(seconds: 3));
       Get.toNamed('/');
     }
-    // or if the darn server just isn't responding:
+    // or if the server isn't responding:
   } on SocketException catch (e) {
     Get.rawSnackbar(
       title: 'Host not available',
