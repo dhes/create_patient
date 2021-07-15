@@ -43,33 +43,60 @@ class PatientProfile extends StatelessWidget {
                   "MedicationStatement")
               .toList();
           return Scaffold(
-              appBar: AppBar(
-                title: Text(((_patientEntries?[0].resource as r4.Patient)
-                            .name?[0]
-                            .given?[0]
-                            .toString() ??
-                        '??') +
-                    ' ' +
-                    ((_patientEntries?[0].resource as r4.Patient)
-                            .name?[0]
-                            .family
-                            .toString() ??
-                        '??')),
-              ),
-              body: SizedBox(
-                height: _entries!.length * 20.0,
-                child: (ListView.builder(
-                    itemExtent: 20.0,
-                    itemCount: _conditionEntries?.length ?? 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Text(
-                            '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
-                                .trim()),
-                      );
-                    })),
-              ));
+            appBar: AppBar(
+              title: Text(((_patientEntries?[0].resource as r4.Patient)
+                          .name?[0]
+                          .given?[0]
+                          .toString() ??
+                      '??') +
+                  ' ' +
+                  ((_patientEntries?[0].resource as r4.Patient)
+                          .name?[0]
+                          .family
+                          .toString() ??
+                      '??')),
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.maxFinite,
+                  height: 20,
+                  color: Colors.grey[300],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Conditions',
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                if (_conditionEntries!.length == 0)
+                  SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text('none'),
+                    ),
+                    height: 20,
+                    width: double.infinity,
+                  ),
+                SizedBox(
+                  height: _entries!.length * 20.0,
+                  child: (ListView.builder(
+                      itemExtent: 20.0,
+                      itemCount: _conditionEntries?.length ?? 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text(
+                              '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
+                                  .trim()),
+                        );
+                      })),
+                ),
+              ],
+            ),
+          );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
