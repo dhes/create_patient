@@ -20,13 +20,27 @@ class PatientProfile extends StatelessWidget {
         if (snapshot.hasData) {
           List<r4.BundleEntry>? _entries = snapshot.data!.entry;
           // r4.Patient _patient;
+          // assume that there is one and only one entry with  resourceType = Patient
+          // but to not assume that it is the first entry
+          // so iterate through the entries, find the patient and their indes.
           // for(r4.BundleEntry _entry in _entries!) {
           //   if (_entry.resource?.resourceType == r4.R4ResourceType.Patient) {
-          //     _patient = _entry.resource as r4.Patient;
+          //     int _patientResourceEntryIndex = _entry.index;
           // }
-          r4.Patient _patient = _entries?[0].resource as r4.Patient;
+          // int patientIndex = _entries.indexOf(r4.Patient);
+          // r4.Patient _patient = _entries?[0].resource as r4.Patient;
+          List<r4.BundleEntry>? _patientEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "Patient")
+              .toList();
           return Scaffold(
-              appBar: AppBar(title: Text(_patient.name![0].family.toString())),
+              appBar: AppBar(
+                title: Text((_patientEntries?[0].resource as r4.Patient)
+                        .name?[0]
+                        .family
+                        .toString() ??
+                    '??'),
+              ),
               body: SizedBox(
                 height: _entries!.length * 20.0,
                 child: (ListView.builder(

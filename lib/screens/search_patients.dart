@@ -26,6 +26,7 @@ class SearchPatients extends StatelessWidget {
                     children: <Widget>[
                       nameContainer(_lastName, 'Last Name'),
                       Row(
+                          // try deleting this Row.....
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
@@ -45,21 +46,26 @@ class SearchPatients extends StatelessWidget {
                               ),
                             ),
                           ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          SmallActionButton(
-                              title: 'Search',
-                              onPressed: () {
-                                serverController.setServer(
-                                    serverController.serverUri.value);
-                                Get.toNamed("/displayPatient", arguments: [
-                                  _lastName.text,
-                                  _firstName.text,
-                                ]);
-                              }),
-                        ],
-                      )
+                      SmallActionButton(
+                          title: 'Search',
+                          onPressed: () {
+                            serverController
+                                .setServer(serverController.serverUri.value);
+                            Get.toNamed("/displayPatient", arguments: [
+                              _lastName.text,
+                              _firstName.text,
+                            ]);
+                          }),
+                      SmallActionButton(
+                          title: 'New Search',
+                          onPressed: () {
+                            serverController
+                                .setServer(serverController.serverUri.value);
+                            Get.toNamed("/patientProfile", arguments: [
+                              _lastName.text,
+                              _firstName.text,
+                            ]);
+                          })
                     ],
                   ),
                 ),
