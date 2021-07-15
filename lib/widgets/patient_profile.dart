@@ -1,25 +1,14 @@
-//////////////////////////////////////////////////////
-//                                                  //
-//                     incomplete                         //
-//                                                  //
-//                                                  //
-//////////////////////////////////////////////////////
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:fhir/r4.dart' as r4;
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 
 class PatientProfile extends StatelessWidget {
-  // final String? id;
-  // PatientProfile(this.id, {Key? key}) : super(key: key);
-
   late final Future<r4.Bundle?> futureBundle =
       fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
 
@@ -30,7 +19,23 @@ class PatientProfile extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<r4.BundleEntry>? _entries = snapshot.data!.entry;
-          return Text(_entries!.length.toString());
+
+          return Scaffold(
+              appBar: AppBar(title: Text('${_entries!.length} entries')),
+              body: SizedBox(
+                height: _entries.length * 20.0,
+                child: (ListView.builder(
+                    itemExtent: 20.0,
+                    itemCount: _entries.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text(
+                            '${_entries[index].resource?.resourceTypeString()}'
+                                .trim()),
+                      );
+                    })),
+              ));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -47,8 +52,6 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   var uri = controller.serverUri.value.replace(
     path: controller.serverUri.value.path.toString() + '/Patient',
     queryParameters: {
-      //     '_revinclude': 'MedicationStatement:patient',
-//      '_revinclude': 'Condition:patient',  //duplicates not allowed...
       '_revinclude': ['MedicationStatement:patient', 'Condition:patient'],
       if (lastName != '') 'family': lastName,
       if (firstName != '') 'given': firstName,
