@@ -19,11 +19,16 @@ class PatientProfile extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<r4.BundleEntry>? _entries = snapshot.data!.entry;
-
+          // r4.Patient _patient;
+          // for(r4.BundleEntry _entry in _entries!) {
+          //   if (_entry.resource?.resourceType == r4.R4ResourceType.Patient) {
+          //     _patient = _entry.resource as r4.Patient;
+          // }
+          r4.Patient _patient = _entries?[0].resource as r4.Patient;
           return Scaffold(
-              appBar: AppBar(title: Text('${_entries!.length} entries')),
+              appBar: AppBar(title: Text(_patient.name![0].family.toString())),
               body: SizedBox(
-                height: _entries.length * 20.0,
+                height: _entries!.length * 20.0,
                 child: (ListView.builder(
                     itemExtent: 20.0,
                     itemCount: _entries.length,
