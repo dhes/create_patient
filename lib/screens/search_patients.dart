@@ -12,13 +12,7 @@ class SearchPatients extends StatelessWidget {
   Widget build(BuildContext context) {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
-    // final _serverTextFieldController = TextEditingController(
-    //   text: '0',
-    // );
     final serverController = Get.put(ServerUri());
-
-    // final _birthDateController = TextEditingController();
-    // final _idController = TextEditingController();
 
     return Scaffold(
         appBar: AppBar(title: const Text('Search for Patient')),
@@ -39,38 +33,6 @@ class SearchPatients extends StatelessWidget {
                               child: nameContainer(_firstName, 'First Name'),
                             ),
                           ]),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Container(
-                      //       //height: MediaQuery.of(context).copyWith().size.height / 3,
-                      //       height: 35,
-                      //       //width: MediaQuery.of(context).copyWith().size.width / 3,
-                      //       width: 120,
-                      //       child: DatePicker(birthDateController: _birthDateController),
-                      //     ),
-                      //     Container(
-                      //       height: 50,
-                      //       width: 120,
-                      //       child: GenderPicker(),
-                      //     ),
-                      //   ],
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       flex: 10,
-                      //       child: Container(
-                      //         margin: EdgeInsets.all(40.0),
-                      //         child: TextField(
-                      //           decoration: null,
-                      //           controller: _serverTextFieldController,
-                      //         ),
-                      //       ),
-                      //     )
-                      //   ],
-                      // ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -89,8 +51,6 @@ class SearchPatients extends StatelessWidget {
                           SmallActionButton(
                               title: 'Search',
                               onPressed: () {
-                                // serverController.setServer(serverUris[
-                                //     int.parse(_serverTextFieldController.text)]);
                                 serverController.setServer(
                                     serverController.serverUri.value);
                                 Get.toNamed("/displayPatient", arguments: [
@@ -106,21 +66,4 @@ class SearchPatients extends StatelessWidget {
               )
             ]));
   }
-
-  // Future _hapiSearch({
-  //   String lastName = '',
-  //   String firstName = '',
-  //   // String birthDate = '',
-  //   // String id = '',
-  //   // String gender = '',
-  // }) async {
-  //   await launch('http://hapi.fhir.org/baseR4/'
-  //       'Patient?'
-  //       'given=$firstName&'
-  //       'family=$lastName&'
-  //       // 'birthdate=$birthDate&'
-  //       // '_id=$id&'
-  //       // 'gender=$gender&'
-  //       '_pretty=true');
-  // }
 }
