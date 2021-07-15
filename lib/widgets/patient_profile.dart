@@ -33,24 +33,39 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Patient")
               .toList();
+          List<r4.BundleEntry>? _conditionEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "Condition")
+              .toList();
+          List<r4.BundleEntry>? _medicationStatementEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() ==
+                  "MedicationStatement")
+              .toList();
           return Scaffold(
               appBar: AppBar(
-                title: Text((_patientEntries?[0].resource as r4.Patient)
-                        .name?[0]
-                        .family
-                        .toString() ??
-                    '??'),
+                title: Text(((_patientEntries?[0].resource as r4.Patient)
+                            .name?[0]
+                            .given?[0]
+                            .toString() ??
+                        '??') +
+                    ' ' +
+                    ((_patientEntries?[0].resource as r4.Patient)
+                            .name?[0]
+                            .family
+                            .toString() ??
+                        '??')),
               ),
               body: SizedBox(
                 height: _entries!.length * 20.0,
                 child: (ListView.builder(
                     itemExtent: 20.0,
-                    itemCount: _entries.length,
+                    itemCount: _conditionEntries?.length ?? 1,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                            '${_entries[index].resource?.resourceTypeString()}'
+                            '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
                                 .trim()),
                       );
                     })),
