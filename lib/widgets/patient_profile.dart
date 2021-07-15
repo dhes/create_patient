@@ -17,10 +17,11 @@ import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 
 class PatientProfile extends StatelessWidget {
-  final String? id;
-  PatientProfile(this.id, {Key? key}) : super(key: key);
+  // final String? id;
+  // PatientProfile(this.id, {Key? key}) : super(key: key);
 
-  late final Future<r4.Bundle?> futureBundle = fetchBundle(id!);
+  late final Future<r4.Bundle?> futureBundle =
+      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +41,17 @@ class PatientProfile extends StatelessWidget {
   }
 }
 
-Future<r4.Bundle?> fetchBundle(String _id) async {
+Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   ServerUri controller = Get.put(ServerUri());
 
   var uri = controller.serverUri.value.replace(
-    path: controller.serverUri.value.path.toString() + '/MedicationStatement',
+    path: controller.serverUri.value.path.toString() + '/Patient',
     queryParameters: {
-      'subject': 'Patient/' + _id,
+      //     '_revinclude': 'MedicationStatement:patient',
+//      '_revinclude': 'Condition:patient',  //duplicates not allowed...
+      '_revinclude': ['MedicationStatement:patient', 'Condition:patient'],
+      if (lastName != '') 'family': lastName,
+      if (firstName != '') 'given': firstName,
       '_format': 'json',
     },
   );
