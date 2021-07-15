@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'screens/create_patient.dart';
 import 'screens/search_patients.dart';
 import 'screens/home.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/newPatient", page: () => CreatePatient()),
         GetPage(name: "/searchPatients", page: () => SearchPatients()),
         GetPage(name: "/displayPatient", page: () => DisplayPatient()),
-        GetPage(name: "/patientProfile", page: () => PatientProfile(String? id)),
+        GetPage(name: "/patientProfile", page: () => PatientProfile()),
       ],
     );
   }
