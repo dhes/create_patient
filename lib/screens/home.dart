@@ -6,15 +6,9 @@ class Home extends StatelessWidget {
 
   final ButtonStyle style = ElevatedButton.styleFrom(
     textStyle: const TextStyle(fontSize: 20),
-    //primary: Colors.pinkAccent,
   );
   @override
   Widget build(BuildContext context) {
-    // final _serverTextFieldController = TextEditingController(
-    //   text: '0',
-    // );
-    // final serverController = Get.put(ServerUri());
-    //final fhirServer = fhirServers[0];
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Center(
@@ -28,20 +22,13 @@ class Home extends StatelessWidget {
               },
               child: const Text('New Patient'),
             ),
-            //const SizedBox(height: 30),
             ElevatedButton(
               style: style,
               onPressed: () {
-                // serverController.setServer(
-                //     uris[int.parse(_serverTextFieldController.text)]);
                 Get.toNamed("/searchPatients");
               },
               child: const Text('Search Patients'),
             ),
-            // TextField(
-            //   decoration: null,
-            //   controller: _serverTextFieldController,
-            // ),
           ],
         ),
       ),
