@@ -50,11 +50,27 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Immunization")
               .toList();
-          // ImagingStudy
-          // FamilyMemberHistory
-          // Observation
-          // DiagnosticReport
-          // Procedure
+          List<r4.BundleEntry>? _procedureEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "Procedure")
+              .toList();
+          List<r4.BundleEntry>? _familyMemberHistoryEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() ==
+                  "FamilyMemberHistory")
+              .toList();
+          List<r4.BundleEntry>? _diagnosticReportEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "DiagnosticReport")
+              .toList();
+          List<r4.BundleEntry>? _imagingStudyEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "ImagingStudy")
+              .toList();
+          List<r4.BundleEntry>? _observationEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "Observation")
+              .toList();
           return Scaffold(
               appBar: AppBar(
                 title: Text(((_patientEntries?[0].resource as r4.Patient)
@@ -75,11 +91,11 @@ class PatientProfile extends StatelessWidget {
                   BundleEntry(_conditionEntries, 'Conditions'),
                   BundleEntry(_medicationStatementEntries, 'Medications'),
                   BundleEntry(_immunizationEntries, 'Immunizations'),
-//                ImagingStudy
-//                FamilyMemberHistory
-//                Observation
-//                DiagnosticReport
-//                Procedure
+                  BundleEntry(_procedureEntries, 'Procedures'),
+                  BundleEntry(_familyMemberHistoryEntries, 'Family History'),
+                  BundleEntry(_diagnosticReportEntries, 'Diagnostic Reports'),
+                  BundleEntry(_imagingStudyEntries, 'Imaging Studies'),
+                  BundleEntry(_observationEntries, 'Observations'),
                 ],
               ));
         } else if (snapshot.hasError) {
@@ -102,12 +118,12 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
         'MedicationStatement:patient',
         'Condition:patient',
         'AllergyIntolerance:patient',
-        'Immunization:patient'
-//      ImagingStudy
-//      FamilyMemberHistory
-//      Observation
-//      DiagnosticReport
-//      Procedure
+        'Immunization:patient',
+        'ImagingStudy:patient',
+        'FamilyMemberHistory:patient',
+        'Observation:patient',
+        'DiagnosticReport:patient',
+        'Procedure:patient',
       ],
       if (lastName != '') 'family': lastName,
       if (firstName != '') 'given': firstName,
@@ -190,8 +206,6 @@ class BundleEntry extends StatelessWidget {
                 return Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      // '${(entries![index].resource as r4.Condition).code?.text ?? '??'}'
-                      //     .trim()),
                       _entryText(entries![index], title),
                     ));
               }),
@@ -216,11 +230,27 @@ class BundleEntry extends StatelessWidget {
       case 'Immunizations':
         return '${(entry.resource as r4.Immunization).resourceTypeString() ?? '??'}'
             .trim();
-      // ImagingStudy
-      // FamilyMemberHistory
-      // Observation
-      // DiagnosticReport
-      // Procedure
+      case 'Imaging Studies':
+        return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Family History':
+        return '${(entry.resource as r4.FamilyMemberHistory).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Observations':
+        return '${(entry.resource as r4.Observation).code.text ?? '??'}'
+                .trim() +
+            ': ' +
+            '${(entry.resource as r4.Observation).valueQuantity?.value ?? '??'}'
+                .trim() +
+            ' ' +
+            '${(entry.resource as r4.Observation).valueQuantity?.unit ?? '??'}'
+                .trim();
+      case 'Diagnostic Reports':
+        return '${(entry.resource as r4.DiagnosticReport).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Procedures':
+        return '${(entry.resource as r4.Procedure).resourceTypeString() ?? '??'}'
+            .trim();
       default:
         return '';
     }
