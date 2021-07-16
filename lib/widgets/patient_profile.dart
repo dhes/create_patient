@@ -56,46 +56,47 @@ class PatientProfile extends StatelessWidget {
                           .toString() ??
                       '??')),
             ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.maxFinite,
-                  height: 20,
-                  color: Colors.grey[300],
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'Conditions',
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                if (_conditionEntries!.length == 0)
-                  SizedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text('none'),
-                    ),
-                    height: 20,
-                    width: double.infinity,
-                  ),
-                SizedBox(
-                  height: _entries!.length * 20.0,
-                  child: (ListView.builder(
-                      itemExtent: 20.0,
-                      itemCount: _conditionEntries?.length ?? 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Text(
-                              '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
-                                  .trim()),
-                        );
-                      })),
-                ),
-              ],
-            ),
+            body: BundleEntry(_conditionEntries),
+            // body: Column(  // BundleEntry(_conditionsEntries),
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     Container(
+            //       width: double.maxFinite,
+            //       height: 20,
+            //       color: Colors.grey[300],
+            //       child: Padding(
+            //         padding: const EdgeInsets.only(left: 8.0),
+            //         child: Text(
+            //           'Conditions',
+            //           textAlign: TextAlign.left,
+            //         ),
+            //       ),
+            //     ),
+            //     if (_conditionEntries!.length == 0)
+            //       SizedBox(
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: Text('none'),
+            //         ),
+            //         height: 20,
+            //         width: double.infinity,
+            //       ),
+            //     SizedBox(
+            //       height: _conditionEntries.length * 20.0,
+            //       child: (ListView.builder(
+            //           itemExtent: 20.0,
+            //           itemCount: _conditionEntries.length,
+            //           itemBuilder: (BuildContext context, int index) {
+            //             return Padding(
+            //               padding: const EdgeInsets.only(left: 10.0),
+            //               child: Text(
+            //                   '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
+            //                       .trim()),
+            //             );
+            //           })),
+            //     ),
+            //   ],
+            // ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -149,5 +150,54 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
     );
     await new Future.delayed(const Duration(seconds: 4));
     Get.toNamed('/');
+  }
+}
+
+class BundleEntry extends StatelessWidget {
+  const BundleEntry(this.entries, {Key? key}) : super(key: key);
+  final List<r4.BundleEntry>? entries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: double.maxFinite,
+          height: 20,
+          color: Colors.grey[300],
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Conditions',
+              textAlign: TextAlign.left,
+            ),
+          ),
+        ),
+        if (entries?.length == 0)
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text('none'),
+            ),
+            height: 20,
+            width: double.infinity,
+          ),
+        SizedBox(
+          height: entries!.length * 20.0,
+          child: (ListView.builder(
+              itemExtent: 20.0,
+              itemCount: entries?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                      '${(entries![index].resource as r4.Condition).code?.text ?? '??'}'
+                          .trim()),
+                );
+              })),
+        ),
+      ],
+    );
   }
 }
