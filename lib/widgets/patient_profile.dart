@@ -46,6 +46,15 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "AllergyIntolerance")
               .toList();
+          List<r4.BundleEntry>? _immunizationEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "Immunization")
+              .toList();
+          // ImagingStudy
+          // FamilyMemberHistory
+          // Observation
+          // DiagnosticReport
+          // Procedure
           return Scaffold(
               appBar: AppBar(
                 title: Text(((_patientEntries?[0].resource as r4.Patient)
@@ -65,47 +74,13 @@ class PatientProfile extends StatelessWidget {
                   BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
                   BundleEntry(_conditionEntries, 'Conditions'),
                   BundleEntry(_medicationStatementEntries, 'Medications'),
+                  BundleEntry(_immunizationEntries, 'Immunizations'),
+//                ImagingStudy
+//                FamilyMemberHistory
+//                Observation
+//                DiagnosticReport
+//                Procedure
                 ],
-                // body: Column(  // BundleEntry(_conditionsEntries),
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //     Container(
-                //       width: double.maxFinite,
-                //       height: 20,
-                //       color: Colors.grey[300],
-                //       child: Padding(
-                //         padding: const EdgeInsets.only(left: 8.0),
-                //         child: Text(
-                //           'Conditions',
-                //           textAlign: TextAlign.left,
-                //         ),
-                //       ),
-                //     ),
-                //     if (_conditionEntries!.length == 0)
-                //       SizedBox(
-                //         child: Padding(
-                //           padding: const EdgeInsets.only(left: 10.0),
-                //           child: Text('none'),
-                //         ),
-                //         height: 20,
-                //         width: double.infinity,
-                //       ),
-                //     SizedBox(
-                //       height: _conditionEntries.length * 20.0,
-                //       child: (ListView.builder(
-                //           itemExtent: 20.0,
-                //           itemCount: _conditionEntries.length,
-                //           itemBuilder: (BuildContext context, int index) {
-                //             return Padding(
-                //               padding: const EdgeInsets.only(left: 10.0),
-                //               child: Text(
-                //                   '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
-                //                       .trim()),
-                //             );
-                //           })),
-                //     ),
-                //   ],
-                // ),
               ));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -126,7 +101,13 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
       '_revinclude': [
         'MedicationStatement:patient',
         'Condition:patient',
-        'AllergyIntolerance:patient'
+        'AllergyIntolerance:patient',
+        'Immunization:patient'
+//      ImagingStudy
+//      FamilyMemberHistory
+//      Observation
+//      DiagnosticReport
+//      Procedure
       ],
       if (lastName != '') 'family': lastName,
       if (firstName != '') 'given': firstName,
@@ -232,6 +213,14 @@ class BundleEntry extends StatelessWidget {
             ': ' +
             '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
                 .trim();
+      case 'Immunizations':
+        return '${(entry.resource as r4.Immunization).resourceTypeString() ?? '??'}'
+            .trim();
+      // ImagingStudy
+      // FamilyMemberHistory
+      // Observation
+      // DiagnosticReport
+      // Procedure
       default:
         return '';
     }
