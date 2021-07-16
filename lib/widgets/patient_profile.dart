@@ -42,62 +42,71 @@ class PatientProfile extends StatelessWidget {
                   _entry.resource?.resourceTypeString() ==
                   "MedicationStatement")
               .toList();
+          List<r4.BundleEntry>? _allergyIntoleranceEntries = _entries
+              ?.where((_entry) =>
+                  _entry.resource?.resourceTypeString() == "AllergyIntolerance")
+              .toList();
           return Scaffold(
-            appBar: AppBar(
-              title: Text(((_patientEntries?[0].resource as r4.Patient)
-                          .name?[0]
-                          .given?[0]
-                          .toString() ??
-                      '??') +
-                  ' ' +
-                  ((_patientEntries?[0].resource as r4.Patient)
-                          .name?[0]
-                          .family
-                          .toString() ??
-                      '??')),
-            ),
-            body: BundleEntry(_conditionEntries),
-            // body: Column(  // BundleEntry(_conditionsEntries),
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     Container(
-            //       width: double.maxFinite,
-            //       height: 20,
-            //       color: Colors.grey[300],
-            //       child: Padding(
-            //         padding: const EdgeInsets.only(left: 8.0),
-            //         child: Text(
-            //           'Conditions',
-            //           textAlign: TextAlign.left,
-            //         ),
-            //       ),
-            //     ),
-            //     if (_conditionEntries!.length == 0)
-            //       SizedBox(
-            //         child: Padding(
-            //           padding: const EdgeInsets.only(left: 10.0),
-            //           child: Text('none'),
-            //         ),
-            //         height: 20,
-            //         width: double.infinity,
-            //       ),
-            //     SizedBox(
-            //       height: _conditionEntries.length * 20.0,
-            //       child: (ListView.builder(
-            //           itemExtent: 20.0,
-            //           itemCount: _conditionEntries.length,
-            //           itemBuilder: (BuildContext context, int index) {
-            //             return Padding(
-            //               padding: const EdgeInsets.only(left: 10.0),
-            //               child: Text(
-            //                   '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
-            //                       .trim()),
-            //             );
-            //           })),
-            //     ),
-            //   ],
-            // ),
-          );
+              appBar: AppBar(
+                title: Text(((_patientEntries?[0].resource as r4.Patient)
+                            .name?[0]
+                            .given?[0]
+                            .toString() ??
+                        '??') +
+                    ' ' +
+                    ((_patientEntries?[0].resource as r4.Patient)
+                            .name?[0]
+                            .family
+                            .toString() ??
+                        '??')),
+              ),
+              body: ListView(
+                children: [
+                  BundleEntry(_conditionEntries, 'Conditions'),
+                  BundleEntry(_medicationStatementEntries, 'Medications'),
+                  BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
+                ],
+                // body: Column(  // BundleEntry(_conditionsEntries),
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     Container(
+                //       width: double.maxFinite,
+                //       height: 20,
+                //       color: Colors.grey[300],
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(left: 8.0),
+                //         child: Text(
+                //           'Conditions',
+                //           textAlign: TextAlign.left,
+                //         ),
+                //       ),
+                //     ),
+                //     if (_conditionEntries!.length == 0)
+                //       SizedBox(
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(left: 10.0),
+                //           child: Text('none'),
+                //         ),
+                //         height: 20,
+                //         width: double.infinity,
+                //       ),
+                //     SizedBox(
+                //       height: _conditionEntries.length * 20.0,
+                //       child: (ListView.builder(
+                //           itemExtent: 20.0,
+                //           itemCount: _conditionEntries.length,
+                //           itemBuilder: (BuildContext context, int index) {
+                //             return Padding(
+                //               padding: const EdgeInsets.only(left: 10.0),
+                //               child: Text(
+                //                   '${(_conditionEntries![index].resource as r4.Condition).code?.text ?? '??'}'
+                //                       .trim()),
+                //             );
+                //           })),
+                //     ),
+                //   ],
+                // ),
+              ));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -114,7 +123,11 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
   var uri = controller.serverUri.value.replace(
     path: controller.serverUri.value.path.toString() + '/Patient',
     queryParameters: {
-      '_revinclude': ['MedicationStatement:patient', 'Condition:patient'],
+      '_revinclude': [
+        'MedicationStatement:patient',
+        'Condition:patient',
+        'AllergyIntolerance:patient'
+      ],
       if (lastName != '') 'family': lastName,
       if (firstName != '') 'given': firstName,
       '_format': 'json',
@@ -154,8 +167,10 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
 }
 
 class BundleEntry extends StatelessWidget {
-  const BundleEntry(this.entries, {Key? key}) : super(key: key);
+  const BundleEntry(this.entries, this.title, {Key? key}) : super(key: key);
   final List<r4.BundleEntry>? entries;
+  final String title;
+  //final r4.R4ResourceType r4resourceType;
 
   @override
   Widget build(BuildContext context) {
@@ -163,13 +178,14 @@ class BundleEntry extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: double.maxFinite,
-          height: 20,
+          width: double.infinity,
+          height: 22,
           color: Colors.grey[300],
           child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.fromLTRB(8, 2, 0, 0),
             child: Text(
-              'Conditions',
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.left,
             ),
           ),
@@ -185,19 +201,39 @@ class BundleEntry extends StatelessWidget {
           ),
         SizedBox(
           height: entries!.length * 20.0,
-          child: (ListView.builder(
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               itemExtent: 20.0,
               itemCount: entries?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                      '${(entries![index].resource as r4.Condition).code?.text ?? '??'}'
-                          .trim()),
-                );
-              })),
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      // '${(entries![index].resource as r4.Condition).code?.text ?? '??'}'
+                      //     .trim()),
+                      _entryText(entries![index], title),
+                    ));
+              }),
         ),
       ],
     );
+  }
+
+  String _entryText(r4.BundleEntry entry, String title) {
+    switch (title) {
+      case 'Conditions':
+        return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
+      case 'Medications':
+        return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
+            .trim();
+      case 'Allergies':
+        return '${(entry.resource as r4.AllergyIntolerance).code?.coding?[0].display ?? '??'}'
+                .trim() +
+            ': ' +
+            '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
+                .trim();
+      default:
+        return '';
+    }
   }
 }
