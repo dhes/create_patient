@@ -62,9 +62,9 @@ class PatientProfile extends StatelessWidget {
               ),
               body: ListView(
                 children: [
+                  BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
                   BundleEntry(_conditionEntries, 'Conditions'),
                   BundleEntry(_medicationStatementEntries, 'Medications'),
-                  BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
                 ],
                 // body: Column(  // BundleEntry(_conditionsEntries),
                 //   mainAxisAlignment: MainAxisAlignment.start,
