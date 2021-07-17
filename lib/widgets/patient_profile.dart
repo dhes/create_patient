@@ -205,8 +205,13 @@ class BundleEntry extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
+                    child: SelectableText(
                       _entryText(entries![index], title),
+                      //overflow: TextOverflow.visible,
+                      //softWrap: true,
+                      //maxLines: 2,
+                      onTap: () => print('The text is tapped'),
+                      scrollPhysics: ClampingScrollPhysics(),
                     ));
               }),
         ),
