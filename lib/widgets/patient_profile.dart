@@ -228,8 +228,12 @@ class BundleEntry extends StatelessWidget {
             '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
                 .trim();
       case 'Immunizations':
-        return '${(entry.resource as r4.Immunization).resourceTypeString() ?? '??'}'
-            .trim();
+        return '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].display ?? '??'}'
+                .trim() +
+            ' (code: ' +
+            '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].code ?? '??'}'
+                .trim() +
+            ')';
       case 'Imaging Studies':
         return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
             .trim();
