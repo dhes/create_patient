@@ -222,7 +222,8 @@ class BundleEntry extends StatelessWidget {
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
+        return '${(entry.resource as r4.Condition).text?.div.replaceAll('/', '').replaceAll('div', '').replaceAll('<', '').replaceAll('xmlns="http:www.w3.org1999xhtml"', '').replaceAll('>', '') ?? '??'}';
+//      return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
