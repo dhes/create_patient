@@ -37,6 +37,14 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Condition")
               .toList();
+          // further refine to condition list to active only
+          List<r4.BundleEntry>? _activeConditionEntries = _conditionEntries
+              ?.where((_conditionEntry) =>
+                  (_conditionEntry as r4.Condition).clinicalStatus.toString() ==
+                      'active' ||
+                  (_conditionEntry as r4.Condition).clinicalStatus.toString() ==
+                      'Active')
+              .toList();
           List<r4.BundleEntry>? _medicationStatementEntries = _entries
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() ==
@@ -88,7 +96,7 @@ class PatientProfile extends StatelessWidget {
               body: ListView(
                 children: [
                   BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
-                  BundleEntry(_conditionEntries, 'Conditions'),
+                  BundleEntry(_activeConditionEntries, 'Conditions'),
                   BundleEntry(_medicationStatementEntries, 'Medications'),
                   BundleEntry(_immunizationEntries, 'Immunizations'),
                   BundleEntry(_procedureEntries, 'Procedures'),
@@ -222,8 +230,7 @@ class BundleEntry extends StatelessWidget {
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        return '${(entry.resource as r4.Condition).text?.div.replaceAll('/', '').replaceAll('div', '').replaceAll('<', '').replaceAll('xmlns="http:www.w3.org1999xhtml"', '').replaceAll('>', '') ?? '??'}';
-//      return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
+        return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
