@@ -38,11 +38,16 @@ class PatientProfile extends StatelessWidget {
                   _entry.resource?.resourceTypeString() == "Condition")
               .toList();
           // further refine to condition list to active only
+          // this might be better places in the _entryText method
           List<r4.BundleEntry>? _activeConditionEntries = _conditionEntries
               ?.where((_conditionEntry) =>
-                  (_conditionEntry as r4.Condition).clinicalStatus.toString() ==
+                  (_conditionEntry.resource as r4.Condition)
+                          .clinicalStatus
+                          .toString() ==
                       'active' ||
-                  (_conditionEntry as r4.Condition).clinicalStatus.toString() ==
+                  (_conditionEntry.resource as r4.Condition)
+                          .clinicalStatus
+                          .toString() ==
                       'Active')
               .toList();
           List<r4.BundleEntry>? _medicationStatementEntries = _entries
