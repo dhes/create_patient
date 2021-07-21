@@ -39,17 +39,17 @@ class PatientProfile extends StatelessWidget {
               .toList();
           // further refine to condition list to active only
           // this might be better places in the _entryText method
-          List<r4.BundleEntry>? _activeConditionEntries = _conditionEntries
-              ?.where((_conditionEntry) =>
-                  (_conditionEntry.resource as r4.Condition)
-                          .clinicalStatus
-                          .toString() ==
-                      'active' ||
-                  (_conditionEntry.resource as r4.Condition)
-                          .clinicalStatus
-                          .toString() ==
-                      'Active')
-              .toList();
+          // List<r4.BundleEntry>? _activeConditionEntries = _conditionEntries
+          //     ?.where((_conditionEntry) =>
+          //         (_conditionEntry.resource as r4.Condition)
+          //                 .clinicalStatus
+          //                 .toString() ==
+          //             'active' ||
+          //         (_conditionEntry.resource as r4.Condition)
+          //                 .clinicalStatus
+          //                 .toString() ==
+          //             'Active')
+          //     .toList();
           List<r4.BundleEntry>? _medicationStatementEntries = _entries
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() ==
@@ -101,7 +101,7 @@ class PatientProfile extends StatelessWidget {
               body: ListView(
                 children: [
                   BundleEntry(_allergyIntoleranceEntries, 'Allergies'),
-                  BundleEntry(_activeConditionEntries, 'Conditions'),
+                  BundleEntry(_conditionEntries, 'Conditions'),
                   BundleEntry(_medicationStatementEntries, 'Medications'),
                   BundleEntry(_immunizationEntries, 'Immunizations'),
                   BundleEntry(_procedureEntries, 'Procedures'),
@@ -235,7 +235,27 @@ class BundleEntry extends StatelessWidget {
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        return '${(entry.resource as r4.Condition).code?.text ?? '??'}'.trim();
+        // cinicalStatus? onsetAge? category?
+        var _entryResource = entry.resource as r4.Condition;
+        String _clinicalStatus, _onsetAge, _category;
+        _entryResource.clinicalStatus == null
+            ? _clinicalStatus = ''
+            : _clinicalStatus =
+                'status: ' + _entryResource.clinicalStatus.toString() + '; ';
+        _entryResource.onsetAge!.value == null
+            ? _onsetAge = ''
+            : _onsetAge =
+                'onset age ' + _entryResource.onsetAge!.value.toString() + '; ';
+        _entryResource.category?.first.text == null
+            ? _category = ''
+            : _category = 'category: ' + _entryResource.category!.first.text!;
+        return '${_entryResource.code?.text ?? '??'}'.trim() +
+            '\n' +
+            ' (' +
+            _clinicalStatus +
+            _onsetAge +
+            _category +
+            ')';
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
