@@ -223,8 +223,14 @@ class BundleEntry extends StatelessWidget {
                       //overflow: TextOverflow.visible,
                       //softWrap: true,
                       //maxLines: 2,
-                      onTap: () => print('The text is tapped'),
-                      scrollPhysics: ClampingScrollPhysics(),
+                      // onTap: () => print('The text is tapped'),
+                      onTap: () {
+                        Get.defaultDialog(
+                          //title: "Alert!",
+                          content: Text(_entryText(entries![index], title)),
+                        );
+                      },
+                      scrollPhysics: NeverScrollableScrollPhysics(),
                     ));
               }),
         ),
