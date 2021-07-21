@@ -213,24 +213,26 @@ class BundleEntry extends StatelessWidget {
           height: entries!.length * 20.0,
           child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              //itemExtent: 20.0,
+              itemExtent: 20.0,
               itemCount: entries?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: SelectableText(
-                      _entryText(entries![index], title),
-                      //overflow: TextOverflow.visible,
-                      //softWrap: true,
-                      //maxLines: 2,
-                      // onTap: () => print('The text is tapped'),
+                    child: GestureDetector(
+                      child: Text(
+                        _entryText(entries![index], title),
+                        //overflow: TextOverflow.visible,
+                        //softWrap: true,
+                        //maxLines: 2,
+                        // onTap: () => print('The text is tapped'),
+                      ),
                       onTap: () {
                         Get.defaultDialog(
-                          //title: "Alert!",
+                          title: "GERD",
                           content: Text(_entryText(entries![index], title)),
                         );
                       },
-                      scrollPhysics: NeverScrollableScrollPhysics(),
+                      //scrollPhysics: NeverScrollableScrollPhysics(),
                     ));
               }),
         ),
