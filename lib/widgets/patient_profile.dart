@@ -213,7 +213,7 @@ class BundleEntry extends StatelessWidget {
           height: entries!.length * 20.0,
           child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              itemExtent: 20.0,
+              //itemExtent: 20.0,
               itemCount: entries?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
