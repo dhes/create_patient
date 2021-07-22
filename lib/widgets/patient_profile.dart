@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
+//import 'package:html/dom.dart' as html;
+// import 'package:html/dom_parsing.dart';
+import 'package:html/parser.dart' as html_parser;
 
 class PatientProfile extends StatelessWidget {
   late final Future<r4.Bundle?> futureBundle =
@@ -238,10 +241,16 @@ class BundleEntry extends StatelessWidget {
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        // code? cinicalStatus? onsetAge? category?
-        // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
-        // recordedDate? recorder? asserter?
-        // stage? evidence?
+        // Content Elements
+        // // Done:
+        // // code? cinicalStatus? onsetAge? category?
+        // // In Progress:
+        // // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
+        // // recordedDate? recorder? asserter?
+        // // stage? evidence?
+        // Ancestors Elements
+        // // In progress
+        // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _entryResource = entry.resource as r4.Condition;
         String _clinicalStatus, _onsetAge, _category;
         _entryResource.clinicalStatus == null
@@ -306,8 +315,12 @@ class BundleEntry extends StatelessWidget {
         // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
         // recordedDate? recorder? asserter?
         // stage? evidence?
+        var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        return '${_entryResource.code?.text ?? '??'}'.trim();
+        //  return '${_entryResource.code?.text ?? '??'}'.trim();
+        // or use text inherited attribute
+        return '${html_parser.parseFragment(_rawEntryResource?.text?.div).text}'
+            .trim();
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
