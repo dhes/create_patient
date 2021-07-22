@@ -220,19 +220,14 @@ class BundleEntry extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: GestureDetector(
                       child: Text(
-                        _entryText(entries![index], title),
-                        //overflow: TextOverflow.visible,
-                        //softWrap: true,
-                        //maxLines: 2,
-                        // onTap: () => print('The text is tapped'),
+                        _titleText(entries![index], title),
                       ),
                       onTap: () {
                         Get.defaultDialog(
-                          title: "GERD",
+                          title: _titleText(entries![index], title),
                           content: Text(_entryText(entries![index], title)),
                         );
                       },
-                      //scrollPhysics: NeverScrollableScrollPhysics(),
                     ));
               }),
         ),
@@ -243,27 +238,76 @@ class BundleEntry extends StatelessWidget {
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        // cinicalStatus? onsetAge? category?
+        // code? cinicalStatus? onsetAge? category?
+        // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
+        // recordedDate? recorder? asserter?
+        // stage? evidence?
         var _entryResource = entry.resource as r4.Condition;
         String _clinicalStatus, _onsetAge, _category;
         _entryResource.clinicalStatus == null
             ? _clinicalStatus = ''
             : _clinicalStatus =
-                'status: ' + _entryResource.clinicalStatus.toString() + '; ';
+                'status: ' + _entryResource.clinicalStatus.toString() + '\n';
         _entryResource.onsetAge!.value == null
             ? _onsetAge = ''
             : _onsetAge =
-                'onset age ' + _entryResource.onsetAge!.value.toString() + '; ';
+                'onset age ' + _entryResource.onsetAge!.value.toString() + '\n';
         _entryResource.category?.first.text == null
             ? _category = ''
-            : _category = 'category: ' + _entryResource.category!.first.text!;
-        return '${_entryResource.code?.text ?? '??'}'.trim() +
-            '\n' +
-            ' (' +
-            _clinicalStatus +
-            _onsetAge +
-            _category +
+            : _category =
+                'category: ' + _entryResource.category!.first.text! + '\n';
+        return _clinicalStatus + _onsetAge + _category;
+      case 'Medications':
+        return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
+            .trim();
+      case 'Allergies':
+        return '${(entry.resource as r4.AllergyIntolerance).code?.coding?[0].display ?? '??'}'
+                .trim() +
+            ': ' +
+            '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
+                .trim();
+      case 'Immunizations':
+        return '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].display ?? '??'}'
+                .trim() +
+            ' (code: ' +
+            '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].code ?? '??'}'
+                .trim() +
             ')';
+      case 'Imaging Studies':
+        return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Family History':
+        return '${(entry.resource as r4.FamilyMemberHistory).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Observations':
+        return '${(entry.resource as r4.Observation).code.text ?? '??'}'
+                .trim() +
+            ': ' +
+            '${(entry.resource as r4.Observation).valueQuantity?.value ?? '??'}'
+                .trim() +
+            ' ' +
+            '${(entry.resource as r4.Observation).valueQuantity?.unit ?? '??'}'
+                .trim();
+      case 'Diagnostic Reports':
+        return '${(entry.resource as r4.DiagnosticReport).resourceTypeString() ?? '??'}'
+            .trim();
+      case 'Procedures':
+        return '${(entry.resource as r4.Procedure).resourceTypeString() ?? '??'}'
+            .trim();
+      default:
+        return '';
+    }
+  }
+
+  String _titleText(r4.BundleEntry entry, String title) {
+    switch (title) {
+      case 'Conditions':
+        // code? cinicalStatus? onsetAge? category?
+        // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
+        // recordedDate? recorder? asserter?
+        // stage? evidence?
+        var _entryResource = entry.resource as r4.Condition;
+        return '${_entryResource.code?.text ?? '??'}'.trim();
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
