@@ -253,7 +253,13 @@ class BundleEntry extends StatelessWidget {
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        String _clinicalStatus, _onsetAge, _category, _narrative, _severity;
+        String _clinicalStatus,
+            _onsetAge,
+            _category,
+            _narrative,
+            _severity,
+            _code,
+            _system;
         _entryResource.clinicalStatus == null
             ? _clinicalStatus = ''
             : _clinicalStatus =
@@ -276,7 +282,23 @@ class BundleEntry extends StatelessWidget {
             : _severity = 'severity: ' +
                 _entryResource.severity!.coding![0].display! +
                 '\n';
-        return _narrative + _clinicalStatus + _onsetAge + _category + _severity;
+        _entryResource.code?.coding?[0].system == null
+            ? _system = ''
+            : _system = 'system: ' +
+                _entryResource.code!.coding![0].system.toString() +
+                '\n';
+        _entryResource.code?.coding?[0].code == null
+            ? _code = ''
+            : _code = 'code: ' +
+                _entryResource.code!.coding![0].code.toString() +
+                '\n';
+        return _narrative +
+            _clinicalStatus +
+            _onsetAge +
+            _category +
+            _severity +
+            _system +
+            _code;
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
