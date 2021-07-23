@@ -251,8 +251,9 @@ class BundleEntry extends StatelessWidget {
         // Ancestors Elements
         // // In progress
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
+        var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        String _clinicalStatus, _onsetAge, _category;
+        String _clinicalStatus, _onsetAge, _category, _narrative, _severity;
         _entryResource.clinicalStatus == null
             ? _clinicalStatus = ''
             : _clinicalStatus =
@@ -265,7 +266,17 @@ class BundleEntry extends StatelessWidget {
             ? _category = ''
             : _category =
                 'category: ' + _entryResource.category!.first.text! + '\n';
-        return _clinicalStatus + _onsetAge + _category;
+        _rawEntryResource?.text?.div == null
+            ? _narrative = ''
+            : _narrative = 'narrative: ' +
+                html_parser.parseFragment(_rawEntryResource!.text!.div).text! +
+                '\n';
+        _entryResource.severity?.coding?[0].display == null
+            ? _severity = ''
+            : _severity = 'severity: ' +
+                _entryResource.severity!.coding![0].display! +
+                '\n';
+        return _narrative + _clinicalStatus + _onsetAge + _category + _severity;
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
@@ -317,9 +328,10 @@ class BundleEntry extends StatelessWidget {
         // stage? evidence?
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        //  return '${_entryResource.code?.text ?? '??'}'.trim();
-        // or use text inherited attribute
-        return '${html_parser.parseFragment(_rawEntryResource?.text?.div).text}'
+        // prefer the code.display, then the narrative text.
+        // It's the code that we really care about, right?
+        // Annotate with * if uncoded
+        return '${_entryResource.code?.text ?? (html_parser.parseFragment(_rawEntryResource?.text?.div).text) ?? '??'}'
             .trim();
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
