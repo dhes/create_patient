@@ -21,6 +21,7 @@ dependencies:
   intl: ^0.17.0
   # age: ^0.0.1
   age_calculator: ^1.0.0
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:
