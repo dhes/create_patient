@@ -253,6 +253,14 @@ class BundleEntry extends StatelessWidget {
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
+        if (_entryResource.code!.coding != null) {
+          List<String> _codingSystemEntries = [];
+          List<String> _codingCodeEntries = [];
+          for (r4.Coding _entry in _entryResource.code!.coding!) {
+            _codingSystemEntries.add(_entry.system.toString());
+            _codingCodeEntries.add(_entry.code.toString());
+          }
+        }
         List<String> _entries = [
           if (_entryResource.clinicalStatus != null)
             'status: ' + _entryResource.clinicalStatus.toString(),
