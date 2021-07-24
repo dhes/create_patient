@@ -255,23 +255,20 @@ class BundleEntry extends StatelessWidget {
         var _entryResource = entry.resource as r4.Condition;
         List<String> _entries = [
           if (_entryResource.clinicalStatus != null)
-            'status: ' + _entryResource.clinicalStatus.toString() + '\n',
+            'status: ' + _entryResource.clinicalStatus.toString(),
           if (_entryResource.onsetAge!.value != null)
-            'onset age ' + _entryResource.onsetAge!.value.toString() + '\n',
+            'onset age ' + _entryResource.onsetAge!.value.toString(),
           if (_entryResource.category?.first.text != null)
-            'category: ' + _entryResource.category!.first.text! + '\n',
+            'category: ' + _entryResource.category!.first.text!,
           if (_rawEntryResource?.text?.div == null)
             'narrative: ' +
-                html_parser.parseFragment(_rawEntryResource!.text!.div).text! +
-                '\n',
+                html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
           if (_entryResource.severity?.coding?[0].display != null)
-            'severity: ' + _entryResource.severity!.coding![0].display! + '\n',
+            'severity: ' + _entryResource.severity!.coding![0].display!,
           if (_entryResource.code?.coding?[0].system != null)
-            'system: ' +
-                _entryResource.code!.coding![0].system.toString() +
-                '\n',
+            'system: ' + _entryResource.code!.coding![0].system.toString(),
           if (_entryResource.code?.coding?[0].code != null)
-            'code: ' + _entryResource.code!.coding![0].code.toString() + '\n',
+            'code: ' + _entryResource.code!.coding![0].code.toString(),
         ];
         // String _clinicalStatus,
         //     _onsetAge,
@@ -319,7 +316,7 @@ class BundleEntry extends StatelessWidget {
         //     _severity +
         //     _system +
         //     _code;
-        return _entries.join('');
+        return _entries.join('\n');
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
