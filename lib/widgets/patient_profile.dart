@@ -253,12 +253,14 @@ class BundleEntry extends StatelessWidget {
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
+        List<String> _codingEntries = [];
         if (_entryResource.code!.coding != null) {
-          List<String> _codingSystemEntries = [];
-          List<String> _codingCodeEntries = [];
+//          List<String> _codingCodeEntries = [];
           for (r4.Coding _entry in _entryResource.code!.coding!) {
-            _codingSystemEntries.add(_entry.system.toString());
-            _codingCodeEntries.add(_entry.code.toString());
+            if (_entry.system != null)
+              _codingEntries.add('system: ' + _entry.system.toString());
+            if (_entry.code != null)
+              _codingEntries.add('code: ' + _entry.code.toString());
           }
         }
         List<String> _entries = [
@@ -273,11 +275,12 @@ class BundleEntry extends StatelessWidget {
                 html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
           if (_entryResource.severity?.coding?[0].display != null)
             'severity: ' + _entryResource.severity!.coding![0].display!,
-          if (_entryResource.code?.coding?[0].system != null)
-            'system: ' + _entryResource.code!.coding![0].system.toString(),
-          if (_entryResource.code?.coding?[0].code != null)
-            'code: ' + _entryResource.code!.coding![0].code.toString(),
+          // if (_entryResource.code?.coding?[0].system != null)
+          //   'system: ' + _entryResource.code!.coding![0].system.toString(),
+          // if (_entryResource.code?.coding?[0].code != null)
+          //   'code: ' + _entryResource.code!.coding![0].code.toString(),
         ];
+        List<String> _allEntries = List.from(_entries)..addAll(_codingEntries);
         // String _clinicalStatus,
         //     _onsetAge,
         //     _category,
@@ -324,7 +327,7 @@ class BundleEntry extends StatelessWidget {
         //     _severity +
         //     _system +
         //     _code;
-        return _entries.join('\n');
+        return _allEntries.join('\n');
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
