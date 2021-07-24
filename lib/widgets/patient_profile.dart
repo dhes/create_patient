@@ -253,52 +253,73 @@ class BundleEntry extends StatelessWidget {
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        String _clinicalStatus,
-            _onsetAge,
-            _category,
-            _narrative,
-            _severity,
-            _code,
-            _system;
-        _entryResource.clinicalStatus == null
-            ? _clinicalStatus = ''
-            : _clinicalStatus =
-                'status: ' + _entryResource.clinicalStatus.toString() + '\n';
-        _entryResource.onsetAge!.value == null
-            ? _onsetAge = ''
-            : _onsetAge =
-                'onset age ' + _entryResource.onsetAge!.value.toString() + '\n';
-        _entryResource.category?.first.text == null
-            ? _category = ''
-            : _category =
-                'category: ' + _entryResource.category!.first.text! + '\n';
-        _rawEntryResource?.text?.div == null
-            ? _narrative = ''
-            : _narrative = 'narrative: ' +
+        List<String> _entries = [
+          if (_entryResource.clinicalStatus != null)
+            'status: ' + _entryResource.clinicalStatus.toString() + '\n',
+          if (_entryResource.onsetAge!.value != null)
+            'onset age ' + _entryResource.onsetAge!.value.toString() + '\n',
+          if (_entryResource.category?.first.text != null)
+            'category: ' + _entryResource.category!.first.text! + '\n',
+          if (_rawEntryResource?.text?.div == null)
+            'narrative: ' +
                 html_parser.parseFragment(_rawEntryResource!.text!.div).text! +
-                '\n';
-        _entryResource.severity?.coding?[0].display == null
-            ? _severity = ''
-            : _severity = 'severity: ' +
-                _entryResource.severity!.coding![0].display! +
-                '\n';
-        _entryResource.code?.coding?[0].system == null
-            ? _system = ''
-            : _system = 'system: ' +
+                '\n',
+          if (_entryResource.severity?.coding?[0].display != null)
+            'severity: ' + _entryResource.severity!.coding![0].display! + '\n',
+          if (_entryResource.code?.coding?[0].system != null)
+            'system: ' +
                 _entryResource.code!.coding![0].system.toString() +
-                '\n';
-        _entryResource.code?.coding?[0].code == null
-            ? _code = ''
-            : _code = 'code: ' +
-                _entryResource.code!.coding![0].code.toString() +
-                '\n';
-        return _narrative +
-            _clinicalStatus +
-            _onsetAge +
-            _category +
-            _severity +
-            _system +
-            _code;
+                '\n',
+          if (_entryResource.code?.coding?[0].code != null)
+            'code: ' + _entryResource.code!.coding![0].code.toString() + '\n',
+        ];
+        // String _clinicalStatus,
+        //     _onsetAge,
+        //     _category,
+        //     _narrative,
+        //     _severity,
+        //     _code,
+        //     _system;
+        // _entryResource.clinicalStatus == null
+        //     ? _clinicalStatus = ''
+        //     : _clinicalStatus =
+        //         'status: ' + _entryResource.clinicalStatus.toString() + '\n';
+        // _entryResource.onsetAge!.value == null
+        //     ? _onsetAge = ''
+        //     : _onsetAge =
+        //         'onset age ' + _entryResource.onsetAge!.value.toString() + '\n';
+        // _entryResource.category?.first.text == null
+        //     ? _category = ''
+        //     : _category =
+        //         'category: ' + _entryResource.category!.first.text! + '\n';
+        // _rawEntryResource?.text?.div == null
+        //     ? _narrative = ''
+        //     : _narrative = 'narrative: ' +
+        //         html_parser.parseFragment(_rawEntryResource!.text!.div).text! +
+        //         '\n';
+        // _entryResource.severity?.coding?[0].display == null
+        //     ? _severity = ''
+        //     : _severity = 'severity: ' +
+        //         _entryResource.severity!.coding![0].display! +
+        //         '\n';
+        // _entryResource.code?.coding?[0].system == null
+        //     ? _system = ''
+        //     : _system = 'system: ' +
+        //         _entryResource.code!.coding![0].system.toString() +
+        //         '\n';
+        // _entryResource.code?.coding?[0].code == null
+        //     ? _code = ''
+        //     : _code = 'code: ' +
+        //         _entryResource.code!.coding![0].code.toString() +
+        //         '\n';
+        // return _narrative +
+        //     _clinicalStatus +
+        //     _onsetAge +
+        //     _category +
+        //     _severity +
+        //     _system +
+        //     _code;
+        return _entries.join('');
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
