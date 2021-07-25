@@ -301,13 +301,9 @@ class BundleEntry extends StatelessWidget {
             ' status: ' + _entryResource.clinicalStatus.toString(),
           if (_entryResource.onsetAge!.value != null)
             ' onset age ' + _entryResource.onsetAge!.value.toString(),
-          // if (_entryResource.category?.first.text != null)
-          //   'category: ' + _entryResource.category!.first.text!,
           if (_rawEntryResource?.text?.div == null)
             ' narrative: ' +
                 html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
-          // if (_entryResource.severity?.coding?[0].display != null)
-          //   'severity: ' + _entryResource.severity!.coding![0].display!,
         ];
         List<String> _allEntries = List.from(_entries)
           ..addAll(_severityEntries)
