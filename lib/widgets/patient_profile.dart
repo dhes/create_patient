@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
-//import 'package:html/dom.dart' as html;
-// import 'package:html/dom_parsing.dart';
 import 'package:html/parser.dart' as html_parser;
 
 class PatientProfile extends StatelessWidget {
@@ -253,80 +251,68 @@ class BundleEntry extends StatelessWidget {
         // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
-        List<String> _codingEntries = [];
+        // Even though most records in the sample databases contain only one
+        // entry in the code.coding array, will iterate over the the entire
+        // collection for completeness sake.
+        List<String> _codingEntries = ['Codes'];
         if (_entryResource.code!.coding != null) {
-//          List<String> _codingCodeEntries = [];
           for (r4.Coding _entry in _entryResource.code!.coding!) {
             if (_entry.system != null)
-              _codingEntries.add('system: ' + _entry.system.toString());
+              _codingEntries.add(' system: ' + _entry.system.toString());
             if (_entry.code != null)
-              _codingEntries.add('code: ' + _entry.code.toString());
+              _codingEntries.add(' code: ' + _entry.code.toString());
+            if (_entry.display != null)
+              _codingEntries.add(' display: ' + _entry.display.toString());
           }
         }
+        if (_entryResource.code!.text != null)
+          _codingEntries.add(' text: ' + _entryResource.code!.text!);
+        // Same for severity.coding ...
+        List<String> _severityEntries = ['Severities'];
+        if (_entryResource.severity!.coding != null) {
+          for (r4.Coding _entry in _entryResource.severity!.coding!) {
+            if (_entry.system != null)
+              _severityEntries.add(' system: ' + _entry.system.toString());
+            if (_entry.code != null)
+              _severityEntries.add(' code: ' + _entry.code.toString());
+            if (_entry.display != null)
+              _severityEntries.add(' display: ' + _entry.display.toString());
+          }
+        }
+        if (_entryResource.severity!.text != null)
+          _severityEntries.add(' text: ' + _entryResource.severity!.text!);
+        // Category has two levels of arrays. This only iterates through the second level. Thus the [0].
+        List<String> _categoryEntries = ['Categories'];
+        if (_entryResource.category![0].coding != null) {
+          for (r4.Coding _entry in _entryResource.category![0].coding!) {
+            if (_entry.system != null)
+              _categoryEntries.add(' system: ' + _entry.system.toString());
+            if (_entry.code != null)
+              _categoryEntries.add(' code: ' + _entry.code.toString());
+            if (_entry.display != null)
+              _categoryEntries.add(' display: ' + _entry.display.toString());
+          }
+        }
+        if (_entryResource.category![0].text != null)
+          _categoryEntries.add(' text: ' + _entryResource.category![0].text!);
+
         List<String> _entries = [
           if (_entryResource.clinicalStatus != null)
-            'status: ' + _entryResource.clinicalStatus.toString(),
+            ' status: ' + _entryResource.clinicalStatus.toString(),
           if (_entryResource.onsetAge!.value != null)
-            'onset age ' + _entryResource.onsetAge!.value.toString(),
-          if (_entryResource.category?.first.text != null)
-            'category: ' + _entryResource.category!.first.text!,
+            ' onset age ' + _entryResource.onsetAge!.value.toString(),
+          // if (_entryResource.category?.first.text != null)
+          //   'category: ' + _entryResource.category!.first.text!,
           if (_rawEntryResource?.text?.div == null)
-            'narrative: ' +
+            ' narrative: ' +
                 html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
-          if (_entryResource.severity?.coding?[0].display != null)
-            'severity: ' + _entryResource.severity!.coding![0].display!,
-          // if (_entryResource.code?.coding?[0].system != null)
-          //   'system: ' + _entryResource.code!.coding![0].system.toString(),
-          // if (_entryResource.code?.coding?[0].code != null)
-          //   'code: ' + _entryResource.code!.coding![0].code.toString(),
+          // if (_entryResource.severity?.coding?[0].display != null)
+          //   'severity: ' + _entryResource.severity!.coding![0].display!,
         ];
-        List<String> _allEntries = List.from(_entries)..addAll(_codingEntries);
-        // String _clinicalStatus,
-        //     _onsetAge,
-        //     _category,
-        //     _narrative,
-        //     _severity,
-        //     _code,
-        //     _system;
-        // _entryResource.clinicalStatus == null
-        //     ? _clinicalStatus = ''
-        //     : _clinicalStatus =
-        //         'status: ' + _entryResource.clinicalStatus.toString() + '\n';
-        // _entryResource.onsetAge!.value == null
-        //     ? _onsetAge = ''
-        //     : _onsetAge =
-        //         'onset age ' + _entryResource.onsetAge!.value.toString() + '\n';
-        // _entryResource.category?.first.text == null
-        //     ? _category = ''
-        //     : _category =
-        //         'category: ' + _entryResource.category!.first.text! + '\n';
-        // _rawEntryResource?.text?.div == null
-        //     ? _narrative = ''
-        //     : _narrative = 'narrative: ' +
-        //         html_parser.parseFragment(_rawEntryResource!.text!.div).text! +
-        //         '\n';
-        // _entryResource.severity?.coding?[0].display == null
-        //     ? _severity = ''
-        //     : _severity = 'severity: ' +
-        //         _entryResource.severity!.coding![0].display! +
-        //         '\n';
-        // _entryResource.code?.coding?[0].system == null
-        //     ? _system = ''
-        //     : _system = 'system: ' +
-        //         _entryResource.code!.coding![0].system.toString() +
-        //         '\n';
-        // _entryResource.code?.coding?[0].code == null
-        //     ? _code = ''
-        //     : _code = 'code: ' +
-        //         _entryResource.code!.coding![0].code.toString() +
-        //         '\n';
-        // return _narrative +
-        //     _clinicalStatus +
-        //     _onsetAge +
-        //     _category +
-        //     _severity +
-        //     _system +
-        //     _code;
+        List<String> _allEntries = List.from(_entries)
+          ..addAll(_severityEntries)
+          ..addAll(_codingEntries)
+          ..addAll(_categoryEntries);
         return _allEntries.join('\n');
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
