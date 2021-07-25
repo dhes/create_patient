@@ -281,16 +281,21 @@ class BundleEntry extends StatelessWidget {
         }
         if (_entryResource.severity!.text != null)
           _severityEntries.add(' text: ' + _entryResource.severity!.text!);
-        // Category has two levels of arrays. This only iterates through the second level. Thus the [0].
+        // Category has two levels of arrays.
         List<String> _categoryEntries = ['Categories'];
-        if (_entryResource.category![0].coding != null) {
-          for (r4.Coding _entry in _entryResource.category![0].coding!) {
-            if (_entry.system != null)
-              _categoryEntries.add(' system: ' + _entry.system.toString());
-            if (_entry.code != null)
-              _categoryEntries.add(' code: ' + _entry.code.toString());
-            if (_entry.display != null)
-              _categoryEntries.add(' display: ' + _entry.display.toString());
+        if (_entryResource.category != null) {
+          for (r4.CodeableConcept _category in _entryResource.category!) {
+            if (_category.coding != null) {
+              for (r4.Coding _entry in _category.coding!) {
+                if (_entry.system != null)
+                  _categoryEntries.add(' system: ' + _entry.system.toString());
+                if (_entry.code != null)
+                  _categoryEntries.add(' code: ' + _entry.code.toString());
+                if (_entry.display != null)
+                  _categoryEntries
+                      .add(' display: ' + _entry.display.toString());
+              }
+            }
           }
         }
         if (_entryResource.category![0].text != null)
