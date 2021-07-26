@@ -256,13 +256,20 @@ class BundleEntry extends StatelessWidget {
         // collection for completeness sake.
         List<String> _codingEntries = ['Codes'];
         if (_entryResource.code!.coding != null) {
-          for (r4.Coding _entry in _entryResource.code!.coding!) {
-            if (_entry.system != null)
-              _codingEntries.add(' system: ' + _entry.system.toString());
-            if (_entry.code != null)
-              _codingEntries.add(' code: ' + _entry.code.toString());
-            if (_entry.display != null)
-              _codingEntries.add(' display: ' + _entry.display.toString());
+          for (r4.Coding _codingEntry in _entryResource.code!.coding!) {
+            if (_codingEntry.code != null)
+              _codingEntries.add(' code: ' + _codingEntry.code.toString());
+            if (_codingEntry.system != null)
+              _codingEntries.add(' system: ' + _codingEntry.system.toString());
+            if (_codingEntry.display != null)
+              _codingEntries
+                  .add(' display: ' + _codingEntry.display.toString());
+            if (_codingEntry.version != null)
+              _codingEntries
+                  .add(' version: ' + _codingEntry.version.toString());
+            if (_codingEntry.userSelected != null)
+              _codingEntries.add(
+                  ' userSelected: ' + _codingEntry.userSelected.toString());
           }
         }
         if (_entryResource.code!.text != null)
