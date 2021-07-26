@@ -227,7 +227,12 @@ class BundleEntry extends StatelessWidget {
                       onTap: () {
                         Get.defaultDialog(
                           title: _titleText(entries![index], title),
-                          content: Text(_entryText(entries![index], title)),
+                          content: Expanded(
+                            flex: 1,
+                            child: SingleChildScrollView(
+                                child:
+                                    Text(_entryText(entries![index], title))),
+                          ),
                         );
                       },
                     ));
