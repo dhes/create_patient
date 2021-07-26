@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 import 'package:html/parser.dart' as html_parser;
+import 'package:pretty_json/pretty_json.dart';
 
 class PatientProfile extends StatelessWidget {
   late final Future<r4.Bundle?> futureBundle =
@@ -234,6 +235,21 @@ class BundleEntry extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _jsonEntryText(r4.BundleEntry entry, String title) {
+    switch (title) {
+      case 'Conditions':
+        var _entryResource = entry.resource as r4.Condition;
+        Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
+//      Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
+        Map<String, dynamic> _filteredJsonEntryResource =
+            Map.from(_jsonEntryResource)
+              ..removeWhere((key, value) => key == 'resourceType');
+        return prettyJson(_filteredJsonEntryResource, indent: 2); // placeholder
+      default:
+        return '';
+    }
   }
 
   String _entryText(r4.BundleEntry entry, String title) {
