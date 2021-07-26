@@ -257,6 +257,11 @@ class BundleEntry extends StatelessWidget {
         List<String> _codingEntries = ['Codes'];
         if (_entryResource.code!.coding != null) {
           for (r4.Coding _codingEntry in _entryResource.code!.coding!) {
+            Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
+            //for (_member in _jsonCodingEntry) {}
+            _jsonCodingEntry.forEach((key, value) {
+              _codingEntries.add(key + ':: ' + value);
+            });
             if (_codingEntry.code != null)
               _codingEntries.add(' code: ' + _codingEntry.code.toString());
             if (_codingEntry.system != null)
