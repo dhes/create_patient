@@ -338,7 +338,9 @@ class BundleEntry extends StatelessWidget {
             Map.from(_jsonEntryResource)
               ..removeWhere((key, value) =>
                   key == 'resourceType' || key == 'id' || key == 'meta');
-        return prettyJson(_filteredJsonEntryResource, indent: 2);
+        return prettyJson(_filteredJsonEntryResource, indent: 2)
+            .replaceAll('{', '')
+            .replaceAll('}', '');
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
