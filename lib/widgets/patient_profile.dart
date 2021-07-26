@@ -237,112 +237,102 @@ class BundleEntry extends StatelessWidget {
     );
   }
 
-  String _jsonEntryText(r4.BundleEntry entry, String title) {
-    switch (title) {
-      case 'Conditions':
-        var _entryResource = entry.resource as r4.Condition;
-        Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
-//      Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
-        Map<String, dynamic> _filteredJsonEntryResource =
-            Map.from(_jsonEntryResource)
-              ..removeWhere((key, value) => key == 'resourceType');
-        return prettyJson(_filteredJsonEntryResource, indent: 2); // placeholder
-      default:
-        return '';
-    }
-  }
+//   String _jsonEntryText(r4.BundleEntry entry, String title) {
+//     switch (title) {
+//       case 'Conditions':
+// //        var _entryResource = entry.resource as r4.Condition;
+//         Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
+//         Map<String, dynamic> _filteredJsonEntryResource =
+//             Map.from(_jsonEntryResource)
+//               ..removeWhere((key, value) => key == 'resourceType');
+//         return prettyJson(_filteredJsonEntryResource, indent: 2);
+//       default:
+//         return '';
+//     }
+//   }
 
   String _entryText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        // Content Elements
-        // // Done:
-        // // code? cinicalStatus? onsetAge? category?
-        // // In Progress:
-        // // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
-        // // recordedDate? recorder? asserter?
-        // // stage? evidence?
-        // Ancestors Elements
-        // // In progress
-        // //id, meta, implicitRules, language, text, contained, extension, modifierExtension
-        var _rawEntryResource = entry.resource;
-        var _entryResource = entry.resource as r4.Condition;
-        // Even though most records in the sample databases contain only one
-        // entry in the code.coding array, will iterate over the the entire
-        // collection for completeness sake.
-        List<String> _codingEntries = ['Codes'];
-        if (_entryResource.code!.coding != null) {
-          for (r4.Coding _codingEntry in _entryResource.code!.coding!) {
-            Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
-            //for (_member in _jsonCodingEntry) {}
-            _jsonCodingEntry.forEach((key, value) {
-              _codingEntries.add(key + ':: ' + value);
-            });
-            if (_codingEntry.code != null)
-              _codingEntries.add(' code: ' + _codingEntry.code.toString());
-            if (_codingEntry.system != null)
-              _codingEntries.add(' system: ' + _codingEntry.system.toString());
-            if (_codingEntry.display != null)
-              _codingEntries
-                  .add(' display: ' + _codingEntry.display.toString());
-            if (_codingEntry.version != null)
-              _codingEntries
-                  .add(' version: ' + _codingEntry.version.toString());
-            if (_codingEntry.userSelected != null)
-              _codingEntries.add(
-                  ' userSelected: ' + _codingEntry.userSelected.toString());
-          }
-        }
-        if (_entryResource.code!.text != null)
-          _codingEntries.add(' text: ' + _entryResource.code!.text!);
-        // Same for severity.coding ...
-        List<String> _severityEntries = ['Severities'];
-        if (_entryResource.severity!.coding != null) {
-          for (r4.Coding _entry in _entryResource.severity!.coding!) {
-            if (_entry.system != null)
-              _severityEntries.add(' system: ' + _entry.system.toString());
-            if (_entry.code != null)
-              _severityEntries.add(' code: ' + _entry.code.toString());
-            if (_entry.display != null)
-              _severityEntries.add(' display: ' + _entry.display.toString());
-          }
-        }
-        if (_entryResource.severity!.text != null)
-          _severityEntries.add(' text: ' + _entryResource.severity!.text!);
-        // Category has two levels of arrays.
-        List<String> _categoryEntries = ['Categories'];
-        if (_entryResource.category != null) {
-          for (r4.CodeableConcept _category in _entryResource.category!) {
-            if (_category.coding != null) {
-              for (r4.Coding _entry in _category.coding!) {
-                if (_entry.system != null)
-                  _categoryEntries.add(' system: ' + _entry.system.toString());
-                if (_entry.code != null)
-                  _categoryEntries.add(' code: ' + _entry.code.toString());
-                if (_entry.display != null)
-                  _categoryEntries
-                      .add(' display: ' + _entry.display.toString());
-              }
-            }
-          }
-        }
-        if (_entryResource.category![0].text != null)
-          _categoryEntries.add(' text: ' + _entryResource.category![0].text!);
+        // var _rawEntryResource = entry.resource;
+        // var _entryResource = entry.resource as r4.Condition;
+        // List<String> _codingEntries = ['Codes'];
+        // if (_entryResource.code!.coding != null) {
+        //   for (r4.Coding _codingEntry in _entryResource.code!.coding!) {
+        //     Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
+        //     _jsonCodingEntry.forEach((key, value) {
+        //       _codingEntries.add(key + ':: ' + value);
+        //     });
+        //     if (_codingEntry.code != null)
+        //       _codingEntries.add(' code: ' + _codingEntry.code.toString());
+        //     if (_codingEntry.system != null)
+        //       _codingEntries.add(' system: ' + _codingEntry.system.toString());
+        //     if (_codingEntry.display != null)
+        //       _codingEntries
+        //           .add(' display: ' + _codingEntry.display.toString());
+        //     if (_codingEntry.version != null)
+        //       _codingEntries
+        //           .add(' version: ' + _codingEntry.version.toString());
+        //     if (_codingEntry.userSelected != null)
+        //       _codingEntries.add(
+        //           ' userSelected: ' + _codingEntry.userSelected.toString());
+        //   }
+        // }
+        // if (_entryResource.code!.text != null)
+        //   _codingEntries.add(' text: ' + _entryResource.code!.text!);
+        // // Same for severity.coding ...
+        // List<String> _severityEntries = ['Severities'];
+        // if (_entryResource.severity!.coding != null) {
+        //   for (r4.Coding _entry in _entryResource.severity!.coding!) {
+        //     if (_entry.system != null)
+        //       _severityEntries.add(' system: ' + _entry.system.toString());
+        //     if (_entry.code != null)
+        //       _severityEntries.add(' code: ' + _entry.code.toString());
+        //     if (_entry.display != null)
+        //       _severityEntries.add(' display: ' + _entry.display.toString());
+        //   }
+        // }
+        // if (_entryResource.severity!.text != null)
+        //   _severityEntries.add(' text: ' + _entryResource.severity!.text!);
+        // // Category has two levels of arrays.
+        // List<String> _categoryEntries = ['Categories'];
+        // if (_entryResource.category != null) {
+        //   for (r4.CodeableConcept _category in _entryResource.category!) {
+        //     if (_category.coding != null) {
+        //       for (r4.Coding _entry in _category.coding!) {
+        //         if (_entry.system != null)
+        //           _categoryEntries.add(' system: ' + _entry.system.toString());
+        //         if (_entry.code != null)
+        //           _categoryEntries.add(' code: ' + _entry.code.toString());
+        //         if (_entry.display != null)
+        //           _categoryEntries
+        //               .add(' display: ' + _entry.display.toString());
+        //       }
+        //     }
+        //   }
+        // }
+        // if (_entryResource.category![0].text != null)
+        //   _categoryEntries.add(' text: ' + _entryResource.category![0].text!);
 
-        List<String> _entries = [
-          if (_entryResource.clinicalStatus != null)
-            ' status: ' + _entryResource.clinicalStatus.toString(),
-          if (_entryResource.onsetAge!.value != null)
-            ' onset age ' + _entryResource.onsetAge!.value.toString(),
-          if (_rawEntryResource?.text?.div == null)
-            ' narrative: ' +
-                html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
-        ];
-        List<String> _allEntries = List.from(_entries)
-          ..addAll(_severityEntries)
-          ..addAll(_codingEntries)
-          ..addAll(_categoryEntries);
-        return _allEntries.join('\n');
+        // List<String> _entries = [
+        //   if (_entryResource.clinicalStatus != null)
+        //     ' status: ' + _entryResource.clinicalStatus.toString(),
+        //   if (_entryResource.onsetAge!.value != null)
+        //     ' onset age ' + _entryResource.onsetAge!.value.toString(),
+        //   if (_rawEntryResource?.text?.div == null)
+        //     ' narrative: ' +
+        //         html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
+        // ];
+        // List<String> _allEntries = List.from(_entries)
+        //   ..addAll(_severityEntries)
+        //   ..addAll(_codingEntries)
+        //   ..addAll(_categoryEntries);
+        // return _allEntries.join('\n');
+        Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
+        Map<String, dynamic> _filteredJsonEntryResource =
+            Map.from(_jsonEntryResource)
+              ..removeWhere((key, value) => key == 'resourceType');
+        return prettyJson(_filteredJsonEntryResource, indent: 2);
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
