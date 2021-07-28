@@ -11,6 +11,7 @@ import 'package:html/parser.dart' as html_parser;
 import 'package:pretty_json/pretty_json.dart';
 // import 'package:flutter/services.dart';
 // import "package:yaml/yaml.dart";
+import 'package:json2yaml/json2yaml.dart';
 
 class PatientProfile extends StatelessWidget {
   late final Future<r4.Bundle?> futureBundle =
@@ -348,7 +349,8 @@ class BundleEntry extends StatelessWidget {
                   key == 'meta'); // json version with filter
         // return prettyJson(_filteredJsonEntryResource, indent: 2)
         //     .replaceAll('"', '');
-        return _yamlForm;
+//        return _yamlForm;
+        return json2yaml(_filteredJsonEntryResource);
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
