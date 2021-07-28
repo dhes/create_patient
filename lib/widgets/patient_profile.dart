@@ -9,8 +9,8 @@ import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:pretty_json/pretty_json.dart';
-import 'package:flutter/services.dart';
-import "package:yaml/yaml.dart";
+// import 'package:flutter/services.dart';
+// import "package:yaml/yaml.dart";
 
 class PatientProfile extends StatelessWidget {
   late final Future<r4.Bundle?> futureBundle =
@@ -336,7 +336,7 @@ class BundleEntry extends StatelessWidget {
         //   ..addAll(_categoryEntries);
         // return _allEntries.join('\n');
         String _yamlForm = entry.resource!.toYaml(); // YAML version
-        YamlMap map = loadYaml(_yamlForm);
+        // YamlMap map = loadYaml(_yamlForm);
         // map.removeWhere((key, value) =>
         //     key == 'resourceType' || key == 'id' || key == 'meta');
         Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
@@ -348,7 +348,7 @@ class BundleEntry extends StatelessWidget {
                   key == 'meta'); // json version with filter
         // return prettyJson(_filteredJsonEntryResource, indent: 2)
         //     .replaceAll('"', '');
-        return map.toString();
+        return _yamlForm;
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
