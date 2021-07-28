@@ -333,12 +333,14 @@ class BundleEntry extends StatelessWidget {
         //   ..addAll(_codingEntries)
         //   ..addAll(_categoryEntries);
         // return _allEntries.join('\n');
-        String _yamlForm = entry.resource!.toYaml();
+        String _yamlForm = entry.resource!.toYaml(); // YAML version
         Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
         Map<String, dynamic> _filteredJsonEntryResource =
             Map.from(_jsonEntryResource)
               ..removeWhere((key, value) =>
-                  key == 'resourceType' || key == 'id' || key == 'meta');
+                  key == 'resourceType' ||
+                  key == 'id' ||
+                  key == 'meta'); // json version with filter
         // return prettyJson(_filteredJsonEntryResource, indent: 2)
         //     .replaceAll('"', '');
         return _yamlForm;
