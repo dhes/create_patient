@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:pretty_json/pretty_json.dart';
+import 'package:flutter/services.dart';
+import "package:yaml/yaml.dart";
 
 class PatientProfile extends StatelessWidget {
   late final Future<r4.Bundle?> futureBundle =
