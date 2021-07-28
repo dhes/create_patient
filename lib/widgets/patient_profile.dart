@@ -333,13 +333,15 @@ class BundleEntry extends StatelessWidget {
         //   ..addAll(_codingEntries)
         //   ..addAll(_categoryEntries);
         // return _allEntries.join('\n');
+        String _yamlForm = entry.resource!.toYaml();
         Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
         Map<String, dynamic> _filteredJsonEntryResource =
             Map.from(_jsonEntryResource)
               ..removeWhere((key, value) =>
                   key == 'resourceType' || key == 'id' || key == 'meta');
-        return prettyJson(_filteredJsonEntryResource, indent: 2)
-            .replaceAll('"', '');
+        // return prettyJson(_filteredJsonEntryResource, indent: 2)
+        //     .replaceAll('"', '');
+        return _yamlForm;
       case 'Medications':
         return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
             .trim();
