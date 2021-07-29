@@ -100,21 +100,21 @@ class PatientProfile extends StatelessWidget {
                       .family
                       .toString() ??
                   '??');
-          Map<String, dynamic> _filteredPatientDetails =
-              Map.from(_patientEntries![0].resource!.toJson())
-                ..removeWhere((key, value) =>
-                    key == 'text' ||
-//                  key == 'resourceType' ||  // Can't do it! Method fromJson requires the resourceType!
-                    key == 'id' ||
-                    key == 'meta');
-          var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
-          // awkward way to remove the resourceType key/value pair:
-          List<String> _patientDetailList = _filteredPatient
-              .toYaml()
-              .split('\n'); // first item is resourceType: Patient
-          _patientDetailList.removeAt(
-              0); // remove first item (resourceType: Patient) from _patientDetailList in place
-          var _finalList = _patientDetailList.join('\n'); // reassemble string
+//           Map<String, dynamic> _filteredPatientDetails =
+//               Map.from(_patientEntries![0].resource!.toJson())
+//                 ..removeWhere((key, value) =>
+//                     key == 'text' ||
+// //                  key == 'resourceType' ||  // Can't do it! Method fromJson requires the resourceType!
+//                     key == 'id' ||
+//                     key == 'meta');
+//           var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
+//           // awkward way to remove the resourceType key/value pair:
+//           List<String> _patientDetailList = _filteredPatient
+//               .toYaml()
+//               .split('\n'); // first item is resourceType: Patient
+//           _patientDetailList.removeAt(
+//               0); // remove first item (resourceType: Patient) from _patientDetailList in place
+//           var _finalList = _patientDetailList.join('\n'); // reassemble string
           return Scaffold(
               appBar: AppBar(
                 title: GestureDetector(
@@ -124,7 +124,9 @@ class PatientProfile extends StatelessWidget {
                         content: Expanded(
                           flex: 1,
                           child: SingleChildScrollView(
-                            child: Text(_finalList),
+//                            child: Text(_finalList),
+                            child: Text(_filterDetails(
+                                _patientEntries![0].resource!, ['id', 'meta'])),
                           ),
                         ));
                   },
@@ -370,16 +372,9 @@ class BundleEntry extends StatelessWidget {
     //     key == 'resourceType' || key == 'id' || key == 'meta');
     Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
     Map<String, dynamic> _filteredJsonEntryResource =
-        // Map.from(_jsonEntryResource)
-        //   ..removeWhere((key, value) =>
-        //       // key == 'resourceType' ||  // prevent conversion using fromJson
-        //       key == 'id' || key == 'meta'); // json version with filter
         Map.from(_jsonEntryResource)
           ..removeWhere((key, value) =>
               ['id', 'meta'].contains(key)); // json version with filter
-    // return prettyJson(_filteredJsonEntryResource, indent: 2)
-    //     .replaceAll('"', '');
-//        return _yamlForm;
     return json2yaml(_filteredJsonEntryResource);
     // case 'Medications':
     //   Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
@@ -487,4 +482,17 @@ class BundleEntry extends StatelessWidget {
         return '';
     }
   }
+}
+
+String _filterDetails(r4.Resource _entry, List<String> _exclusions) {
+  Map<String, dynamic> _filteredEntry = Map.from(_entry.toJson())
+    ..removeWhere((key, value) => _exclusions.contains(key));
+  var _filteredResource = r4.Resource.fromJson(_filteredEntry);
+  // awkward way to remove the resourceType key/value pair:
+  List<String> _detailList = _filteredResource
+      .toYaml()
+      .split('\n'); // first item is resourceType: Patient
+  _detailList.removeAt(0); // remove resourceType: Patient from _detailList
+  var _finalList = _detailList.join('\n'); // reassemble string
+  return _finalList;
 }
