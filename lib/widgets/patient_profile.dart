@@ -89,19 +89,37 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Observation")
               .toList();
+          String _patientName = ((_patientEntries?[0].resource as r4.Patient)
+                      .name?[0]
+                      .given?[0]
+                      .toString() ??
+                  '??') +
+              ' ' +
+              ((_patientEntries?[0].resource as r4.Patient)
+                      .name?[0]
+                      .family
+                      .toString() ??
+                  '??');
+          Map<String, dynamic> _filteredPatientDetails =
+              Map.from(_patientEntries![0].resource!.toJson())
+                ..removeWhere((key, value) =>
+                    key == 'resourceType' || key == 'id' || key == 'meta');
           return Scaffold(
               appBar: AppBar(
-                title: Text(((_patientEntries?[0].resource as r4.Patient)
-                            .name?[0]
-                            .given?[0]
-                            .toString() ??
-                        '??') +
-                    ' ' +
-                    ((_patientEntries?[0].resource as r4.Patient)
-                            .name?[0]
-                            .family
-                            .toString() ??
-                        '??')),
+                title: GestureDetector(
+                  onTap: () {
+                    Get.defaultDialog(
+                        title: _patientName,
+                        content: Expanded(
+                          flex: 1,
+                          child: SingleChildScrollView(
+//                            child: Text(json2yaml(_filteredPatientDetails)),
+                            child: Text(_patientEntries[0].resource!.toYaml()),
+                          ),
+                        ));
+                  },
+                  child: Text(_patientName),
+                ),
               ),
               body: ListView(
                 children: [
