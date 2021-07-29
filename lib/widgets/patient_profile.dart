@@ -115,9 +115,8 @@ class PatientProfile extends StatelessWidget {
               .toYaml()
               .split('\n'); // first item is resourceType: Patient
           _patientDetailList.removeAt(
-              0); // remove first itme from _patientDetailList in place
-          var _finalList =
-              _patientDetailList.join('\n'); // reassemble into one string
+              0); // remove first item (resourceType: Patient) from _patientDetailList in place
+          var _finalList = _patientDetailList.join('\n'); // reassemble string
           return Scaffold(
               appBar: AppBar(
                 title: GestureDetector(
