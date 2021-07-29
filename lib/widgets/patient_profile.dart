@@ -110,6 +110,14 @@ class PatientProfile extends StatelessWidget {
           //r4.Patient _filteredPatient = fromJson(_filteredPatientDetails); //dh
           var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
           //print(_filteredPatient.toYaml());
+          // awkward way to remove the resourceType key/value pair:
+          List<String> _patientDetailList = _filteredPatient
+              .toYaml()
+              .split('\n'); // first item is resourceType: Patient
+          _patientDetailList.removeAt(
+              0); // remove first itme from _patientDetailList in place
+          var _finalList =
+              _patientDetailList.join('\n'); // reassemble into one string
           return Scaffold(
               appBar: AppBar(
                 title: GestureDetector(
@@ -121,12 +129,7 @@ class PatientProfile extends StatelessWidget {
                           child: SingleChildScrollView(
                             //c hild: Text(json2yaml(_filteredPatientDetails)),
                             // child: Text(_patientEntries[0].resource!.toYaml()),
-                            child: Text(
-                              _filteredPatient
-                                  .toYaml()
-                                  .split('\n')
-                                  .last, // ugly way to remove resourceType key: value
-                            ),
+                            child: Text(_finalList),
                           ),
                         ));
                   },
