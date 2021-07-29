@@ -104,12 +104,11 @@ class PatientProfile extends StatelessWidget {
               Map.from(_patientEntries![0].resource!.toJson())
                 ..removeWhere((key, value) =>
                     key == 'text' ||
-                    key == 'resourceType' ||
+//                  key == 'resourceType' ||  // method fromJson requires the resourceType!
                     key == 'id' ||
                     key == 'meta');
           //r4.Patient _filteredPatient = fromJson(_filteredPatientDetails); //dh
-          r4.Patient _filteredPatient =
-              r4.Patient.fromJson(_filteredPatientDetails);
+          var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
           //print(_filteredPatient.toYaml());
           return Scaffold(
               appBar: AppBar(
@@ -120,9 +119,15 @@ class PatientProfile extends StatelessWidget {
                         content: Expanded(
                           flex: 1,
                           child: SingleChildScrollView(
-                              //c hild: Text(json2yaml(_filteredPatientDetails)),
-                              // child: Text(_patientEntries[0].resource!.toYaml()),
-                              child: Text(_filteredPatient.toYaml())),
+                            //c hild: Text(json2yaml(_filteredPatientDetails)),
+                            // child: Text(_patientEntries[0].resource!.toYaml()),
+                            child: Text(
+                              _filteredPatient
+                                  .toYaml()
+                                  .split('\n')
+                                  .last, // ugly way to remove resourceType key: value
+                            ),
+                          ),
                         ));
                   },
                   child: Text(_patientName),
