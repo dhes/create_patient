@@ -103,7 +103,14 @@ class PatientProfile extends StatelessWidget {
           Map<String, dynamic> _filteredPatientDetails =
               Map.from(_patientEntries![0].resource!.toJson())
                 ..removeWhere((key, value) =>
-                    key == 'resourceType' || key == 'id' || key == 'meta');
+                    key == 'text' ||
+                    key == 'resourceType' ||
+                    key == 'id' ||
+                    key == 'meta');
+          //r4.Patient _filteredPatient = fromJson(_filteredPatientDetails); //dh
+          r4.Patient _filteredPatient =
+              r4.Patient.fromJson(_filteredPatientDetails);
+          //print(_filteredPatient.toYaml());
           return Scaffold(
               appBar: AppBar(
                 title: GestureDetector(
@@ -113,9 +120,9 @@ class PatientProfile extends StatelessWidget {
                         content: Expanded(
                           flex: 1,
                           child: SingleChildScrollView(
-//                            child: Text(json2yaml(_filteredPatientDetails)),
-                            child: Text(_patientEntries[0].resource!.toYaml()),
-                          ),
+                              //c hild: Text(json2yaml(_filteredPatientDetails)),
+                              // child: Text(_patientEntries[0].resource!.toYaml()),
+                              child: Text(_filteredPatient.toYaml())),
                         ));
                   },
                   child: Text(_patientName),
