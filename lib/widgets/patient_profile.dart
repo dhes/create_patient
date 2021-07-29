@@ -104,12 +104,10 @@ class PatientProfile extends StatelessWidget {
               Map.from(_patientEntries![0].resource!.toJson())
                 ..removeWhere((key, value) =>
                     key == 'text' ||
-//                  key == 'resourceType' ||  // method fromJson requires the resourceType!
+//                  key == 'resourceType' ||  // Can't do it! Method fromJson requires the resourceType!
                     key == 'id' ||
                     key == 'meta');
-          //r4.Patient _filteredPatient = fromJson(_filteredPatientDetails); //dh
           var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
-          //print(_filteredPatient.toYaml());
           // awkward way to remove the resourceType key/value pair:
           List<String> _patientDetailList = _filteredPatient
               .toYaml()
@@ -126,8 +124,6 @@ class PatientProfile extends StatelessWidget {
                         content: Expanded(
                           flex: 1,
                           child: SingleChildScrollView(
-                            //c hild: Text(json2yaml(_filteredPatientDetails)),
-                            // child: Text(_patientEntries[0].resource!.toYaml()),
                             child: Text(_finalList),
                           ),
                         ));
@@ -374,11 +370,13 @@ class BundleEntry extends StatelessWidget {
     //     key == 'resourceType' || key == 'id' || key == 'meta');
     Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
     Map<String, dynamic> _filteredJsonEntryResource =
+        // Map.from(_jsonEntryResource)
+        //   ..removeWhere((key, value) =>
+        //       // key == 'resourceType' ||  // prevent conversion using fromJson
+        //       key == 'id' || key == 'meta'); // json version with filter
         Map.from(_jsonEntryResource)
           ..removeWhere((key, value) =>
-              key == 'resourceType' ||
-              key == 'id' ||
-              key == 'meta'); // json version with filter
+              ['id', 'meta'].contains(key)); // json version with filter
     // return prettyJson(_filteredJsonEntryResource, indent: 2)
     //     .replaceAll('"', '');
 //        return _yamlForm;
