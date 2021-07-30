@@ -493,7 +493,9 @@ String _filterDetails(r4.Resource _entry, List<String> _exclusions) {
   List<String> _detailList = _filteredResource
       .toYaml()
       .split('\n'); // first item is resourceType: Patient
-  _detailList.removeAt(0); // remove resourceType: Patient from _detailList
+//  _detailList.removeAt(0); // what if it's not the first item?
+  _detailList.removeWhere((item) => item.contains(
+      'resourceType')); // remove resourceType: Patient from _detailList
   var _finalList = _detailList.join('\n'); // reassemble string
   return _finalList;
 }
