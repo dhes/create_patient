@@ -23,29 +23,11 @@ class SearchPatients extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child: Form(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       nameContainer(_lastName, 'Last Name'),
-                      Row(
-                          // try deleting this Row.....
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 4,
-                              child: nameContainer(_firstName, 'First Name'),
-                            ),
-                          ]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 10,
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 3),
-                                //margin: EdgeInsets.all(10.0),
-                                child: ServerPicker(),
-                              ),
-                            ),
-                          ]),
+                      nameContainer(_firstName, 'First Name'),
+                      ServerPicker(),
                       SmallActionButton(
                           title: 'Search',
                           onPressed: () {
