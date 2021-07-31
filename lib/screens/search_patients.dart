@@ -16,6 +16,7 @@ class SearchPatients extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final serverController = Get.put(ServerUri());
+    final idController = Get.put(ResourceId());
 
     return Scaffold(
         appBar: AppBar(title: const Text('Search for Patient')),
@@ -32,6 +33,9 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
                       //DisplayPatient(_lastName.text, _firstName.text),
+                      idController.resourceId.value == ''
+                          ? Text('No Patient Selected')
+                          : DisplayPatient(),
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () {
