@@ -51,14 +51,13 @@ class DisplayPatient extends StatelessWidget {
                   age.toString() +
                   'yo ' +
                   _shortGender(_patient.gender) +
-                  ' ∙ DOB: ' +
+                  ' DOB: ' +
                   dob +
                   ' id: ' +
                   _patient.id.toString();
             } else {
-              _details = '?? yo ' +
-                  _shortGender(_patient.gender) +
-                  ' ∙ DOB: ????-??-??';
+              _details =
+                  '?? yo ' + _shortGender(_patient.gender) + ' DOB: ????-??-??';
             }
 
             // if the 'given' attribute of the first entry in the list of HumanNames
@@ -70,26 +69,32 @@ class DisplayPatient extends StatelessWidget {
             // nameController.text = _givenName[0] + ' ' + _familyName.toString();
             var _name = _givenName[0] + ' ' + _familyName.toString();
 
-            _patientSummary.add('{$_name $_details}');
+            _patientSummary.add('$_name $_details');
           }
           return Material(
-              child: DropdownButtonFormField<String>(
-            value: _patientSummary.first,
-            items: _patientSummary.map(
-              (String val) {
-                return DropdownMenuItem(
-                  child: Text(val),
-                  value: val,
-                );
-              },
-            ).toList(),
-            onChanged: (val) {
-              //patientController.setServer(val!);
-            },
-            decoration: InputDecoration(
-              labelText: 'Patients',
-              icon: Icon(Icons.person),
-            ),
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+//            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButtonFormField<String>(
+                value: _patientSummary.first,
+                items: _patientSummary.map(
+                  (String val) {
+                    return DropdownMenuItem(
+                      child: Text(val),
+                      value: val,
+                    );
+                  },
+                ).toList(),
+                onChanged: (val) {
+                  //patientController.setServer(val!);
+                },
+                decoration: InputDecoration(
+                  labelText: 'Patients',
+                  icon: Icon(Icons.person),
+                ),
+              ),
+            ],
           ));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
