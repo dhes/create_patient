@@ -79,3 +79,12 @@ class ServerUri extends GetxController {
     this.serverUri.value = serverUri;
   }
 }
+
+class ResourceId extends GetxController {
+  //String id = '';
+  final resourceId = ''.obs;
+
+  setResourceId(String id) {
+    this.resourceId.value = id;
+  }
+}

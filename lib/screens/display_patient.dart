@@ -13,6 +13,7 @@ import '../controllers/main_controller.dart';
 class DisplayPatient extends StatelessWidget {
   // final String lastName, firstName;
   // DisplayPatient(this.lastName, this.firstName);
+  final idController = Get.put(ResourceId());
   late final Future<Bundle?> futureBundle =
       fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
 //      fetchBundle(lastName: lastName, firstName: firstName);
@@ -21,6 +22,7 @@ class DisplayPatient extends StatelessWidget {
   Widget build(BuildContext context) {
     // var nameController = TextEditingController();
     // var ageGenderDobController = TextEditingController();
+    idController.resourceId.value;
     List<String> _patientSummary = [];
     return FutureBuilder<Bundle?>(
       future: futureBundle,
