@@ -7,134 +7,97 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import '../widgets/small_action_button.dart';
 import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
-import '../widgets/display_conditions.dart';
-import '../widgets/display_medication_statement.dart';
 
 class DisplayPatient extends StatelessWidget {
+  // final String lastName, firstName;
+  // DisplayPatient(this.lastName, this.firstName);
   late final Future<Bundle?> futureBundle =
       fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
+//      fetchBundle(lastName: lastName, firstName: firstName);
 
   @override
   Widget build(BuildContext context) {
-    var nameController = TextEditingController();
-    var ageGenderDobController = TextEditingController();
-    return Scaffold(
-        appBar: AppBar(),
-        body: FutureBuilder<Bundle?>(
-          future: futureBundle,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              Patient patient = snapshot.data!.entry![0].resource!
-                  as Patient; // 1 picks the second Grace Jackson at hapi, who happens to have a medication list and problem list...
-              if (patient.birthDate != null) {
-                var birthday = FhirDateTime(patient.birthDate.toString());
-                int age = AgeCalculator.age(birthday.value!).years;
-                var dob = FhirDateTime.fromDateTime(
-                        DateTime(
-                          birthday.value!.year,
-                          birthday.value!.month,
-                          birthday.value!.day,
-                        ),
-                        birthday.precision)
-                    .toString();
-                var agePrefix = '';
-                if (birthday.precision == DateTimePrecision.YYYYMM ||
-                    birthday.precision == DateTimePrecision.YYYY) {
-                  agePrefix = '~';
-                }
-                ageGenderDobController.text = agePrefix +
-                    age.toString() +
-                    'yo ' +
-                    _shortGender(patient.gender) +
-                    ' ∙ DOB: ' +
-                    dob +
-                    ' id: ' +
-                    patient.id.toString();
-              } else {
-                ageGenderDobController.text = '?? yo ' +
-                    _shortGender(patient.gender) +
-                    ' ∙ DOB: ????-??-??';
+    // var nameController = TextEditingController();
+    // var ageGenderDobController = TextEditingController();
+    List<String> _patientSummary = [];
+    return FutureBuilder<Bundle?>(
+      future: futureBundle,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<BundleEntry> _entries = snapshot.data!.entry!;
+          //var _patients = List<Patient>.from(_entries);
+          for (BundleEntry _entry in _entries) {
+            String _details;
+            Patient _patient = _entry.resource as Patient;
+            if (_patient.birthDate != null) {
+              var birthday = FhirDateTime(_patient.birthDate.toString());
+              int age = AgeCalculator.age(birthday.value!).years;
+              var dob = FhirDateTime.fromDateTime(
+                      DateTime(
+                        birthday.value!.year,
+                        birthday.value!.month,
+                        birthday.value!.day,
+                      ),
+                      birthday.precision)
+                  .toString();
+              var agePrefix = '';
+              if (birthday.precision == DateTimePrecision.YYYYMM ||
+                  birthday.precision == DateTimePrecision.YYYY) {
+                agePrefix = '~';
               }
-
-              // if the 'given' attribute of the first entry in the list of HumanNames
-              // ... is not present then assign it a value of list entry '?' to
-              // ... indicate that it is not known.
-              var _givenName = patient.name!.first.given ?? ['?'];
-              var _familyName = patient.name!.first.family ?? '?';
-
-              nameController.text =
-                  _givenName[0] + ' ' + _familyName.toString();
-              return Material(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 40, width: double.infinity),
-                    Container(
-                      height: 20,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: nameController,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 7,
-                          ),
-                        ),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 20,
-                      child: TextField(
-                        readOnly: true,
-                        controller: ageGenderDobController,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          border: InputBorder.none,
-                        ),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 15.0),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-//                        shrinkWrap: true, //?effect
-                        // padding: EdgeInsets.all(0), //?effect
-//                        itemExtent: 200, //?effect
-                        // controller: ScrollController(
-                        //     initialScrollOffset: 100.0,
-                        //     keepScrollOffset: true), //?effect
-                        children: <Widget>[
-                          DisplayConditions(patient.id.toString()),
-                          DisplayMedicationStatments(patient.id.toString()),
-                          // SmallActionButton(
-                          //     title: 'Done',
-                          //     onPressed: () {
-                          //       Get.toNamed("/");
-                          //     }),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+              _details = agePrefix +
+                  age.toString() +
+                  'yo ' +
+                  _shortGender(_patient.gender) +
+                  ' ∙ DOB: ' +
+                  dob +
+                  ' id: ' +
+                  _patient.id.toString();
+            } else {
+              _details = '?? yo ' +
+                  _shortGender(_patient.gender) +
+                  ' ∙ DOB: ????-??-??';
             }
-            // By default, show a loading spinner.
-            return Center(child: CircularProgressIndicator());
-          },
-        ));
+
+            // if the 'given' attribute of the first entry in the list of HumanNames
+            // ... is not present then assign it a value of list entry '?' to
+            // ... indicate that it is not known.
+            var _givenName = _patient.name!.first.given ?? ['?'];
+            var _familyName = _patient.name!.first.family ?? '?';
+
+            // nameController.text = _givenName[0] + ' ' + _familyName.toString();
+            var _name = _givenName[0] + ' ' + _familyName.toString();
+
+            _patientSummary.add('{$_name $_details}');
+          }
+          return Material(
+              child: DropdownButtonFormField<String>(
+            value: _patientSummary.first,
+            items: _patientSummary.map(
+              (String val) {
+                return DropdownMenuItem(
+                  child: Text(val),
+                  value: val,
+                );
+              },
+            ).toList(),
+            onChanged: (val) {
+              //patientController.setServer(val!);
+            },
+            decoration: InputDecoration(
+              labelText: 'Patients',
+              icon: Icon(Icons.person),
+            ),
+          ));
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        // By default, show a loading spinner.
+        return Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }
 

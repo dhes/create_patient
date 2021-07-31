@@ -1,9 +1,12 @@
+import 'package:create_patient/screens/display_patient.dart';
+import 'package:create_patient/widgets/patient_picker.dart';
 import 'package:flutter/material.dart';
 import '../widgets/small_action_button.dart';
 import '../widgets/name_container.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/server_picker.dart';
+import '../widgets/patient_picker.dart';
 
 class SearchPatients extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
@@ -28,8 +31,9 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_lastName, 'Last Name'),
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
+                      //DisplayPatient(_lastName.text, _firstName.text),
                       SmallActionButton(
-                          title: 'Search',
+                          title: 'Patient Search',
                           onPressed: () {
                             serverController
                                 .setServer(serverController.serverUri.value);
@@ -39,7 +43,7 @@ class SearchPatients extends StatelessWidget {
                             ]);
                           }),
                       SmallActionButton(
-                          title: 'New Search',
+                          title: 'Profile Search',
                           onPressed: () {
                             serverController
                                 .setServer(serverController.serverUri.value);

@@ -72,14 +72,6 @@ class PatientGenderController extends GetxController {
   }
 }
 
-// class FhirServer extends GetxController {
-//   final fhirServer = fhirServers[0].obs;
-
-//   setServer(String fhirServer) {
-//     this.fhirServer.value = fhirServer;
-//   }
-// }
-
 class ServerUri extends GetxController {
   final serverUri = serverUris[0].obs;
 
