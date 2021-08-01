@@ -11,18 +11,21 @@ import 'package:age_calculator/age_calculator.dart';
 import '../controllers/main_controller.dart';
 
 class DisplayPatient extends StatelessWidget {
+  String lastName;
+  String firstName;
+  DisplayPatient(this.lastName, this.firstName);
   // final String lastName, firstName;
   // DisplayPatient(this.lastName, this.firstName);
-  final idController = Get.put(ResourceId());
+  // final idController = Get.put(ResourceId());
   late final Future<Bundle?> futureBundle =
-      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
-//      fetchBundle(lastName: lastName, firstName: firstName);
+//      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
+      fetchBundle(lastName: lastName, firstName: firstName);
 
   @override
   Widget build(BuildContext context) {
     // var nameController = TextEditingController();
     // var ageGenderDobController = TextEditingController();
-    idController.resourceId.value;
+    // idController.resourceId.value; // DH not in use....
     List<String> _patientSummary = [];
     return FutureBuilder<Bundle?>(
       future: futureBundle,

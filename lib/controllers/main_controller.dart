@@ -5,13 +5,13 @@ import 'package:fhir/r4.dart';
 // ...accessed 2020-06-19
 
 List<Uri> serverUris = [
+  //  http://hapi.fhir.org/baseR4,
+  Uri(scheme: 'http', host: 'hapi.fhir.org', path: '/baseR4'),
   // http://test.fhir.org/r4
   Uri(scheme: 'http', host: 'test.fhir.org', path: '/r4'),
   // http://sandbox.hspconsortium.org/ // HSPC Sandbox - requires login - not set up
   // https://server.fire.ly/R4
   Uri(scheme: 'https', host: 'server.fire.ly', path: '/R4'),
-  //  http://hapi.fhir.org/baseR4,
-  Uri(scheme: 'http', host: 'hapi.fhir.org', path: '/baseR4'),
   // Bulk Data Reference Server - it's... well, bulk
   // https://spark.incendi.no/fhir
   Uri(scheme: 'https', host: 'spark.incendi.no', path: '/fhir'),
@@ -88,3 +88,7 @@ class ResourceId extends GetxController {
     this.resourceId.value = id;
   }
 }
+
+// class PatientListController extends GetxController {
+//   final List<String> _patientList = [].isEmpty.obs;
+// }

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/", page: () => Home()),
         GetPage(name: "/newPatient", page: () => CreatePatient()),
         GetPage(name: "/searchPatients", page: () => SearchPatients()),
-        GetPage(name: "/displayPatient", page: () => DisplayPatient()),
+//        GetPage(name: "/displayPatient", page: () => DisplayPatient()),
         GetPage(name: "/patientProfile", page: () => PatientProfile()),
       ],
     );

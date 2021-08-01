@@ -32,10 +32,7 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_lastName, 'Last Name'),
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
-                      //DisplayPatient(_lastName.text, _firstName.text),
-                      idController.resourceId.value == ''
-                          ? Text('No Patient Selected')
-                          : DisplayPatient(),
+                      DisplayPatient(_lastName.text, _firstName.text),
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () {
