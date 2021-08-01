@@ -89,6 +89,14 @@ class ResourceId extends GetxController {
   }
 }
 
-// class PatientListController extends GetxController {
-//   final List<String> _patientList = [].isEmpty.obs;
+class PatientListController extends GetxController {
+  final List<String> patientList = <String>['----------'].obs;
+
+  // setPatientList(List<String> _patientList) {
+  //   this.patientList.value = _patientList;
+  // }
+}
+
+// class PatientBundleController extends GetxController {
+//   final Future<Bundle?> futureBundle = <Bundle?>.obs;
 // }
