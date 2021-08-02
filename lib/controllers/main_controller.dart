@@ -95,8 +95,58 @@ class PatientListController extends GetxController {
   // setPatientList(List<String> _patientList) {
   //   this.patientList.value = _patientList;
   // }
-}
 
-// class PatientBundleController extends GetxController {
-//   final Future<Bundle?> futureBundle = <Bundle?>.obs;
-// }
+  populatePatientList(Future<Bundle?> _futureBundle) {
+    // return FutureBuilder<Bundle?>(
+    //   future: futureBundle,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    _futureBundle.then((value) => null);
+    //       List<BundleEntry> _entries = snapshot.data!.entry!;
+    //       //var _patients = List<Patient>.from(_entries);
+    //       for (BundleEntry _entry in _entries) {
+    //         String _details;
+    //         Patient _patient = _entry.resource as Patient;
+    //         if (_patient.birthDate != null) {
+    //           var birthday = FhirDateTime(_patient.birthDate.toString());
+    //           int age = AgeCalculator.age(birthday.value!).years;
+    //           var dob = FhirDateTime.fromDateTime(
+    //                   DateTime(
+    //                     birthday.value!.year,
+    //                     birthday.value!.month,
+    //                     birthday.value!.day,
+    //                   ),
+    //                   birthday.precision)
+    //               .toString();
+    //           var agePrefix = '';
+    //           if (birthday.precision == DateTimePrecision.YYYYMM ||
+    //               birthday.precision == DateTimePrecision.YYYY) {
+    //             agePrefix = '~';
+    //           }
+    //           _details = agePrefix +
+    //               age.toString() +
+    //               'yo ' +
+    //               _shortGender(_patient.gender) +
+    //               ' DOB: ' +
+    //               dob +
+    //               ' id: ' +
+    //               _patient.id.toString();
+    //         } else {
+    //           _details =
+    //               '?? yo ' + _shortGender(_patient.gender) + ' DOB: ????-??-??';
+    //         }
+
+    //   // if the 'given' attribute of the first entry in the list of HumanNames
+    //   // ... is not present then assign it a value of list entry '?' to
+    //   // ... indicate that it is not known.
+    //   var _givenName = _patient.name!.first.given ?? ['?'];
+    //   var _familyName = _patient.name!.first.family ?? '?';
+
+    //   // nameController.text = _givenName[0] + ' ' + _familyName.toString();
+    //   var _name = _givenName[0] + ' ' + _familyName.toString();
+
+    //   _patientSummary.add('$_name $_details');
+    // }
+    this.patientList = <String>['--------'];
+  }
+}
