@@ -46,7 +46,8 @@ class SearchPatients extends StatelessWidget {
                               lastName: _lastName.text,
                               firstName: _lastName.text,
                             );
-                            //futureBundle.then((value) => null)
+                            futureBundle
+                                .then((value) => (value as Bundle).entry);
                             // serverController
                             //     .setServer(serverController.serverUri.value);
                             // Get.toNamed(
