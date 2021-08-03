@@ -147,6 +147,6 @@ class PatientListController extends GetxController {
 
     //   _patientSummary.add('$_name $_details');
     // }
-    this.patientList = <String>['--------'];
+    //this.patientList = <String>['--------'];
   }
 }
