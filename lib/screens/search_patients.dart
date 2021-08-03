@@ -40,14 +40,14 @@ class SearchPatients extends StatelessWidget {
                       DisplayPatient(_lastName.text, _firstName.text),
                       SmallActionButton(
                           title: 'Patient Search',
-                          onPressed: () {
-                            late final Future<Bundle?> futureBundle =
-                                fetchBundle(
+                          onPressed: () async {
+                            Bundle? futureBundle = await fetchBundle(
                               lastName: _lastName.text,
                               firstName: _lastName.text,
                             );
-                            futureBundle
-                                .then((value) => (value as Bundle).entry);
+                            // debugPrint(futureBundle.toString());
+                            // futureBundle
+                            //     .then((value) => (value as Bundle).entry);
                             // serverController
                             //     .setServer(serverController.serverUri.value);
                             // Get.toNamed(
