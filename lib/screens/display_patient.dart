@@ -83,24 +83,24 @@ class DisplayPatient extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
 //            mainAxisSize: MainAxisSize.min,
       children: [
-        DropdownButtonFormField<String>(
-          value: _patientSummary.first,
-          items: _patientSummary.map(
-            (String val) {
-              return DropdownMenuItem(
-                child: Text(val),
-                value: val,
-              );
-            },
-          ).toList(),
-          onChanged: (val) {
-            //patientController.setServer(val!);
-          },
-          decoration: InputDecoration(
-            labelText: 'Patients',
-            icon: Icon(Icons.person),
-          ),
-        ),
+        Obx(() => DropdownButtonFormField<String>(
+              value: _patientSummary.first,
+              items: _patientSummary.map(
+                (String val) {
+                  return DropdownMenuItem(
+                    child: Text(val),
+                    value: val,
+                  );
+                },
+              ).toList(),
+              onChanged: (val) {
+                //patientController.setServer(val!);
+              },
+              decoration: InputDecoration(
+                labelText: 'Patients',
+                icon: Icon(Icons.person),
+              ),
+            )),
       ],
     ));
 //         } else if (snapshot.hasError) {
