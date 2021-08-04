@@ -12,9 +12,9 @@ import '../controllers/main_controller.dart';
 import '../controllers/fetch_bundle.dart';
 
 class DisplayPatient extends StatelessWidget {
-  final String lastName;
-  final String firstName;
-  DisplayPatient(this.lastName, this.firstName);
+  //final String lastName;
+  //final String firstName;
+  //DisplayPatient();
   // final idController = Get.put(ResourceId());
 //   late final Future<Bundle?> futureBundle =
 // //      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);

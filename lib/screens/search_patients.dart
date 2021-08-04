@@ -19,7 +19,8 @@ class SearchPatients extends StatelessWidget {
     final _firstName = TextEditingController();
     final serverController = Get.put(ServerUri());
     final idController = Get.put(ResourceId());
-
+    PatientListController patientListController =
+        Get.put(PatientListController());
     // _lastName.text = 'Clarke';
     // _firstName.text = 'Lily';
 
@@ -37,7 +38,7 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_lastName, 'Last Name'),
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
-                      DisplayPatient(_lastName.text, _firstName.text),
+                      DisplayPatient(),
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () async {
@@ -45,10 +46,11 @@ class SearchPatients extends StatelessWidget {
                               lastName: _lastName.text,
                               firstName: _lastName.text,
                             );
+                            debugPrint(futureBundle.toString());
                             List<String> _patientList =
                                 listFromBundle(futureBundle);
                             debugPrint(_patientList.toString());
-                            // debugPrint(futureBundle.toString());
+                            patientListController.setPatientList(_patientList);
                             // futureBundle
                             //     .then((value) => (value as Bundle).entry);
                             // serverController

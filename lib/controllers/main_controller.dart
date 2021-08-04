@@ -90,11 +90,14 @@ class ResourceId extends GetxController {
 }
 
 class PatientListController extends GetxController {
-  final List<String> patientList = <String>['----------'].obs;
+//  List<String> patientList = <String>['----------'].obs;
+  List<String> patientList = ['Bill', 'Jim'].obs;
+  //final  patientList = List<String>().obs;
 
-  // setPatientList(List<String> _patientList) {
-  //   this.patientList.value = _patientList;
-  // }
+  setPatientList(List<String> _patientList) {
+    this.patientList.clear();
+    this.patientList.addAll(_patientList);
+  }
 
   populatePatientList(Future<Bundle?> _futureBundle) {
     // return FutureBuilder<Bundle?>(
