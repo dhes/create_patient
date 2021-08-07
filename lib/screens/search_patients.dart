@@ -19,6 +19,7 @@ class SearchPatients extends StatelessWidget {
     final _firstName = TextEditingController();
     final serverController = Get.put(ServerUri());
     final idController = Get.put(ResourceId());
+//    bool _isLoading = false;
     PatientListController patientListController =
         Get.put(PatientListController());
     // _lastName.text = 'Clarke';
@@ -38,14 +39,20 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_lastName, 'Last Name'),
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
-                      DisplayPatient(),
+                      Obx(() => patientListController.isLoading.isTrue
+                          ? CircularProgressIndicator()
+                          : DisplayPatient()),
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () async {
+//                            _isLoading = true;
+                            patientListController.isLoading.toggle();
                             Bundle? futureBundle = await fetchBundle(
                               lastName: _lastName.text,
                               firstName: _firstName.text,
                             );
+                            patientListController.isLoading.toggle();
+                            //_isLoading = false;
                             debugPrint(futureBundle.toString());
                             List<String> _patientList =
                                 listFromBundle(futureBundle);

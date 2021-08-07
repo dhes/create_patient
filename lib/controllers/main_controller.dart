@@ -92,6 +92,7 @@ class ResourceId extends GetxController {
 class PatientListController extends GetxController {
 //  List<String> patientList = <String>['----------'].obs;
   List<String> patientList = ['Bill', 'Jim'].obs;
+  var isLoading = false.obs;
   //final  patientList = List<String>().obs;
 
   setPatientList(List<String> _patientList) {
@@ -99,57 +100,57 @@ class PatientListController extends GetxController {
     this.patientList.addAll(_patientList);
   }
 
-  populatePatientList(Future<Bundle?> _futureBundle) {
-    // return FutureBuilder<Bundle?>(
-    //   future: futureBundle,
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    _futureBundle.then((value) => null);
-    //       List<BundleEntry> _entries = snapshot.data!.entry!;
-    //       //var _patients = List<Patient>.from(_entries);
-    //       for (BundleEntry _entry in _entries) {
-    //         String _details;
-    //         Patient _patient = _entry.resource as Patient;
-    //         if (_patient.birthDate != null) {
-    //           var birthday = FhirDateTime(_patient.birthDate.toString());
-    //           int age = AgeCalculator.age(birthday.value!).years;
-    //           var dob = FhirDateTime.fromDateTime(
-    //                   DateTime(
-    //                     birthday.value!.year,
-    //                     birthday.value!.month,
-    //                     birthday.value!.day,
-    //                   ),
-    //                   birthday.precision)
-    //               .toString();
-    //           var agePrefix = '';
-    //           if (birthday.precision == DateTimePrecision.YYYYMM ||
-    //               birthday.precision == DateTimePrecision.YYYY) {
-    //             agePrefix = '~';
-    //           }
-    //           _details = agePrefix +
-    //               age.toString() +
-    //               'yo ' +
-    //               _shortGender(_patient.gender) +
-    //               ' DOB: ' +
-    //               dob +
-    //               ' id: ' +
-    //               _patient.id.toString();
-    //         } else {
-    //           _details =
-    //               '?? yo ' + _shortGender(_patient.gender) + ' DOB: ????-??-??';
-    //         }
+  // populatePatientList(Future<Bundle?> _futureBundle) {
+  //   // return FutureBuilder<Bundle?>(
+  //   //   future: futureBundle,
+  //   //   builder: (context, snapshot) {
+  //   //     if (snapshot.hasData) {
+  //   _futureBundle.then((value) => null);
+  //   //       List<BundleEntry> _entries = snapshot.data!.entry!;
+  //   //       //var _patients = List<Patient>.from(_entries);
+  //   //       for (BundleEntry _entry in _entries) {
+  //   //         String _details;
+  //   //         Patient _patient = _entry.resource as Patient;
+  //   //         if (_patient.birthDate != null) {
+  //   //           var birthday = FhirDateTime(_patient.birthDate.toString());
+  //   //           int age = AgeCalculator.age(birthday.value!).years;
+  //   //           var dob = FhirDateTime.fromDateTime(
+  //   //                   DateTime(
+  //   //                     birthday.value!.year,
+  //   //                     birthday.value!.month,
+  //   //                     birthday.value!.day,
+  //   //                   ),
+  //   //                   birthday.precision)
+  //   //               .toString();
+  //   //           var agePrefix = '';
+  //   //           if (birthday.precision == DateTimePrecision.YYYYMM ||
+  //   //               birthday.precision == DateTimePrecision.YYYY) {
+  //   //             agePrefix = '~';
+  //   //           }
+  //   //           _details = agePrefix +
+  //   //               age.toString() +
+  //   //               'yo ' +
+  //   //               _shortGender(_patient.gender) +
+  //   //               ' DOB: ' +
+  //   //               dob +
+  //   //               ' id: ' +
+  //   //               _patient.id.toString();
+  //   //         } else {
+  //   //           _details =
+  //   //               '?? yo ' + _shortGender(_patient.gender) + ' DOB: ????-??-??';
+  //   //         }
 
-    //   // if the 'given' attribute of the first entry in the list of HumanNames
-    //   // ... is not present then assign it a value of list entry '?' to
-    //   // ... indicate that it is not known.
-    //   var _givenName = _patient.name!.first.given ?? ['?'];
-    //   var _familyName = _patient.name!.first.family ?? '?';
+  //   //   // if the 'given' attribute of the first entry in the list of HumanNames
+  //   //   // ... is not present then assign it a value of list entry '?' to
+  //   //   // ... indicate that it is not known.
+  //   //   var _givenName = _patient.name!.first.given ?? ['?'];
+  //   //   var _familyName = _patient.name!.first.family ?? '?';
 
-    //   // nameController.text = _givenName[0] + ' ' + _familyName.toString();
-    //   var _name = _givenName[0] + ' ' + _familyName.toString();
+  //   //   // nameController.text = _givenName[0] + ' ' + _familyName.toString();
+  //   //   var _name = _givenName[0] + ' ' + _familyName.toString();
 
-    //   _patientSummary.add('$_name $_details');
-    // }
-    //this.patientList = <String>['--------'];
-  }
+  //   //   _patientSummary.add('$_name $_details');
+  //   // }
+  //   //this.patientList = <String>['--------'];
+  // }
 }
