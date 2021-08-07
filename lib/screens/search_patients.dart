@@ -44,24 +44,13 @@ class SearchPatients extends StatelessWidget {
                           onPressed: () async {
                             Bundle? futureBundle = await fetchBundle(
                               lastName: _lastName.text,
-                              firstName: _lastName.text,
+                              firstName: _firstName.text,
                             );
                             debugPrint(futureBundle.toString());
                             List<String> _patientList =
                                 listFromBundle(futureBundle);
                             debugPrint(_patientList.toString());
                             patientListController.setPatientList(_patientList);
-                            // futureBundle
-                            //     .then((value) => (value as Bundle).entry);
-                            // serverController
-                            //     .setServer(serverController.serverUri.value);
-                            // Get.toNamed(
-                            //   "/displayPatient",
-                            //   arguments: [
-                            //     _lastName.text,
-                            //     _firstName.text,
-                            //   ],
-                            // );
                           }),
                       SmallActionButton(
                           title: 'Profile Search',
