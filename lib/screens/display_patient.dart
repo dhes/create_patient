@@ -94,7 +94,7 @@ class DisplayPatient extends StatelessWidget {
                 },
               ).toList(),
               onChanged: (val) {
-                //patientController.setServer(val!);
+                // code here to fetch patien profile);
               },
               decoration: InputDecoration(
                 labelText: 'Patients',
