@@ -91,7 +91,7 @@ class ResourceId extends GetxController {
 
 class PatientListController extends GetxController {
 //  List<String> patientList = <String>['----------'].obs;
-  List<String> patientList = ['Bill', 'Jim'].obs;
+  List<String> patientList = ['----------'].obs;
   var isLoading = false.obs;
   //final  patientList = List<String>().obs;
 

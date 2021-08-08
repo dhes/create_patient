@@ -39,24 +39,30 @@ class SearchPatients extends StatelessWidget {
                       nameContainer(_lastName, 'Last Name'),
                       nameContainer(_firstName, 'First Name'),
                       ServerPicker(),
-                      Obx(() => patientListController.isLoading.isTrue
+                      Obx(() => patientListController.isLoading.value
                           ? CircularProgressIndicator()
                           : DisplayPatient()),
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () async {
 //                            _isLoading = true;
+//                            patientListController.isLoading.toggle();
                             patientListController.isLoading.toggle();
+                            // try {
                             Bundle? futureBundle = await fetchBundle(
                               lastName: _lastName.text,
                               firstName: _firstName.text,
                             );
+                            // } on FormatException catch (e) {
+                            //   debugPrint('${e.runtimeType}: ${e.message}');
+                            //   throw new FormatException();
+                            // }
                             patientListController.isLoading.toggle();
                             //_isLoading = false;
-                            debugPrint(futureBundle.toString());
+                            //debugPrint(futureBundle.toString());
                             List<String> _patientList =
                                 listFromBundle(futureBundle);
-                            debugPrint(_patientList.toString());
+                            //debugPrint(_patientList.toString());
                             patientListController.setPatientList(_patientList);
                           }),
                       SmallActionButton(
