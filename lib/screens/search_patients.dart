@@ -45,24 +45,19 @@ class SearchPatients extends StatelessWidget {
                       SmallActionButton(
                           title: 'Patient Search',
                           onPressed: () async {
-//                            _isLoading = true;
-//                            patientListController.isLoading.toggle();
                             patientListController.isLoading.toggle();
-                            // try {
-                            Bundle? futureBundle = await fetchBundle(
+                            Bundle? _bundleOfPatients = await fetchBundle(
                               lastName: _lastName.text,
                               firstName: _firstName.text,
                             );
-                            // } on FormatException catch (e) {
-                            //   debugPrint('${e.runtimeType}: ${e.message}');
-                            //   throw new FormatException();
-                            // }
                             patientListController.isLoading.toggle();
-                            //_isLoading = false;
-                            //debugPrint(futureBundle.toString());
-                            List<String> _patientList =
-                                listFromBundle(futureBundle);
-                            //debugPrint(_patientList.toString());
+                            var _bundleList =
+                                _bundleOfPatients?.entry as List<BundleEntry>;
+                            var _patientList = <Patient>[];
+                            for (BundleEntry _bundleEntry in _bundleList) {
+                              _patientList
+                                  .add(_bundleEntry.resource as Patient);
+                            }
                             patientListController.setPatientList(_patientList);
                           }),
                       SmallActionButton(

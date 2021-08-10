@@ -91,11 +91,20 @@ class ResourceId extends GetxController {
 
 class PatientListController extends GetxController {
 //  List<String> patientList = <String>['----------'].obs;
-  List<String> patientList = ['----------'].obs;
+  // List<String> patientList = ['----------'].obs;
+  var patientList = <Patient>[
+    Patient(name: <HumanName>[
+      HumanName(family: 'Doe', given: ['John'])
+    ])
+  ].obs; // That's verbose!
   var isLoading = false.obs;
   //final  patientList = List<String>().obs;
 
-  setPatientList(List<String> _patientList) {
+  // setPatientList(List<String> _patientList) {
+  //   this.patientList.clear();
+  //   this.patientList.addAll(_patientList);
+  // }
+  setPatientList(List<Patient> _patientList) {
     this.patientList.clear();
     this.patientList.addAll(_patientList);
   }
