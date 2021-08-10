@@ -8,14 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../controllers/main_controller.dart';
 import 'package:html/parser.dart' as html_parser;
-// import 'package:pretty_json/pretty_json.dart';
-// import 'package:flutter/services.dart';
-// import "package:yaml/yaml.dart";
-// import 'package:json2yaml/json2yaml.dart';
 
 class PatientProfile extends StatelessWidget {
-  late final Future<r4.Bundle?> futureBundle =
-      fetchBundle(lastName: Get.arguments[0], firstName: Get.arguments[1]);
+  late final Future<r4.Bundle?> futureBundle = _fetchBundle();
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +19,6 @@ class PatientProfile extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<r4.BundleEntry>? _entries = snapshot.data!.entry;
-          // r4.Patient _patient;
-          // assume that there is one and only one entry with  resourceType = Patient
-          // but to not assume that it is the first entry
-          // so iterate through the entries, find the patient and their indes.
-          // for(r4.BundleEntry _entry in _entries!) {
-          //   if (_entry.resource?.resourceType == r4.R4ResourceType.Patient) {
-          //     int _patientResourceEntryIndex = _entry.index;
-          // }
-          // int patientIndex = _entries.indexOf(r4.Patient);
-          // r4.Patient _patient = _entries?[0].resource as r4.Patient;
           List<r4.BundleEntry>? _patientEntries = _entries
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Patient")
@@ -42,19 +27,6 @@ class PatientProfile extends StatelessWidget {
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() == "Condition")
               .toList();
-          // further refine to condition list to active only
-          // this might be better places in the _entryText method
-          // List<r4.BundleEntry>? _activeConditionEntries = _conditionEntries
-          //     ?.where((_conditionEntry) =>
-          //         (_conditionEntry.resource as r4.Condition)
-          //                 .clinicalStatus
-          //                 .toString() ==
-          //             'active' ||
-          //         (_conditionEntry.resource as r4.Condition)
-          //                 .clinicalStatus
-          //                 .toString() ==
-          //             'Active')
-          //     .toList();
           List<r4.BundleEntry>? _medicationStatementEntries = _entries
               ?.where((_entry) =>
                   _entry.resource?.resourceTypeString() ==
@@ -100,21 +72,6 @@ class PatientProfile extends StatelessWidget {
                       .family
                       .toString() ??
                   '??');
-//           Map<String, dynamic> _filteredPatientDetails =
-//               Map.from(_patientEntries![0].resource!.toJson())
-//                 ..removeWhere((key, value) =>
-//                     key == 'text' ||
-// //                  key == 'resourceType' ||  // Can't do it! Method fromJson requires the resourceType!
-//                     key == 'id' ||
-//                     key == 'meta');
-//           var _filteredPatient = r4.Patient.fromJson(_filteredPatientDetails);
-//           // awkward way to remove the resourceType key/value pair:
-//           List<String> _patientDetailList = _filteredPatient
-//               .toYaml()
-//               .split('\n'); // first item is resourceType: Patient
-//           _patientDetailList.removeAt(
-//               0); // remove first item (resourceType: Patient) from _patientDetailList in place
-//           var _finalList = _patientDetailList.join('\n'); // reassemble string
           return Scaffold(
               appBar: AppBar(
                 title: GestureDetector(
@@ -156,11 +113,13 @@ class PatientProfile extends StatelessWidget {
   }
 }
 
-Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
-  ServerUri controller = Get.put(ServerUri());
+Future<r4.Bundle?> _fetchBundle() async {
+  ServerUri _serverController = Get.put(ServerUri());
+  final PatientListController _patientListController =
+      Get.put(PatientListController());
 
-  var uri = controller.serverUri.value.replace(
-    path: controller.serverUri.value.path.toString() + '/Patient',
+  var uri = _serverController.serverUri.value.replace(
+    path: _serverController.serverUri.value.path.toString() + '/Patient',
     queryParameters: {
       '_revinclude': [
         'MedicationStatement:patient',
@@ -173,8 +132,7 @@ Future<r4.Bundle?> fetchBundle({String? lastName, String? firstName}) async {
         'DiagnosticReport:patient',
         'Procedure:patient',
       ],
-      if (lastName != '') 'family': lastName,
-      if (firstName != '') 'given': firstName,
+      '_id': _patientListController.selectedPatient.value.id.toString(),
       '_format': 'json',
     },
   );
@@ -275,157 +233,8 @@ class BundleEntry extends StatelessWidget {
     );
   }
 
-//   String _jsonEntryText(r4.BundleEntry entry, String title) {
-//     switch (title) {
-//       case 'Conditions':
-// //        var _entryResource = entry.resource as r4.Condition;
-//         Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
-//         Map<String, dynamic> _filteredJsonEntryResource =
-//             Map.from(_jsonEntryResource)
-//               ..removeWhere((key, value) => key == 'resourceType');
-//         return prettyJson(_filteredJsonEntryResource, indent: 2);
-//       default:
-//         return '';
-//     }
-//   }
-
   String _entryText(r4.BundleEntry entry, String title) {
-    // switch (title) {
-    //   case 'Conditions':
-    // var _rawEntryResource = entry.resource;
-    // var _entryResource = entry.resource as r4.Condition;
-    // List<String> _codingEntries = ['Codes'];
-    // if (_entryResource.code!.coding != null) {
-    //   for (r4.Coding _codingEntry in _entryResource.code!.coding!) {
-    //     Map<String, dynamic> _jsonCodingEntry = _codingEntry.toJson();
-    //     _jsonCodingEntry.forEach((key, value) {
-    //       _codingEntries.add(key + ':: ' + value);
-    //     });
-    //     if (_codingEntry.code != null)
-    //       _codingEntries.add(' code: ' + _codingEntry.code.toString());
-    //     if (_codingEntry.system != null)
-    //       _codingEntries.add(' system: ' + _codingEntry.system.toString());
-    //     if (_codingEntry.display != null)
-    //       _codingEntries
-    //           .add(' display: ' + _codingEntry.display.toString());
-    //     if (_codingEntry.version != null)
-    //       _codingEntries
-    //           .add(' version: ' + _codingEntry.version.toString());
-    //     if (_codingEntry.userSelected != null)
-    //       _codingEntries.add(
-    //           ' userSelected: ' + _codingEntry.userSelected.toString());
-    //   }
-    // }
-    // if (_entryResource.code!.text != null)
-    //   _codingEntries.add(' text: ' + _entryResource.code!.text!);
-    // // Same for severity.coding ...
-    // List<String> _severityEntries = ['Severities'];
-    // if (_entryResource.severity!.coding != null) {
-    //   for (r4.Coding _entry in _entryResource.severity!.coding!) {
-    //     if (_entry.system != null)
-    //       _severityEntries.add(' system: ' + _entry.system.toString());
-    //     if (_entry.code != null)
-    //       _severityEntries.add(' code: ' + _entry.code.toString());
-    //     if (_entry.display != null)
-    //       _severityEntries.add(' display: ' + _entry.display.toString());
-    //   }
-    // }
-    // if (_entryResource.severity!.text != null)
-    //   _severityEntries.add(' text: ' + _entryResource.severity!.text!);
-    // // Category has two levels of arrays.
-    // List<String> _categoryEntries = ['Categories'];
-    // if (_entryResource.category != null) {
-    //   for (r4.CodeableConcept _category in _entryResource.category!) {
-    //     if (_category.coding != null) {
-    //       for (r4.Coding _entry in _category.coding!) {
-    //         if (_entry.system != null)
-    //           _categoryEntries.add(' system: ' + _entry.system.toString());
-    //         if (_entry.code != null)
-    //           _categoryEntries.add(' code: ' + _entry.code.toString());
-    //         if (_entry.display != null)
-    //           _categoryEntries
-    //               .add(' display: ' + _entry.display.toString());
-    //       }
-    //     }
-    //   }
-    // }
-    // if (_entryResource.category![0].text != null)
-    //   _categoryEntries.add(' text: ' + _entryResource.category![0].text!);
-
-    // List<String> _entries = [
-    //   if (_entryResource.clinicalStatus != null)
-    //     ' status: ' + _entryResource.clinicalStatus.toString(),
-    //   if (_entryResource.onsetAge!.value != null)
-    //     ' onset age ' + _entryResource.onsetAge!.value.toString(),
-    //   if (_rawEntryResource?.text?.div == null)
-    //     ' narrative: ' +
-    //         html_parser.parseFragment(_rawEntryResource!.text!.div).text!,
-    // ];
-    // List<String> _allEntries = List.from(_entries)
-    //   ..addAll(_severityEntries)
-    //   ..addAll(_codingEntries)
-    //   ..addAll(_categoryEntries);
-    // return _allEntries.join('\n');
-    // String _yamlForm = entry.resource!.toYaml(); // YAML version
-    // YamlMap map = loadYaml(_yamlForm);
-    // map.removeWhere((key, value) =>
-    //     key == 'resourceType' || key == 'id' || key == 'meta');
-    // Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
-    // Map<String, dynamic> _filteredJsonEntryResource =
-    //     Map.from(_jsonEntryResource)
-    //       ..removeWhere((key, value) =>
-    //           ['id', 'meta'].contains(key)); // json version with filter
-//    return json2yaml(_filteredJsonEntryResource);
     return (_filterDetails(entry.resource!, ['id', 'meta']));
-    // case 'Medications':
-    //   Map<String, dynamic> _jsonEntryResource = entry.resource!.toJson();
-    //   Map<String, dynamic> _filteredJsonEntryResource =
-    //       Map.from(_jsonEntryResource)
-    //         ..removeWhere((key, value) =>
-    //             key == 'resourceType' ||
-    //             key == 'id' ||
-    //             key == 'meta'); // json version with filter
-    //   return json2yaml(_filteredJsonEntryResource);
-
-    // // return '${(entry.resource as r4.MedicationStatement).medicationCodeableConcept?.coding?[0].display ?? (entry.resource as r4.MedicationStatement).medicationReference?.display ?? 'Unable to get name'}'
-    // //     .trim();
-    // case 'Allergies':
-    //   return '${(entry.resource as r4.AllergyIntolerance).code?.coding?[0].display ?? '??'}'
-    //           .trim() +
-    //       ': ' +
-    //       '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
-    //           .trim();
-    // case 'Immunizations':
-    //   return '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].display ?? '??'}'
-    //           .trim() +
-    //       ' (code: ' +
-    //       '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].code ?? '??'}'
-    //           .trim() +
-    //       ')';
-    // case 'Imaging Studies':
-    //   return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
-    //       .trim();
-    // case 'Family History':
-    //   return '${(entry.resource as r4.FamilyMemberHistory).resourceTypeString() ?? '??'}'
-    //       .trim();
-    // case 'Observations':
-    //   return '${(entry.resource as r4.Observation).code.text ?? '??'}'
-    //           .trim() +
-    //       ': ' +
-    //       '${(entry.resource as r4.Observation).valueQuantity?.value ?? '??'}'
-    //           .trim() +
-    //       ' ' +
-    //       '${(entry.resource as r4.Observation).valueQuantity?.unit ?? '??'}'
-    //           .trim();
-    // case 'Diagnostic Reports':
-    //   return '${(entry.resource as r4.DiagnosticReport).resourceTypeString() ?? '??'}'
-    //       .trim();
-    // case 'Procedures':
-    //   return '${(entry.resource as r4.Procedure).resourceTypeString() ?? '??'}'
-    //       .trim();
-    //   default:
-    //     return '';
-    // }
   }
 
   String _titleText(r4.BundleEntry entry, String title) {
@@ -493,7 +302,6 @@ String _filterDetails(r4.Resource _entry, List<String> _exclusions) {
   List<String> _detailList = _filteredResource
       .toYaml()
       .split('\n'); // first item is resourceType: Patient
-//  _detailList.removeAt(0); // what if it's not the first item?
   _detailList.removeWhere((item) => item.contains(
       'resourceType')); // remove resourceType: Patient from _detailList
   var _finalList = _detailList.join('\n'); // reassemble string

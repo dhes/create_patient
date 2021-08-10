@@ -14,7 +14,6 @@ class DisplayPatient extends StatelessWidget {
     return Material(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
-//            mainAxisSize: MainAxisSize.min,
       children: [
         Obx(() => DropdownButtonFormField<Patient>(
               value: _patientList.first,
@@ -27,7 +26,7 @@ class DisplayPatient extends StatelessWidget {
                 },
               ).toList(),
               onChanged: (val) {
-                // code here to fetch patien profile);
+                patientListController.selectedPatient.value = val as Patient;
               },
               decoration: InputDecoration(
                 labelText: 'Patients',

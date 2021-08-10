@@ -5,9 +5,7 @@ import '../widgets/name_container.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/server_picker.dart';
-import '../widgets/patient_picker.dart';
 import '../controllers/fetch_bundle.dart';
-import '../controllers/list_from_bundle.dart';
 import '../screens/display_patient.dart';
 
 class SearchPatients extends StatelessWidget {
@@ -18,12 +16,8 @@ class SearchPatients extends StatelessWidget {
     final _lastName = TextEditingController();
     final _firstName = TextEditingController();
     final serverController = Get.put(ServerUri());
-    final idController = Get.put(ResourceId());
-//    bool _isLoading = false;
     PatientListController patientListController =
         Get.put(PatientListController());
-    // _lastName.text = 'Clarke';
-    // _firstName.text = 'Lily';
 
     return Scaffold(
         appBar: AppBar(title: const Text('Search for Patient')),
@@ -65,10 +59,11 @@ class SearchPatients extends StatelessWidget {
                           onPressed: () {
                             serverController
                                 .setServer(serverController.serverUri.value);
-                            Get.toNamed("/patientProfile", arguments: [
-                              _lastName.text,
-                              _firstName.text,
-                            ]);
+                            // Get.toNamed("/patientProfile", arguments: [
+                            //   _lastName.text,
+                            //   _firstName.text,
+                            // ]);
+                            Get.toNamed("/patientProfile");
                           })
                     ],
                   ),

@@ -1,10 +1,4 @@
-/////////////////////////////////////////////////////////////
-// THIS IS A COPY CREATED AS A TEMPLATE FROM SERVER_PICKER //
-/////////////////////////////////////////////////////////////
-
 import 'package:flutter/material.dart';
-// import 'package:flutter/foundation.dart' show describeEnum;
-// import 'package:fhir/r4.dart';
 import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 
