@@ -284,14 +284,15 @@ class BundleEntry extends StatelessWidget {
                 .trim();
       case 'Diagnostic Reports':
         var _value = entry.resource as r4.DiagnosticReport;
-        return '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
-                .trim() +
-            ' (code: ' +
-            '${_value.code.coding?.first.code}' +
-            ')' +
-            ' (conclusion: ' +
-            '${_value.conclusion ?? '??'}' +
-            ')';
+        var _summary =
+            '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
+                    .trim() +
+                ' (code: ' +
+                '${_value.code.coding?.first.code}' +
+                ')';
+        if (_value.conclusion != null)
+          _summary += ' (conclusion: ' + '${_value.conclusion ?? '??'}' + ')';
+        return _summary;
       case 'Procedures':
         var _value = entry.resource as r4.Procedure;
         return '${_value.code?.text ?? _value.code?.coding?[0].display ?? '??'}'
