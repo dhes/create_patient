@@ -281,7 +281,8 @@ class BundleEntry extends StatelessWidget {
         return '${(entry.resource as r4.DiagnosticReport).resourceTypeString() ?? '??'}'
             .trim();
       case 'Procedures':
-        return '${(entry.resource as r4.Procedure).resourceTypeString() ?? '??'}'
+        var _value = entry.resource as r4.Procedure;
+        return '${_value.code?.text ?? _value.code?.coding?[0].display ?? '??'}'
             .trim();
       default:
         return '';
