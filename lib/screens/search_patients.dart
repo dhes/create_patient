@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fhir/r4.dart';
+import 'package:get/get.dart';
 import '../widgets/small_action_button.dart';
 import '../widgets/name_container.dart';
-import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/server_picker.dart';
 import '../controllers/fetch_bundle.dart';
-import '../screens/display_patient.dart';
+import '../controllers/display_patient.dart';
 
 class SearchPatients extends StatelessWidget {
   final PatientGenderController controller = Get.put(PatientGenderController());
