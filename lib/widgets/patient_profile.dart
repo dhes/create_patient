@@ -266,8 +266,13 @@ class BundleEntry extends StatelessWidget {
         return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
             .trim();
       case 'Family History':
-        return '${(entry.resource as r4.FamilyMemberHistory).resourceTypeString() ?? '??'}'
-            .trim();
+        var _value = entry.resource as r4.FamilyMemberHistory;
+        return '${_value.condition?.first.code.text ?? _value.condition?.first.code.coding?.first.display ?? '??'}'
+                .trim() +
+            ' (' +
+            '${_value.relationship.text ?? _value.relationship.coding?.first.display ?? '??'}'
+                .trim() +
+            ')';
       case 'Observations':
         return '${(entry.resource as r4.Observation).code.text ?? '??'}'
                 .trim() +
