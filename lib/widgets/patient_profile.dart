@@ -173,7 +173,6 @@ class BundleEntry extends StatelessWidget {
   const BundleEntry(this.entries, this.title, {Key? key}) : super(key: key);
   final List<r4.BundleEntry>? entries;
   final String title;
-  //final r4.R4ResourceType r4resourceType;
 
   @override
   Widget build(BuildContext context) {
@@ -240,10 +239,6 @@ class BundleEntry extends StatelessWidget {
   String _titleText(r4.BundleEntry entry, String title) {
     switch (title) {
       case 'Conditions':
-        // code? cinicalStatus? onsetAge? category?
-        // verificationStatus? severity? code[i>0]? bodySite? encounter? onsetDate? onsetRange? onsetString? abatement[i]?
-        // recordedDate? recorder? asserter?
-        // stage? evidence?
         var _rawEntryResource = entry.resource;
         var _entryResource = entry.resource as r4.Condition;
         // prefer the code.display, then the narrative text.
@@ -261,11 +256,11 @@ class BundleEntry extends StatelessWidget {
             '${(entry.resource as r4.AllergyIntolerance).reaction?[0].manifestation[0].coding?[0].display ?? '??'}'
                 .trim();
       case 'Immunizations':
-        return '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].display ?? '??'}'
+        var _value = entry.resource as r4.Immunization;
+        return '${_value.vaccineCode.text ?? _value.vaccineCode.coding?[0].display ?? '??'}'
                 .trim() +
             ' (code: ' +
-            '${(entry.resource as r4.Immunization).vaccineCode.coding?[0].code ?? '??'}'
-                .trim() +
+            '${_value.vaccineCode.coding?[0].code ?? '??'}'.trim() +
             ')';
       case 'Imaging Studies':
         return '${(entry.resource as r4.ImagingStudy).resourceTypeString() ?? '??'}'
