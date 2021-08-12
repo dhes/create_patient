@@ -1,4 +1,3 @@
-import 'package:create_patient/screens/display_patient.dart';
 import 'package:create_patient/widgets/patient_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
