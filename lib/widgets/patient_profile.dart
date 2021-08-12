@@ -275,14 +275,19 @@ class BundleEntry extends StatelessWidget {
             ')';
       case 'Observations':
         // var _rawValue = entry.resource;
-        return '${(entry.resource as r4.Observation).code.text ?? '??'}'
-                .trim() +
-            ': ' +
-            '${(entry.resource as r4.Observation).valueQuantity?.value ?? '??'}'
-                .trim() +
-            ' ' +
-            '${(entry.resource as r4.Observation).valueQuantity?.unit ?? '??'}'
-                .trim();
+        var _value = entry.resource as r4.Observation;
+        var _summary =
+            '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
+                    .trim() +
+                ': ' +
+                '${(_value).valueQuantity?.comparator}'.trim() +
+                '${(_value).valueQuantity?.value ?? '??'}'.trim() +
+                ' ' +
+                '${(_value).valueQuantity?.unit ?? '??'}'.trim();
+        if (_value.interpretation != null)
+          _summary +=
+              ' (interpretation: ${_value.interpretation?.first.coding?.first.display ?? _value.interpretation?.first.coding?.first.code})';
+        return _summary;
       // return (html_parser.parseFragment(_rawValue?.text?.div).text ?? '??');
       case 'Diagnostic Reports':
         var _value = entry.resource as r4.DiagnosticReport;
@@ -293,7 +298,7 @@ class BundleEntry extends StatelessWidget {
                 '${_value.code.coding?.first.code}' +
                 ')';
         if (_value.conclusion != null)
-          _summary += ' (conclusion: ' + '${_value.conclusion ?? '??'}' + ')';
+          _summary += ' (conclusion: ${_value.conclusion ?? '??'})';
         return _summary;
       case 'Procedures':
         var _value = entry.resource as r4.Procedure;
