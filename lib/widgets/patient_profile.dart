@@ -274,6 +274,7 @@ class BundleEntry extends StatelessWidget {
                 .trim() +
             ')';
       case 'Observations':
+        // var _rawValue = entry.resource;
         return '${(entry.resource as r4.Observation).code.text ?? '??'}'
                 .trim() +
             ': ' +
@@ -282,6 +283,7 @@ class BundleEntry extends StatelessWidget {
             ' ' +
             '${(entry.resource as r4.Observation).valueQuantity?.unit ?? '??'}'
                 .trim();
+      // return (html_parser.parseFragment(_rawValue?.text?.div).text ?? '??');
       case 'Diagnostic Reports':
         var _value = entry.resource as r4.DiagnosticReport;
         var _summary =
