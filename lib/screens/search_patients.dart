@@ -44,7 +44,7 @@ class SearchPatients extends StatelessWidget {
                               lastName: _lastName.text,
                               firstName: _firstName.text,
                             );
-                            patientListController.isLoading.toggle();
+                            // patientListController.isLoading.toggle();
                             var _bundleList =
                                 _bundleOfPatients?.entry as List<BundleEntry>;
                             var _patientList = <Patient>[];
@@ -53,9 +53,11 @@ class SearchPatients extends StatelessWidget {
                                   .add(_bundleEntry.resource as Patient);
                             }
                             patientListController.setPatientList(_patientList);
+                            if (patientListController.isLoading.isTrue)
+                              patientListController.isLoading.toggle();
                           }),
                       SmallActionButton(
-                          title: 'Profile Search',
+                          title: 'Profile',
                           onPressed: () {
                             serverController
                                 .setServer(serverController.serverUri.value);
