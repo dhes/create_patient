@@ -282,10 +282,10 @@ class BundleEntry extends StatelessWidget {
                     .trim() +
                 ': ' +
                 '${_valueComparator != null ? symbolFromQuantityComparator(_valueComparator) : ''}' +
-                // ' $_valueComparator ' +
-                '${(_value).valueQuantity?.value ?? '??'}'.trim() +
+                '${_value.valueQuantity?.value ?? '??'}'.trim() +
                 ' ' +
-                '${(_value).valueQuantity?.unit ?? '??'}'.trim();
+                '${_value.valueQuantity?.unit == null ? '' : _value.valueQuantity?.unit}'
+                    .trim();
         if (_value.interpretation != null)
           _summary +=
               ' (interpretation: ${_value.interpretation?.first.coding?.first.display ?? _value.interpretation?.first.coding?.first.code})';
@@ -335,7 +335,8 @@ String _filterDetails(r4.Resource _entry, List<String> _exclusions) {
 //   QuantityComparator.unknown: 'unknown',
 // };
 
-// I can't figure out how to convert QuantityComparator.lt '<' so I"ll do it by hand
+// I can't figure out how to convert QuantityComparator.lt '<' from the ...
+// FHIR data model so I"ll do it by hand
 
 String symbolFromQuantityComparator(r4.QuantityComparator _quanityComparator) {
   switch (_quanityComparator) {
