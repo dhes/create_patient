@@ -281,8 +281,8 @@ class BundleEntry extends StatelessWidget {
             '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
                     .trim() +
                 ': ' +
-                // '${symbolFromQuantityComparator(_valueComparator!)}' +
-                ' $_valueComparator ' +
+                '${_valueComparator != null ? symbolFromQuantityComparator(_valueComparator) : ''}' +
+                // ' $_valueComparator ' +
                 '${(_value).valueQuantity?.value ?? '??'}'.trim() +
                 ' ' +
                 '${(_value).valueQuantity?.unit ?? '??'}'.trim();
