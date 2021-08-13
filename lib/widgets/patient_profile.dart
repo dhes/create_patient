@@ -278,14 +278,12 @@ class BundleEntry extends StatelessWidget {
         var _value = entry.resource as r4.Observation;
         var _valueComparator = _value.valueQuantity?.comparator;
         var _summary =
-            '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
-                    .trim() +
+            '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}' +
                 ': ' +
                 '${_valueComparator != null ? symbolFromQuantityComparator(_valueComparator) : ''}' +
-                '${_value.valueQuantity?.value ?? '??'}'.trim() +
+                '${_value.valueQuantity?.value ?? '??'}' +
                 ' ' +
-                '${_value.valueQuantity?.unit == null ? '' : _value.valueQuantity?.unit}'
-                    .trim();
+                '${_value.valueQuantity?.unit == null ? '' : _value.valueQuantity?.unit}';
         if (_value.interpretation != null)
           _summary +=
               ' (interpretation: ${_value.interpretation?.first.coding?.first.display ?? _value.interpretation?.first.coding?.first.code})';
