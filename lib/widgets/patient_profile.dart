@@ -276,11 +276,13 @@ class BundleEntry extends StatelessWidget {
       case 'Observations':
         // var _rawValue = entry.resource;
         var _value = entry.resource as r4.Observation;
+        var _valueComparator = _value.valueQuantity?.comparator;
         var _summary =
             '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}'
                     .trim() +
                 ': ' +
-                '${(_value).valueQuantity?.comparator}'.trim() +
+                // '${symbolFromQuantityComparator(_valueComparator!)}' +
+                ' $_valueComparator ' +
                 '${(_value).valueQuantity?.value ?? '??'}'.trim() +
                 ' ' +
                 '${(_value).valueQuantity?.unit ?? '??'}'.trim();
@@ -322,4 +324,30 @@ String _filterDetails(r4.Resource _entry, List<String> _exclusions) {
       'resourceType')); // remove resourceType: Patient from _detailList
   var _finalList = _detailList.join('\n'); // reassemble string
   return _finalList;
+}
+
+// This is lifted from fhir/fhir:
+// const _$QuantityComparatorEnumMap = {
+//   QuantityComparator.lt: '<',
+//   QuantityComparator.le: '<=',
+//   QuantityComparator.ge: '>=',
+//   QuantityComparator.gt: '>',
+//   QuantityComparator.unknown: 'unknown',
+// };
+
+// I can't figure out how to convert QuantityComparator.lt '<' so I"ll do it by hand
+
+String symbolFromQuantityComparator(r4.QuantityComparator _quanityComparator) {
+  switch (_quanityComparator) {
+    case r4.QuantityComparator.lt:
+      return '<';
+    case r4.QuantityComparator.le:
+      return '<=';
+    case r4.QuantityComparator.ge:
+      return '>=';
+    case r4.QuantityComparator.gt:
+      return '>';
+    case r4.QuantityComparator.unknown:
+      return 'unknown';
+  }
 }
