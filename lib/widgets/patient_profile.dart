@@ -276,14 +276,11 @@ class BundleEntry extends StatelessWidget {
       case 'Observations':
         // var _rawValue = entry.resource;
         var _value = entry.resource as r4.Observation;
-        var _valueComparator = _value.valueQuantity?.comparator;
+//        var _valueComparator = _value.valueQuantity?.comparator;
         var _summary =
-            '${_value.code.text ?? _value.code.coding?.first.display ?? '??'}' +
+            '${_value.code.text ?? _value.code.coding?.first.display ?? _value.code.coding?.first.code ?? '??'}' +
                 ': ' +
-                '${_valueComparator != null ? symbolFromQuantityComparator(_valueComparator) : ''}' +
-                '${_value.valueQuantity?.value ?? '??'}' +
-                ' ' +
-                '${_value.valueQuantity?.unit == null ? '' : _value.valueQuantity?.unit}';
+                _singleValue(_value);
         if (_value.interpretation != null)
           _summary +=
               ' (interpretation: ${_value.interpretation?.first.coding?.first.display ?? _value.interpretation?.first.coding?.first.code})';
@@ -348,5 +345,27 @@ String symbolFromQuantityComparator(r4.QuantityComparator _quanityComparator) {
       return '>';
     case r4.QuantityComparator.unknown:
       return 'unknown';
+  }
+}
+
+String _singleValue(r4.Observation _value) {
+  // so far: valueQuantity, valueCodeableConcept, valueString, valueBoolen
+  // to do:
+  // valueInteger,valueRange,valueRatio,valueSampledData,valueTime,
+  // valueDateTime, valuePeriod
+  if (_value.valueQuantity?.value != null) {
+    var _valueComparator = _value.valueQuantity?.comparator;
+    return '${_valueComparator != null ? symbolFromQuantityComparator(_valueComparator) : ''}' +
+        _value.valueQuantity!.value.toString() +
+        ' ' +
+        '${_value.valueQuantity?.unit == null ? '' : _value.valueQuantity?.unit}';
+  } else if (_value.valueCodeableConcept != null) {
+    return '${_value.valueCodeableConcept?.text ?? _value.valueCodeableConcept?.coding?.first.display ?? _value.valueCodeableConcept?.coding?.first.code ?? '??'}';
+  } else if (_value.valueString != null) {
+    return '${_value.valueString}';
+  } else if (_value.valueBoolean != null) {
+    return '${_value.valueBoolean}';
+  } else {
+    return '';
   }
 }
